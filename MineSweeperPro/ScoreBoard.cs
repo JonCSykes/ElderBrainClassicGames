@@ -39,14 +39,14 @@ namespace MineSweeper
 
         private void LoadData()
         {
-            if (File.Exists(filePath))
+            if (File.Exists("scores.bin"))
             {
                 try
                 {
                     using (FileStream stream = File.OpenRead("scores.bin"))
                     {
                         BinaryFormatter formatter = new BinaryFormatter();
-                        scoreEntries = (Dictionary<string, ScoreEntry>)formatter.Deserialize(stream);
+                      //  scoreEntries = (Dictionary<string, ScoreEntry>)formatter.Deserialize(stream);
                     }
                 }
                 catch (FileNotFoundException)

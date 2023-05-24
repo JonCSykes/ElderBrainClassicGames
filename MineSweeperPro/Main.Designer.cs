@@ -324,7 +324,7 @@ namespace MineSweeper
             // 
             // StatusMineIconLabel
             // 
-            StatusMineIconLabel.Image = Properties.Resources.mine_small;
+            // StatusMineIconLabel.Image = Properties.Resources.mine_small;
             StatusMineIconLabel.Location = new Point(63, 267);
             StatusMineIconLabel.Name = "StatusMineIconLabel";
             StatusMineIconLabel.Size = new Size(40, 42);
