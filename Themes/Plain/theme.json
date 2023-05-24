@@ -1,0 +1,29 @@
+{
+  "TextColor": "#4e5058",
+  "MineFieldBackColor": "#eee6dd",
+  "StatusPanelBackColor": "#f7f3ef",
+  "StatusPanelTextColor": "#4e5058",
+  "MenuBackColor": "#eee6dd",
+  "MenuTextColor": "#4e5058",
+  "MenuHoverBackgroundColor": "#faf8f6",
+  "MenuHoverTextColor": "#34353b",
+
+
+  "MineCellBackColor": "#fdfbfa",
+  "MineCellActivatedBackColor": "#f7f3ef",
+  "MineCellFlaggedBackColor": "#cfc1b3",
+  "MineCellExplodedBackColor": "#cfc1b3",
+
+  "MineCellNumberColor0": "#949b9a",
+  "MineCellNumberColor1": "#5865f2",
+  "MineCellNumberColor2": "#23a559",
+  "MineCellNumberColor3": "#a56f23",
+  "MineCellNumberColor4": "#a54b23",
+  "MineCellNumberColor5": "#a52323",
+  "MineCellNumberColor6": "#008080",
+  "MineCellNumberColor7": "#9a23a5",
+  "MineCellNumberColor8": "#dbdcde",
+
+  "MineImage": "",
+  "FlagImage": ""
+}
