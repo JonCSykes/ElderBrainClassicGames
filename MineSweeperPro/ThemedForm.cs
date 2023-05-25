@@ -1,4 +1,4 @@
-﻿using MineSweeper.Properties;
+﻿using MineSweeperPro.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public class ThemedForm : Form
     {

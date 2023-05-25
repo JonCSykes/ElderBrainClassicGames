@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace MineSweeper
+namespace MineSweeperPro       
 {
     public class Game
     {

@@ -1,4 +1,4 @@
-namespace MineSweeper
+namespace MineSweeperPro
 {
     internal static class Program
     {

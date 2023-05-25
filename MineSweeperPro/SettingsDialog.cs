@@ -1,4 +1,4 @@
-﻿using MineSweeper.Properties;
+﻿using MineSweeperPro.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public partial class SettingsDialog : Form
     {

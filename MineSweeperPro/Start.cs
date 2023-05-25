@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public partial class Start : ThemedForm
     {

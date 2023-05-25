@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeperPro
 {
     partial class SettingsDialog
     {
@@ -210,7 +210,6 @@
         private TextBox DefaultMineCountTextbox;
         private Label DefaultHintCountLabel;
         private TextBox DefaultHintCountTextbox;
-        private CheckBox NewGameCheckbox;
         private ComboBox ThemeComboBox;
         private Label label1;
         private CheckBox DebugCheckBox;

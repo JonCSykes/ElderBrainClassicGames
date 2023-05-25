@@ -1,4 +1,4 @@
-namespace MineSweeper
+namespace MineSweeperPro
 {
     // Import libraries
     using System;
@@ -10,7 +10,7 @@ namespace MineSweeper
     using System.Reflection.Metadata;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-    using MineSweeper.Properties;
+    using Properties;
     using Microsoft.VisualBasic.ApplicationServices;
     using static System.Windows.Forms.VisualStyles.VisualStyleElement;
     using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
@@ -45,6 +45,7 @@ namespace MineSweeper
         Theme ConfiguredTheme;
         Image MineImage;
         Image FlagImage;
+        private List<ScoreEntry> scoreEntries;
 
         public Main()
         {
@@ -66,7 +67,7 @@ namespace MineSweeper
             NewGame();
 
             Enabled = true;
-           
+
         }
 
         private void GlobalTimer_Tick(object sender, EventArgs e)
@@ -112,13 +113,21 @@ namespace MineSweeper
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
             this.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
 
-            StartPanel.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
+            StartPanel.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.StatusPanelBackColor);
             StartPanel.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
             Theme.SetRoundedCorners(StartPanel);
+
+            EndGamePanel.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.StatusPanelBackColor);
+            EndGamePanel.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
+            Theme.SetRoundedCorners(EndGamePanel);
 
             StartButton.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineCellNumberColor2);
             StartButton.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
             Theme.SetRoundedCorners(StartButton);
+
+            NewGameButton.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineCellNumberColor2);
+            NewGameButton.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
+            Theme.SetRoundedCorners(NewGameButton);
 
             TimerLabel.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.StatusPanelBackColor);
             RemainingMinesLabel.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.StatusPanelBackColor);
@@ -189,11 +198,11 @@ namespace MineSweeper
 
             MineSweeperPro = new Game(Settings.Default.MineFieldWidth, Settings.Default.MineFieldHeight, Settings.Default.MineCount, Settings.Default.HintCount);
 
-            ClientSize = new Size(Settings.Default.MineFieldWidth * DEFAULT_CELL_SIZE + 235, Settings.Default.MineFieldHeight * DEFAULT_CELL_SIZE + 35);
+            ClientSize = new Size(Math.Max(Settings.Default.MineFieldWidth * DEFAULT_CELL_SIZE + 235, 1235), Math.Max(Settings.Default.MineFieldHeight * DEFAULT_CELL_SIZE + 35, 1035));
             MineFieldPanel.PerformLayout();
             this.PerformLayout();
 
-            
+
 
             HideButtons();
 
@@ -259,6 +268,12 @@ namespace MineSweeper
                     }
 
                     SoundPlayer.AddToQueue(Sound.WinSound);
+
+                    MineFieldPanel.Enabled = false;
+
+                    EndGamePanel.Location = new Point((MineFieldPanel.Width - EndGamePanel.Width) / 2 + MineFieldPanel.Left, (MineFieldPanel.Height - EndGamePanel.Height) / 2 + MineFieldPanel.Top);
+                    EndGamePanel.Visible = true;
+                    EndGamePanel.BringToFront();
                 }
             }
         }
@@ -288,8 +303,6 @@ namespace MineSweeper
                     menu.Items[2].Enabled = false;
                 }
             }
-
-            
         }
         private void CreateMenu()
         {
@@ -947,6 +960,11 @@ namespace MineSweeper
         private void StartButton_Click(object sender, EventArgs e)
         {
             StartGame();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

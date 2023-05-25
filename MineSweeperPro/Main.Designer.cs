@@ -1,6 +1,6 @@
 ﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     partial class Main
     {
@@ -30,9 +30,11 @@ namespace MineSweeper
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             TimerLabel = new Label();
             MineFieldPanel = new Panel();
+            EndGamePanel = new Panel();
+            pictureBox1 = new PictureBox();
+            NewGameButton = new System.Windows.Forms.Button();
             StartPanel = new Panel();
             StartButton = new System.Windows.Forms.Button();
             StatusPanel = new Panel();
@@ -55,6 +57,9 @@ namespace MineSweeper
             GameStatusLabel = new Label();
             RemainingMinesLabel = new Label();
             StatusMineIconLabel = new Label();
+            label1 = new Label();
+            EndGamePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             StartPanel.SuspendLayout();
             StatusPanel.SuspendLayout();
             DebugPanel.SuspendLayout();
@@ -84,6 +89,35 @@ namespace MineSweeper
             MineFieldPanel.Size = new Size(1005, 1035);
             MineFieldPanel.TabIndex = 0;
             // 
+            // EndGamePanel
+            // 
+            EndGamePanel.Controls.Add(label1);
+            EndGamePanel.Controls.Add(pictureBox1);
+            EndGamePanel.Controls.Add(NewGameButton);
+            EndGamePanel.Location = new Point(130, 140);
+            EndGamePanel.Name = "EndGamePanel";
+            EndGamePanel.Size = new Size(550, 800);
+            EndGamePanel.TabIndex = 0;
+            EndGamePanel.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.trophy;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(550, 304);
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // NewGameButton
+            // 
+            NewGameButton.Location = new Point(214, 733);
+            NewGameButton.Name = "NewGameButton";
+            NewGameButton.Size = new Size(112, 34);
+            NewGameButton.TabIndex = 0;
+            NewGameButton.Text = "New Game";
+            NewGameButton.UseVisualStyleBackColor = true;
+            // 
             // StartPanel
             // 
             StartPanel.Controls.Add(StartButton);
@@ -107,7 +141,6 @@ namespace MineSweeper
             // 
             // StatusPanel
             // 
-            StatusPanel.AccessibleDescription = resources.GetString("StatusPanel.AccessibleDescription");
             StatusPanel.Controls.Add(DebugPanel);
             StatusPanel.Controls.Add(UsernameLabel);
             StatusPanel.Controls.Add(ProfilePictureBox);
@@ -324,17 +357,27 @@ namespace MineSweeper
             // 
             // StatusMineIconLabel
             // 
-            // StatusMineIconLabel.Image = Properties.Resources.mine_small;
             StatusMineIconLabel.Location = new Point(63, 267);
             StatusMineIconLabel.Name = "StatusMineIconLabel";
             StatusMineIconLabel.Size = new Size(40, 42);
             StatusMineIconLabel.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(155, 335);
+            label1.Name = "label1";
+            label1.Size = new Size(241, 48);
+            label1.TabIndex = 2;
+            label1.Text = "Leader Board";
             // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1235, 1035);
+            Controls.Add(EndGamePanel);
             Controls.Add(StartPanel);
             Controls.Add(MineFieldPanel);
             Controls.Add(StatusPanel);
@@ -344,6 +387,9 @@ namespace MineSweeper
             Text = "Mine Sweeper Pro";
             Load += Main_Load;
             Shown += Main_Shown;
+            EndGamePanel.ResumeLayout(false);
+            EndGamePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             StartPanel.ResumeLayout(false);
             StatusPanel.ResumeLayout(false);
             DebugPanel.ResumeLayout(false);
@@ -377,5 +423,9 @@ namespace MineSweeper
         private DoubleClickButton DebugGroupButton3;
         private Panel StartPanel;
         private System.Windows.Forms.Button StartButton;
+        private Panel EndGamePanel;
+        private System.Windows.Forms.Button NewGameButton;
+        private PictureBox pictureBox1;
+        private Label label1;
     }
 }

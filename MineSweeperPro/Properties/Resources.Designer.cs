@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MineSweeper.Properties {
+namespace MineSweeperPro.Properties {
     using System;
     
     
@@ -215,6 +215,16 @@ namespace MineSweeper.Properties {
         public static System.Drawing.Bitmap redflag_small {
             get {
                 object obj = ResourceManager.GetObject("redflag_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap trophy {
+            get {
+                object obj = ResourceManager.GetObject("trophy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
