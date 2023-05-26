@@ -33,11 +33,13 @@ namespace MineSweeperPro
             TimerLabel = new Label();
             MineFieldPanel = new Panel();
             EndGamePanel = new Panel();
+            label1 = new Label();
             pictureBox1 = new PictureBox();
             NewGameButton = new System.Windows.Forms.Button();
             StartPanel = new Panel();
             StartButton = new System.Windows.Forms.Button();
             StatusPanel = new Panel();
+            BBBVLabel = new Label();
             DebugPanel = new Panel();
             DebugGroupButton5 = new DoubleClickButton();
             DebugGroupButton9 = new DoubleClickButton();
@@ -57,7 +59,7 @@ namespace MineSweeperPro
             GameStatusLabel = new Label();
             RemainingMinesLabel = new Label();
             StatusMineIconLabel = new Label();
-            label1 = new Label();
+            BBBVSLabel = new Label();
             EndGamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             StartPanel.SuspendLayout();
@@ -100,6 +102,16 @@ namespace MineSweeperPro
             EndGamePanel.TabIndex = 0;
             EndGamePanel.Visible = false;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(155, 335);
+            label1.Name = "label1";
+            label1.Size = new Size(241, 48);
+            label1.TabIndex = 2;
+            label1.Text = "Leader Board";
+            // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.trophy;
@@ -111,12 +123,15 @@ namespace MineSweeperPro
             // 
             // NewGameButton
             // 
+            NewGameButton.FlatAppearance.BorderSize = 0;
+            NewGameButton.FlatStyle = FlatStyle.Flat;
             NewGameButton.Location = new Point(214, 733);
             NewGameButton.Name = "NewGameButton";
             NewGameButton.Size = new Size(112, 34);
             NewGameButton.TabIndex = 0;
             NewGameButton.Text = "New Game";
             NewGameButton.UseVisualStyleBackColor = true;
+            NewGameButton.Click += NewGameButton_Click;
             // 
             // StartPanel
             // 
@@ -141,6 +156,8 @@ namespace MineSweeperPro
             // 
             // StatusPanel
             // 
+            StatusPanel.Controls.Add(BBBVSLabel);
+            StatusPanel.Controls.Add(BBBVLabel);
             StatusPanel.Controls.Add(DebugPanel);
             StatusPanel.Controls.Add(UsernameLabel);
             StatusPanel.Controls.Add(ProfilePictureBox);
@@ -156,6 +173,15 @@ namespace MineSweeperPro
             StatusPanel.Size = new Size(230, 1035);
             StatusPanel.TabIndex = 1;
             // 
+            // BBBVLabel
+            // 
+            BBBVLabel.AutoSize = true;
+            BBBVLabel.Location = new Point(10, 442);
+            BBBVLabel.Name = "BBBVLabel";
+            BBBVLabel.Size = new Size(47, 25);
+            BBBVLabel.TabIndex = 22;
+            BBBVLabel.Text = "3BV:";
+            // 
             // DebugPanel
             // 
             DebugPanel.Controls.Add(DebugGroupButton5);
@@ -170,7 +196,7 @@ namespace MineSweeperPro
             DebugPanel.Controls.Add(DebugGroupButton2);
             DebugPanel.Controls.Add(DebugGroupButton4);
             DebugPanel.Controls.Add(DebugGroupButton3);
-            DebugPanel.Location = new Point(0, 475);
+            DebugPanel.Location = new Point(3, 614);
             DebugPanel.Name = "DebugPanel";
             DebugPanel.Size = new Size(224, 201);
             DebugPanel.TabIndex = 21;
@@ -362,15 +388,14 @@ namespace MineSweeperPro
             StatusMineIconLabel.Size = new Size(40, 42);
             StatusMineIconLabel.TabIndex = 3;
             // 
-            // label1
+            // BBBVSLabel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(155, 335);
-            label1.Name = "label1";
-            label1.Size = new Size(241, 48);
-            label1.TabIndex = 2;
-            label1.Text = "Leader Board";
+            BBBVSLabel.AutoSize = true;
+            BBBVSLabel.Location = new Point(10, 476);
+            BBBVSLabel.Name = "BBBVSLabel";
+            BBBVSLabel.Size = new Size(81, 25);
+            BBBVSLabel.TabIndex = 23;
+            BBBVSLabel.Text = "3BV/Sec:";
             // 
             // Main
             // 
@@ -392,6 +417,7 @@ namespace MineSweeperPro
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             StartPanel.ResumeLayout(false);
             StatusPanel.ResumeLayout(false);
+            StatusPanel.PerformLayout();
             DebugPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)ProfilePictureBox).EndInit();
             ResumeLayout(false);
@@ -427,5 +453,7 @@ namespace MineSweeperPro
         private System.Windows.Forms.Button NewGameButton;
         private PictureBox pictureBox1;
         private Label label1;
+        private Label BBBVLabel;
+        private Label BBBVSLabel;
     }
 }

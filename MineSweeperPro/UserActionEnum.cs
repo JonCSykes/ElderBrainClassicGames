@@ -8,9 +8,10 @@ namespace MineSweeperPro
 {
     public enum UserActionEnum
     {
-        SingleClick,
+        LeftClick,
+        RightClick,
+        MiddleClick,
         DoubleClick,
-        StartingClick,
         HintClick
     }
 }

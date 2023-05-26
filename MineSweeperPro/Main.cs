@@ -25,18 +25,17 @@ namespace MineSweeperPro
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
         static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-        const int WM_RBUTTONDOWN = 0x0204;
-        const int WM_RBUTTONUP = 0x0205;
-        const int WM_LBUTTONDOWN = 0x201;
-        const int WM_LBUTTONUP = 0x202;
         const int DEFAULT_CELL_SIZE = 50;
 
         Dictionary<string, DoubleClickButton> MineCellButtonDictionary = new Dictionary<string, DoubleClickButton>();
         Dictionary<string, DoubleClickButton> MineButtonDictionary = new Dictionary<string, DoubleClickButton>();
 
         Sound SoundPlayer = new Sound();
-        Timer AnimationTimer = new Timer();
+
+        System.Windows.Forms.Timer AnimationTimer;
+        System.Windows.Forms.Timer BBBVSTimer;
         System.Windows.Forms.Timer GlobalTimer;
+
         DateTime StartTime;
         int TimerCounter = 0;
         bool IsTimerRunning = false;
@@ -62,12 +61,21 @@ namespace MineSweeperPro
             GlobalTimer.Interval = 1;
             GlobalTimer.Tick += new EventHandler(GlobalTimer_Tick);
 
+            BBBVSTimer = new System.Windows.Forms.Timer();
+            BBBVSTimer.Interval = 1;
+            BBBVSTimer.Tick += new EventHandler(BBBVSTimer_Tick);
+
             CreateMenu();
             ApplyTheme();
             NewGame();
 
             Enabled = true;
 
+        }
+
+        private void BBBVSTimer_Tick(object sender, EventArgs e)
+        {
+            BBBVSLabel.Text = "3BV/Sec: " + MineSweeperPro.Get3BVS().ToString("0.00");
         }
 
         private void GlobalTimer_Tick(object sender, EventArgs e)
@@ -90,12 +98,19 @@ namespace MineSweeperPro
             StartTime = DateTime.Now;
             IsTimerRunning = true;
             GlobalTimer.Start();
+            BBBVSTimer.Start();
         }
 
         public void StopTimer()
         {
             IsTimerRunning = false;
             GlobalTimer.Stop();
+        }
+
+        public void Mark(UserActionEnum action, MineCell? mineCell)
+        {
+            TimeSpan timeSpan = DateTime.Now - StartTime;
+            MineSweeperPro.AddTelemetry(new Telemetry(action, timeSpan, mineCell));
         }
 
         public void LoadPlayerProfile()
@@ -202,7 +217,7 @@ namespace MineSweeperPro
             MineFieldPanel.PerformLayout();
             this.PerformLayout();
 
-
+            BBBVLabel.Text = "3BV: " + MineSweeperPro.BBBV.ToString();
 
             HideButtons();
 
@@ -226,6 +241,7 @@ namespace MineSweeperPro
             GenerateMineButtons();
 
             ShowButtons();
+
 
             MineFieldPanel.Enabled = false;
 
@@ -269,11 +285,11 @@ namespace MineSweeperPro
 
                     SoundPlayer.AddToQueue(Sound.WinSound);
 
-                    MineFieldPanel.Enabled = false;
+                    // MineFieldPanel.Enabled = false;
 
-                    EndGamePanel.Location = new Point((MineFieldPanel.Width - EndGamePanel.Width) / 2 + MineFieldPanel.Left, (MineFieldPanel.Height - EndGamePanel.Height) / 2 + MineFieldPanel.Top);
-                    EndGamePanel.Visible = true;
-                    EndGamePanel.BringToFront();
+                    // EndGamePanel.Location = new Point((MineFieldPanel.Width - EndGamePanel.Width) / 2 + MineFieldPanel.Left, (MineFieldPanel.Height - EndGamePanel.Height) / 2 + MineFieldPanel.Top);
+                    // EndGamePanel.Visible = true;
+                    // EndGamePanel.BringToFront();
                 }
             }
         }
@@ -395,6 +411,7 @@ namespace MineSweeperPro
                     btn.Region = new Region(path);
                     btn.Name = i + "," + j;
                     btn.Location = new Point((DEFAULT_CELL_SIZE * i) + 5, (DEFAULT_CELL_SIZE * j) + 5);
+                    btn.MouseUp += new MouseEventHandler(Btn_MouseUp);
                     btn.MouseDown += new MouseEventHandler(Btn_MouseDown);
                     btn.Dock = DockStyle.None;
 
@@ -402,6 +419,11 @@ namespace MineSweeperPro
                     MineCellButtonDictionary[btn.Name] = btn;
                 }
             }
+        }
+
+        private void Btn_MouseDown1(object? sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void ShowButtons()
@@ -467,6 +489,7 @@ namespace MineSweeperPro
 
                                 ImageAnimator.Animate(gifImage, (sender, args) => pictureBox.Invalidate());
 
+                                AnimationTimer = new Timer();
                                 AnimationTimer.Interval = 500;
 
                                 AnimationTimer.Tick += (s, ea) =>
@@ -643,8 +666,8 @@ namespace MineSweeperPro
                         mineCellButton.Image = null;
                         mineCellButton.Text = mineCell.SurroundingMineCount.ToString();
                         mineCellButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-                        mineCellButton.MouseDown -= Btn_MouseDown;
-                        mineCellButton.DoubleClick += Btn_DoubleClick;
+                        //mineCellButton.MouseDown -= Btn_MouseDown;
+                        // mineCellButton.DoubleClick += Btn_DoubleClick;
 
                         SetButtonColor(mineCellButton, mineCell.SurroundingMineCount);
                     }
@@ -676,8 +699,8 @@ namespace MineSweeperPro
                         mineCellButton.Image = null;
                         mineCellButton.Text = mineCell.SurroundingMineCount.ToString();
                         mineCellButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-                        mineCellButton.MouseDown -= Btn_MouseDown;
-                        mineCellButton.DoubleClick += Btn_DoubleClick;
+                        //mineCellButton.MouseDown -= Btn_MouseDown;
+                        //mineCellButton.DoubleClick += Btn_DoubleClick;
 
                         SetButtonColor(mineCellButton, mineCell.SurroundingMineCount);
                     }
@@ -799,7 +822,6 @@ namespace MineSweeperPro
                 UpdateDebugPanel(mineCell, "DOUBLE_CLICK");
             }
         }
-
         private void Btn_MouseDown(object sender, MouseEventArgs e)
         {
             DoubleClickButton btn = (DoubleClickButton)sender;
@@ -810,6 +832,44 @@ namespace MineSweeperPro
             if (MineSweeperPro != null && MineSweeperPro.MineField != null && MineSweeperPro.MineField.MineCellCollection != null)
             {
                 var mineCell = MineSweeperPro.MineField.MineCellCollection[i, j];
+                var surroundingFlagCount = MineSweeperPro.MineField.GetFlagCount(i, j);
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    if (!MineSweeperPro.IsGameOver)
+                    {
+                        if (mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
+                        {
+                            var mineCellGroup = MineSweeperPro.MineField.GetMineCellGroup(mineCell);
+                            if (mineCellGroup != null)
+                            {
+                                foreach (MineCell cell in mineCellGroup)
+                                {
+                                    if (cell.Status == MineCellStatusEnum.Default)
+                                    {
+                                        var mineCellButton = MineCellButtonDictionary[string.Concat(cell.X.ToString(), ",", cell.Y.ToString())];
+                                        mineCellButton.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineCellActivatedBackColor);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void Btn_MouseUp(object sender, MouseEventArgs e)
+        {
+            DoubleClickButton btn = (DoubleClickButton)sender;
+            string[] coords = btn.Name.Split(',');
+            int i = Convert.ToInt32(coords[0]);
+            int j = Convert.ToInt32(coords[1]);
+
+            if (MineSweeperPro != null && MineSweeperPro.MineField != null && MineSweeperPro.MineField.MineCellCollection != null)
+            {
+                var mineCell = MineSweeperPro.MineField.MineCellCollection[i, j];
+                var surroundingFlagCount = MineSweeperPro.MineField.GetFlagCount(i, j);
 
                 if (e.Button == MouseButtons.Left)
                 {
@@ -828,6 +888,15 @@ namespace MineSweeperPro
                                 SoundPlayer.AddToQueue(Sound.ClusterRevealSound, 500);
                             }
                         }
+                        else if (mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
+                        {
+                            var clusterCount = RevealMineGroup(mineCell);
+
+                            if (clusterCount > 0)
+                            {
+                                SoundPlayer.AddToQueue(Sound.ClusterRevealSound, 500);
+                            }
+                        }
                         else
                         {
                             SoundPlayer.AddToQueue(Sound.CellRevealSound, 100);
@@ -840,11 +909,13 @@ namespace MineSweeperPro
                         ValidateWin();
                     }
 
+                    Mark(UserActionEnum.LeftClick, mineCell);
                     UpdateDebugPanel(mineCell, "LEFT_CLICK");
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
                     ToggleFlag(mineCell);
+                    Mark(UserActionEnum.RightClick, mineCell);
                     UpdateDebugPanel(mineCell, "RIGHT_CLICK");
                 }
                 else if (e.Button == MouseButtons.Middle)
@@ -855,7 +926,7 @@ namespace MineSweeperPro
                     {
                         ValidateWin();
                     }
-
+                    Mark(UserActionEnum.MiddleClick, null);
                     UpdateDebugPanel(mineCell, "MIDDLE_CLICK");
                 }
 
@@ -878,6 +949,7 @@ namespace MineSweeperPro
             }
 
             UseHint();
+            Mark(UserActionEnum.HintClick, null);
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -965,6 +1037,13 @@ namespace MineSweeperPro
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void NewGameButton_Click(object sender, EventArgs e)
+        {
+            ApplyTheme();
+            NewGame();
+            EndGamePanel.Visible = false;
         }
     }
 }

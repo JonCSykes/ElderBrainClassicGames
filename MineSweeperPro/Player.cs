@@ -53,15 +53,11 @@ namespace MineSweeperPro
             }
         }
 
-        [XmlElement("Metrics")]
-        public Metrics Metrics { get; set; }
-
-        public Player(string username, string portraitName, Bitmap portrait, Metrics metrics) { 
+        public Player(string username, string portraitName, Bitmap portrait) { 
             
             Username = username;
             PortraitName = portraitName;
             Portrait = portrait;
-            Metrics = metrics;
 
             UpdateSettings();
         }
@@ -133,7 +129,6 @@ namespace MineSweeperPro
                     this.Username = loadedSettings.Username;
                     this.Portrait = loadedSettings.Portrait;
                     this.PortraitName = loadedSettings.PortraitName;
-                    this.Metrics = loadedSettings.Metrics;
                     
                 }
             }

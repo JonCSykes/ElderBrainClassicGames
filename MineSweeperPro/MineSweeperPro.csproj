@@ -25,6 +25,8 @@
     <None Remove="Assets\switch_002.wav" />
     <None Remove="Assets\switch_006.wav" />
     <None Remove="Resources\explosion.wav" />
+    <None Remove="Themes\Dark Reverse\Images\mine_small_dark.png" />
+    <None Remove="Themes\Dark Reverse\theme.json" />
     <None Remove="Themes\Dark\Images\mine_small_dark.png" />
     <None Remove="Themes\Dark\theme.json" />
     <None Remove="Themes\Plain\theme.json" />
@@ -86,6 +88,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\switch_006.wav">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Themes\Dark Reverse\Images\mine_small_dark.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Themes\Dark Reverse\theme.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Themes\Dark\theme.json">
