@@ -63,6 +63,26 @@ namespace MineSweeperPro.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap bomb_dark {
+            get {
+                object obj = ResourceManager.GetObject("bomb_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap close_dark {
+            get {
+                object obj = ResourceManager.GetObject("close_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap explosion_transparent {
             get {
                 object obj = ResourceManager.GetObject("explosion_transparent", resourceCulture);
@@ -92,9 +112,59 @@ namespace MineSweeperPro.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap gear_open_dark {
+            get {
+                object obj = ResourceManager.GetObject("gear_open_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap greenflag_small {
             get {
                 object obj = ResourceManager.GetObject("greenflag_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap hint_dark {
+            get {
+                object obj = ResourceManager.GetObject("hint_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap land_main_dark {
+            get {
+                object obj = ResourceManager.GetObject("land_main_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap maximize_off_dark {
+            get {
+                object obj = ResourceManager.GetObject("maximize_off_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap maximize_on_dark {
+            get {
+                object obj = ResourceManager.GetObject("maximize_on_dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,6 +185,26 @@ namespace MineSweeperPro.Properties {
         public static System.Drawing.Bitmap mine_small {
             get {
                 object obj = ResourceManager.GetObject("mine_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap minimize_dark {
+            get {
+                object obj = ResourceManager.GetObject("minimize_dark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap new_dark {
+            get {
+                object obj = ResourceManager.GetObject("new_dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,6 +305,16 @@ namespace MineSweeperPro.Properties {
         public static System.Drawing.Bitmap redflag_small {
             get {
                 object obj = ResourceManager.GetObject("redflag_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap share_dark {
+            get {
+                object obj = ResourceManager.GetObject("share_dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -44,7 +44,7 @@ namespace MineSweeperPro
         public event SaveSettingsDelegate SaveSettingsEvent;
         public event CreateNewGameDelegate CreateNewGameEvent;
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
 
         protected override CreateParams CreateParams
         {
@@ -95,7 +95,7 @@ namespace MineSweeperPro
             DefaultMineCountTextbox.Text = Settings.Default.MineCount.ToString();
             DefaultHintCountTextbox.Text = Settings.Default.HintCount.ToString();
 
-            ThemeComboBox.DataSource = Theme.GetThemeNames();
+            ThemeComboBox.DataSource = ThemeConfig.GetThemeNames();
             ThemeComboBox.SelectedItem = Settings.Default.Theme;
 
             DebugCheckBox.Checked = Settings.Default.Debug;
@@ -106,7 +106,7 @@ namespace MineSweeperPro
         }
         public void ApplyTheme()
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);

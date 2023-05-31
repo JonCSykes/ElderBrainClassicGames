@@ -14,13 +14,15 @@ namespace MineSweeperPro
 
             string homeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            string appFolderPath = Path.Combine(homeFolderPath, "Pyrobolum");
+            string appFolderPath = Path.Combine(homeFolderPath, "Mine Sweeper Pro");
 
             if (!Directory.Exists(appFolderPath))
             {
                 Directory.CreateDirectory(appFolderPath);
             }
 
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
         }
     }

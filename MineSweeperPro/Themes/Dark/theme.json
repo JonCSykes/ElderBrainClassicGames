@@ -1,13 +1,9 @@
 {
   "TextColor": "#dbdcde",
+  "BackColor": "#1e1f22",
   "MineFieldBackColor": "#232428",
   "StatusPanelBackColor": "#2b2d31",
   "StatusPanelTextColor": "#dbdcde",
-  "MenuBackColor": "#232428",
-  "MenuTextColor": "#dbdcde",
-  "MenuHoverBackgroundColor": "#2b2d31",
-  "MenuHoverTextColor": "#000000",
-
 
   "MineCellBackColor": "#26282c",
   "MineCellActivatedBackColor": "#3a3c43",
@@ -24,6 +20,16 @@
   "MineCellNumberColor7": "#9a23a5",
   "MineCellNumberColor8": "#dbdcde",
 
-  "MineImage": "mine_small_dark.png",
-  "FlagImage": ""
+  "RoundedCornerRadius": 15,
+
+  "MineImage": "land_mine_dark.png",
+  "FlagImage": "",
+  "CloseImage": "close_dark.png",
+  "MinimizeImage": "minimize_dark.png",
+  "MaximizeOnImage": "maximize_on_dark.png",
+  "MaximizeOffImage": "maximize_off_dark.png",
+  "NewGameImage": "new_dark.png",
+  "HintImage": "hint_dark.png",
+  "ShareImage": "share_dark.png",
+  "SettingsImage": "gear_open_dark.png"
 }

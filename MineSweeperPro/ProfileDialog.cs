@@ -44,7 +44,7 @@ namespace MineSweeperPro
 
         public event LoadProfileDelegate LoadProfileEvent;
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
         
 
         protected override CreateParams CreateParams
@@ -131,7 +131,7 @@ namespace MineSweeperPro
 
         public void ApplyTheme()
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);

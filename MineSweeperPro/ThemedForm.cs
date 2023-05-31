@@ -34,7 +34,7 @@ namespace MineSweeperPro
         [DllImport("user32.dll")]
         private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
 
         protected override CreateParams CreateParams
         {
@@ -108,7 +108,7 @@ namespace MineSweeperPro
 
         public void ApplyTheme(Control control)
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);

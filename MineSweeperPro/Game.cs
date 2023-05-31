@@ -9,6 +9,8 @@ namespace MineSweeperPro
 {
     public class Game
     {
+        private int bbbv = 0;
+
         public MineField? MineField { get; set; }
         public int HintCount { get; set; }
         public int HintCounter { get; set; }
@@ -19,13 +21,13 @@ namespace MineSweeperPro
         {
             get
             {
-                return Get3BV();
+                return Get3BV2();
             }
         }
         public Player Player { get; set; }
-        public List<Telemetry> Telemetry { get; set; } 
+        public List<Telemetry> Telemetry { get; set; }
 
-        public Game(int width, int height, int mineCount, int hintCount) 
+        public Game(int width, int height, int mineCount, int hintCount)
         {
             Telemetry = new List<Telemetry>();
             MineField = new MineField(width, height, mineCount);
@@ -55,25 +57,22 @@ namespace MineSweeperPro
 
         public int Get3BV()
         {
-            int BBBV = 0;
-            HashSet<MineCell> visitedCells = new HashSet<MineCell>();
-
-            if (MineField != null)
+            if (bbbv == 0)
             {
-                for (int x = 0; x < MineField.Width; x++)
-                {
-                    for (int y = 0; y < MineField.Height; y++)
-                    {
-                        if (MineField.MineCellCollection != null)
-                        {
-                            MineCell cell = MineField.MineCellCollection[x, y];
-                            if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
-                            {
-                                BBBV++;
+                HashSet<MineCell> visitedCells = new HashSet<MineCell>();
 
-                                if (cell.ClusterSize > 1)
+                if (MineField != null)
+                {
+                    for (int x = 0; x < MineField.Width; x++)
+                    {
+                        for (int y = 0; y < MineField.Height; y++)
+                        {
+                            if (MineField.MineCellCollection != null)
+                            {
+                                MineCell cell = MineField.MineCellCollection[x, y];
+                                if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
                                 {
-                                    visitedCells.UnionWith(MineField.GetClusterCells(cell));
+                                    bbbv++;
                                 }
                             }
                         }
@@ -81,7 +80,48 @@ namespace MineSweeperPro
                 }
             }
 
-            return BBBV;
+            return bbbv;
+        }
+
+        public int Get3BV2()
+        {
+            if (bbbv == 0)
+            {
+                HashSet<MineCell> visitedCells = new HashSet<MineCell>();
+
+                if (MineField != null && MineField.SortedClusterCollection != null)
+                {
+                    foreach (var mineCell in MineField.SortedClusterCollection)
+                    {
+                        if (mineCell.Type == MineCellTypeEnum.Land && mineCell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(mineCell))
+                        {
+                            if (mineCell.ClusterSize > 1)
+                            {
+                                bbbv++;
+                                visitedCells.UnionWith(MineField.GetClusterCells(mineCell));
+                            }
+                        }
+                    }
+
+                    for (int x = 0; x < MineField.Width; x++)
+                    {
+                        for (int y = 0; y < MineField.Height; y++)
+                        {
+                            if (MineField.MineCellCollection != null)
+                            {
+                                MineCell cell = MineField.MineCellCollection[x, y];
+                                if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
+                                {
+                                    bbbv++;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return bbbv;
         }
 
         public double Get3BVS()
@@ -94,13 +134,31 @@ namespace MineSweeperPro
 
                 foreach (Telemetry telemetry in Telemetry)
                 {
-                    if (telemetry.Action == UserActionEnum.LeftClick && telemetry.Cell != null && telemetry.Cell.Status == MineCellStatusEnum.Revealed)
+                    if ((telemetry.Event == EventEnum.CellReveal || telemetry.Event == EventEnum.ChordReveal) && telemetry.Cell != null && telemetry.Cell.Status == MineCellStatusEnum.Revealed)
                     {
                         leftClickCount++;
                     }
                 }
 
                 return leftClickCount / durationInSeconds;
+            }
+
+            return leftClickCount;
+        }
+
+        public int Get3BVTotal()
+        {
+            int leftClickCount = 0;
+
+            if (Telemetry != null && Telemetry.Count > 0)
+            {
+                foreach (Telemetry telemetry in Telemetry)
+                {
+                    if ((telemetry.Event == EventEnum.CellReveal || telemetry.Event == EventEnum.ChordReveal) && telemetry.Cell != null && telemetry.Cell.Status == MineCellStatusEnum.Revealed)
+                    {
+                        leftClickCount++;
+                    }
+                }
             }
 
             return leftClickCount;
