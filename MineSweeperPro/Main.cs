@@ -102,9 +102,9 @@
             {
                 efficiencyPercentage = (double)(bbbv) / (double)(bbbvTotal) * 100;
 
-                BBBVSLabel.Text = "3BV/Sec: " + MineSweeperPro.Get3BVS().ToString("0.00");
-                BBBVTotalLabel.Text = "3BV Total: " + MineSweeperPro.Get3BVTotal().ToString();
-                EfficiencyLabel.Text = "Efficiency: " + efficiencyPercentage.ToString("0.00") + "%";
+                BBBVSValueLabel.Text = MineSweeperPro.Get3BVS().ToString("0.00");
+                BBBVTotalValueLabel.Text = MineSweeperPro.Get3BVTotal().ToString();
+                EfficiencyValueLabel.Text = efficiencyPercentage.ToString("0.00") + "%";
             }
         }
 
@@ -135,6 +135,7 @@
         {
             IsTimerRunning = false;
             GlobalTimer.Stop();
+            BBBVSTimer.Stop();
         }
 
         public void Mark(UserActionEnum action, EventEnum eventCaptured, MineCell? mineCell)
@@ -226,7 +227,7 @@
             RemainingMinesLabel.Text = "0";
             MineFieldPanel.Enabled = false;
             RemainingMinesLabel.Text = Settings.Default.MineCount.ToString();
-            BBBVLabel.Text = "3BV: " + MineSweeperPro.BBBV.ToString();
+            BBBVValueLabel.Text = MineSweeperPro.BBBV.ToString();
 
             EndGamePanel.Visible = false;
             StartPanel.Visible = true;
@@ -246,7 +247,7 @@
             MineFieldPanel.PerformLayout();
 
             int gameControlCenterX = (STATUS_PANEL_WIDTH - GameControlPanel.ClientSize.Width) / 2;
-            GameControlPanel.Location = new Point(gameControlCenterX, ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2) - 50);
+            GameControlPanel.Location = new Point(gameControlCenterX, ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2) - 70);
 
             StatusPanel.Size = new Size(STATUS_PANEL_WIDTH, ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2));
             StatusPanel.Location = new Point(ClientSize.Width - STATUS_PANEL_WIDTH - (WINDOW_RESIZE_THICKNESS * 2), 0);
@@ -262,6 +263,10 @@
             CenterPanels(StatusPanel, TimerLabel, true, false);
             CenterPanels(StatusPanel, RemainingMineCountPanel, true, false);
             CenterPanels(EndGamePanel, LeaderBoardTitleLabel, true, false);
+            CenterPanels(EndGamePanel, LeaderBoardPanel, true, false);
+            CenterPanels(EndGamePanel, GameStatsPanel, true, false);
+            CenterPanels(EndGamePanel, FinalTimeLabel, true, false);
+
         }
 
         private void StartGame()
@@ -287,12 +292,13 @@
                     StopTimer();
                     WinLoseLabel.Text = "You Won!";
                     WinLoseLabel.ForeColor = Color.Green;
+                    FinalTimeLabel.Text = TimerLabel.Text;
 
                     SoundPlayer.AddToQueue(Sound.WinSound);
 
                     CenterPanels(EndGamePanel, WinLoseLabel, true, false);
                     CenterPanels(MineFieldPanel, EndGamePanel, true, true);
-                    
+
                     EndGamePanel.Visible = true;
                     EndGamePanel.BringToFront();
                 }
@@ -313,9 +319,12 @@
 
                 WinLoseLabel.Text = "You Exploded!";
                 WinLoseLabel.ForeColor = Color.Red;
+                FinalTimeLabel.Text = TimerLabel.Text;
+                EfficiencyValueLabel.Text = "0%";
 
                 CenterPanels(EndGamePanel, WinLoseLabel, true, false);
                 CenterPanels(MineFieldPanel, EndGamePanel, true, true);
+
                 EndGamePanel.Visible = true;
                 EndGamePanel.BringToFront();
 

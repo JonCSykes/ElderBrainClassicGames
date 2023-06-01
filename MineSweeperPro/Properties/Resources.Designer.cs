@@ -142,9 +142,9 @@ namespace MineSweeperPro.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap land_main_dark {
+        public static System.Drawing.Bitmap land_mine_dark {
             get {
-                object obj = ResourceManager.GetObject("land_main_dark", resourceCulture);
+                object obj = ResourceManager.GetObject("land_mine_dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

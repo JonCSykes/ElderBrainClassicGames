@@ -14,7 +14,7 @@ namespace MineSweeperPro
 
             string homeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            string appFolderPath = Path.Combine(homeFolderPath, "Mine Sweeper Pro");
+            string appFolderPath = Path.Combine(homeFolderPath, "MineSweeperPro");
 
             if (!Directory.Exists(appFolderPath))
             {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
@@ -63,11 +64,11 @@ namespace MineSweeperPro
 
         private void LoadData()
         {
-            string assemblyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
             if (!string.IsNullOrEmpty(assemblyPath))
             {
-                HOME_FOLDER = Path.Combine(assemblyPath, "MineSweeperPro");
+                HOME_FOLDER = Path.Combine(assemblyPath, "Data");
             }
 
             if (!string.IsNullOrEmpty(HOME_FOLDER))
@@ -96,11 +97,11 @@ namespace MineSweeperPro
 
         private void SaveData()
         {
-            string assemblyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
             if (!string.IsNullOrEmpty(assemblyPath))
             {
-                HOME_FOLDER = Path.Combine(assemblyPath, "MineSweeperPro");
+                HOME_FOLDER = Path.Combine(assemblyPath, "Data");
             }
 
             if (!string.IsNullOrEmpty(HOME_FOLDER))
