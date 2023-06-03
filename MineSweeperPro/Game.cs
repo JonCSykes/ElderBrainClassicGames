@@ -16,27 +16,49 @@ namespace MineSweeperPro
         public int HintCounter { get; set; }
         public bool IsGameStarted { get; set; }
         public bool IsGameOver { get; set; }
-        public int EndTimeCounter { get; set; }
+        public bool IsWin 
+        { 
+            get 
+            {
+                return ValidateWin();
+            } 
+        }
+
         public int BBBV
         {
             get
             {
-                return Get3BV2();
+                return Get3BV();
+            }
+        }
+        public double BBBVS
+        {
+            get
+            { 
+                return Get3BVS();
+            }
+        }
+        public int BBBVTotal
+        { 
+            get
+            {
+                return Get3BVTotal();
             }
         }
         public Player Player { get; set; }
         public List<Telemetry> Telemetry { get; set; }
 
-        public Game(int width, int height, int mineCount, int hintCount)
+        public Game(Player player, int width, int height, int mineCount, int hintCount)
         {
             Telemetry = new List<Telemetry>();
             MineField = new MineField(width, height, mineCount);
+            Player = player;
             HintCount = hintCount;
             HintCounter = 0;
             IsGameStarted = false;
         }
 
-        public bool ValidateWin()
+        private bool ValidateWin()
         {
             if (MineField != null)
             {
@@ -55,35 +77,7 @@ namespace MineSweeperPro
             Telemetry.Add(telemetry);
         }
 
-        public int Get3BV()
-        {
-            if (bbbv == 0)
-            {
-                HashSet<MineCell> visitedCells = new HashSet<MineCell>();
-
-                if (MineField != null)
-                {
-                    for (int x = 0; x < MineField.Width; x++)
-                    {
-                        for (int y = 0; y < MineField.Height; y++)
-                        {
-                            if (MineField.MineCellCollection != null)
-                            {
-                                MineCell cell = MineField.MineCellCollection[x, y];
-                                if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
-                                {
-                                    bbbv++;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return bbbv;
-        }
-
-        public int Get3BV2()
+        private int Get3BV()
         {
             if (bbbv == 0)
             {
@@ -124,7 +118,7 @@ namespace MineSweeperPro
             return bbbv;
         }
 
-        public double Get3BVS()
+        private double Get3BVS()
         {
             int leftClickCount = 0;
 
@@ -146,7 +140,7 @@ namespace MineSweeperPro
             return leftClickCount;
         }
 
-        public int Get3BVTotal()
+        private int Get3BVTotal()
         {
             int leftClickCount = 0;
 

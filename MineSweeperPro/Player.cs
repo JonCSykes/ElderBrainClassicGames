@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace MineSweeperPro
 {
@@ -19,9 +20,11 @@ namespace MineSweeperPro
         [XmlElement("PortraitName")]
         public string PortraitName { get; set; }
 
+        [JsonIgnore]
         [XmlIgnore]
-        public Image Portrait { get; set; }
-
+        public Bitmap Portrait { get; set; }
+        
+        [JsonIgnore]
         [XmlElement("PortraitData")]
         public byte[] PortraitData
         {

@@ -241,11 +241,11 @@ namespace MineSweeperPro
             return true;
         }
 
-        private System.Drawing.Image ResizePortrait(System.Drawing.Image image)
+        private System.Drawing.Bitmap ResizePortrait(System.Drawing.Image image)
         {
             int targetSize = 150;
 
-            System.Drawing.Image resizedImage = image.GetThumbnailImage(targetSize, targetSize, null, IntPtr.Zero);
+            System.Drawing.Bitmap resizedImage = (Bitmap)image.GetThumbnailImage(targetSize, targetSize, null, IntPtr.Zero);
 
             image.Dispose();
 

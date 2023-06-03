@@ -56,25 +56,14 @@ namespace MineSweeperPro
             StartButton = new System.Windows.Forms.Button();
             EndGamePanel = new Panel();
             LeaderBoardPanel = new Panel();
-            LeaderBoardTimeLabel5 = new Label();
-            LeaderBoardTimeLabel4 = new Label();
-            LeaderBoardTimeLabel3 = new Label();
-            LeaderBoardTimeLabel2 = new Label();
-            LeaderBoardTimeLabel1 = new Label();
-            LeaderBoardNameLabel5 = new Label();
-            LeaderBoardNameLabel4 = new Label();
-            LeaderBoardNameLabel3 = new Label();
-            LeaderBoardNameLabel2 = new Label();
-            LeaderBoardNameLabel1 = new Label();
-            LeaderBoardNumberLabel4 = new Label();
-            LeaderBoardNumberLabel1 = new Label();
-            LeaderBoardNumberLabel5 = new Label();
-            LeaderBoardNumberLabel2 = new Label();
-            LeaderBoardNumberLabel3 = new Label();
             ShowBoardButton = new System.Windows.Forms.Button();
             FinalTimeLabel = new Label();
             WinLoseLabel = new Label();
             GameStatsPanel = new Panel();
+            MineCountValueLabel = new Label();
+            MineCountLabel = new Label();
+            BoardSizeValueLabel = new Label();
+            BoardSizeLabel = new Label();
             EfficiencyValueLabel = new Label();
             BBBVTotalValueLabel = new Label();
             BBBVSValueLabel = new Label();
@@ -92,7 +81,6 @@ namespace MineSweeperPro
             RemainingMineCountPanel.SuspendLayout();
             StartPanel.SuspendLayout();
             EndGamePanel.SuspendLayout();
-            LeaderBoardPanel.SuspendLayout();
             GameStatsPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -359,194 +347,35 @@ namespace MineSweeperPro
             EndGamePanel.Controls.Add(NewGameButton);
             EndGamePanel.Location = new Point(130, 140);
             EndGamePanel.Name = "EndGamePanel";
-            EndGamePanel.Size = new Size(450, 530);
+            EndGamePanel.Size = new Size(450, 644);
             EndGamePanel.TabIndex = 0;
             EndGamePanel.Visible = false;
             // 
             // LeaderBoardPanel
             // 
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel5);
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel4);
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel3);
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel2);
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel1);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel5);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel4);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel3);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel2);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel1);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel4);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel1);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel5);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel2);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel3);
-            LeaderBoardPanel.Location = new Point(87, 294);
+            LeaderBoardPanel.Location = new Point(87, 395);
             LeaderBoardPanel.Name = "LeaderBoardPanel";
             LeaderBoardPanel.Size = new Size(300, 162);
             LeaderBoardPanel.TabIndex = 36;
-            // 
-            // LeaderBoardTimeLabel5
-            // 
-            LeaderBoardTimeLabel5.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel5.Location = new Point(183, 124);
-            LeaderBoardTimeLabel5.Name = "LeaderBoardTimeLabel5";
-            LeaderBoardTimeLabel5.Size = new Size(117, 30);
-            LeaderBoardTimeLabel5.TabIndex = 44;
-            LeaderBoardTimeLabel5.Text = "00:00:00";
-            LeaderBoardTimeLabel5.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // LeaderBoardTimeLabel4
-            // 
-            LeaderBoardTimeLabel4.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel4.Location = new Point(183, 96);
-            LeaderBoardTimeLabel4.Name = "LeaderBoardTimeLabel4";
-            LeaderBoardTimeLabel4.Size = new Size(117, 30);
-            LeaderBoardTimeLabel4.TabIndex = 43;
-            LeaderBoardTimeLabel4.Text = "00:00:00";
-            LeaderBoardTimeLabel4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // LeaderBoardTimeLabel3
-            // 
-            LeaderBoardTimeLabel3.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel3.Location = new Point(183, 66);
-            LeaderBoardTimeLabel3.Name = "LeaderBoardTimeLabel3";
-            LeaderBoardTimeLabel3.Size = new Size(117, 30);
-            LeaderBoardTimeLabel3.TabIndex = 42;
-            LeaderBoardTimeLabel3.Text = "00:00:00";
-            LeaderBoardTimeLabel3.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // LeaderBoardTimeLabel2
-            // 
-            LeaderBoardTimeLabel2.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel2.Location = new Point(183, 36);
-            LeaderBoardTimeLabel2.Name = "LeaderBoardTimeLabel2";
-            LeaderBoardTimeLabel2.Size = new Size(117, 30);
-            LeaderBoardTimeLabel2.TabIndex = 41;
-            LeaderBoardTimeLabel2.Text = "00:00:00";
-            LeaderBoardTimeLabel2.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // LeaderBoardTimeLabel1
-            // 
-            LeaderBoardTimeLabel1.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel1.Location = new Point(183, 4);
-            LeaderBoardTimeLabel1.Name = "LeaderBoardTimeLabel1";
-            LeaderBoardTimeLabel1.Size = new Size(117, 30);
-            LeaderBoardTimeLabel1.TabIndex = 40;
-            LeaderBoardTimeLabel1.Text = "00:00:00";
-            LeaderBoardTimeLabel1.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // LeaderBoardNameLabel5
-            // 
-            LeaderBoardNameLabel5.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel5.Location = new Point(45, 124);
-            LeaderBoardNameLabel5.Name = "LeaderBoardNameLabel5";
-            LeaderBoardNameLabel5.Size = new Size(132, 30);
-            LeaderBoardNameLabel5.TabIndex = 39;
-            LeaderBoardNameLabel5.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNameLabel4
-            // 
-            LeaderBoardNameLabel4.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel4.Location = new Point(45, 94);
-            LeaderBoardNameLabel4.Name = "LeaderBoardNameLabel4";
-            LeaderBoardNameLabel4.Size = new Size(132, 30);
-            LeaderBoardNameLabel4.TabIndex = 38;
-            LeaderBoardNameLabel4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNameLabel3
-            // 
-            LeaderBoardNameLabel3.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel3.Location = new Point(45, 64);
-            LeaderBoardNameLabel3.Name = "LeaderBoardNameLabel3";
-            LeaderBoardNameLabel3.Size = new Size(132, 30);
-            LeaderBoardNameLabel3.TabIndex = 37;
-            LeaderBoardNameLabel3.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNameLabel2
-            // 
-            LeaderBoardNameLabel2.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel2.Location = new Point(45, 34);
-            LeaderBoardNameLabel2.Name = "LeaderBoardNameLabel2";
-            LeaderBoardNameLabel2.Size = new Size(132, 30);
-            LeaderBoardNameLabel2.TabIndex = 36;
-            LeaderBoardNameLabel2.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNameLabel1
-            // 
-            LeaderBoardNameLabel1.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel1.Location = new Point(45, 4);
-            LeaderBoardNameLabel1.Name = "LeaderBoardNameLabel1";
-            LeaderBoardNameLabel1.Size = new Size(132, 30);
-            LeaderBoardNameLabel1.TabIndex = 35;
-            LeaderBoardNameLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNumberLabel4
-            // 
-            LeaderBoardNumberLabel4.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel4.Location = new Point(7, 94);
-            LeaderBoardNumberLabel4.Name = "LeaderBoardNumberLabel4";
-            LeaderBoardNumberLabel4.Size = new Size(32, 30);
-            LeaderBoardNumberLabel4.TabIndex = 33;
-            LeaderBoardNumberLabel4.Text = "4.";
-            LeaderBoardNumberLabel4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNumberLabel1
-            // 
-            LeaderBoardNumberLabel1.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel1.Location = new Point(7, 4);
-            LeaderBoardNumberLabel1.Name = "LeaderBoardNumberLabel1";
-            LeaderBoardNumberLabel1.Size = new Size(32, 30);
-            LeaderBoardNumberLabel1.TabIndex = 30;
-            LeaderBoardNumberLabel1.Text = "1.";
-            LeaderBoardNumberLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNumberLabel5
-            // 
-            LeaderBoardNumberLabel5.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel5.Location = new Point(7, 124);
-            LeaderBoardNumberLabel5.Name = "LeaderBoardNumberLabel5";
-            LeaderBoardNumberLabel5.Size = new Size(32, 30);
-            LeaderBoardNumberLabel5.TabIndex = 34;
-            LeaderBoardNumberLabel5.Text = "5.";
-            LeaderBoardNumberLabel5.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNumberLabel2
-            // 
-            LeaderBoardNumberLabel2.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel2.Location = new Point(7, 34);
-            LeaderBoardNumberLabel2.Name = "LeaderBoardNumberLabel2";
-            LeaderBoardNumberLabel2.Size = new Size(32, 30);
-            LeaderBoardNumberLabel2.TabIndex = 31;
-            LeaderBoardNumberLabel2.Text = "2.";
-            LeaderBoardNumberLabel2.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // LeaderBoardNumberLabel3
-            // 
-            LeaderBoardNumberLabel3.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel3.Location = new Point(7, 64);
-            LeaderBoardNumberLabel3.Name = "LeaderBoardNumberLabel3";
-            LeaderBoardNumberLabel3.Size = new Size(32, 30);
-            LeaderBoardNumberLabel3.TabIndex = 32;
-            LeaderBoardNumberLabel3.Text = "3.";
-            LeaderBoardNumberLabel3.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // ShowBoardButton
             // 
             ShowBoardButton.FlatAppearance.BorderSize = 0;
             ShowBoardButton.FlatStyle = FlatStyle.Flat;
-            ShowBoardButton.Location = new Point(87, 472);
+            ShowBoardButton.Location = new Point(87, 585);
             ShowBoardButton.Name = "ShowBoardButton";
             ShowBoardButton.Size = new Size(123, 34);
             ShowBoardButton.TabIndex = 35;
             ShowBoardButton.Text = "Show Board";
             ShowBoardButton.UseVisualStyleBackColor = true;
+            ShowBoardButton.Click += ShowBoardButton_Click;
             // 
             // FinalTimeLabel
             // 
             FinalTimeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             FinalTimeLabel.BackColor = Color.Transparent;
             FinalTimeLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            FinalTimeLabel.Location = new Point(113, 61);
+            FinalTimeLabel.Location = new Point(113, 71);
             FinalTimeLabel.Margin = new Padding(0);
             FinalTimeLabel.Name = "FinalTimeLabel";
             FinalTimeLabel.Size = new Size(230, 47);
@@ -566,6 +395,10 @@ namespace MineSweeperPro
             // 
             // GameStatsPanel
             // 
+            GameStatsPanel.Controls.Add(MineCountValueLabel);
+            GameStatsPanel.Controls.Add(MineCountLabel);
+            GameStatsPanel.Controls.Add(BoardSizeValueLabel);
+            GameStatsPanel.Controls.Add(BoardSizeLabel);
             GameStatsPanel.Controls.Add(EfficiencyValueLabel);
             GameStatsPanel.Controls.Add(BBBVTotalValueLabel);
             GameStatsPanel.Controls.Add(BBBVSValueLabel);
@@ -574,17 +407,57 @@ namespace MineSweeperPro
             GameStatsPanel.Controls.Add(BBBVTotalLabel);
             GameStatsPanel.Controls.Add(BBBVSLabel);
             GameStatsPanel.Controls.Add(BBBVLabel);
-            GameStatsPanel.Location = new Point(113, 115);
+            GameStatsPanel.Location = new Point(113, 121);
             GameStatsPanel.Name = "GameStatsPanel";
-            GameStatsPanel.Size = new Size(241, 125);
+            GameStatsPanel.Size = new Size(241, 189);
             GameStatsPanel.TabIndex = 3;
+            // 
+            // MineCountValueLabel
+            // 
+            MineCountValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            MineCountValueLabel.Location = new Point(142, 144);
+            MineCountValueLabel.Name = "MineCountValueLabel";
+            MineCountValueLabel.Size = new Size(99, 28);
+            MineCountValueLabel.TabIndex = 41;
+            MineCountValueLabel.Text = "0";
+            MineCountValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // MineCountLabel
+            // 
+            MineCountLabel.AutoSize = true;
+            MineCountLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            MineCountLabel.Location = new Point(13, 148);
+            MineCountLabel.Name = "MineCountLabel";
+            MineCountLabel.Size = new Size(99, 21);
+            MineCountLabel.TabIndex = 40;
+            MineCountLabel.Text = "Mine Count:";
+            // 
+            // BoardSizeValueLabel
+            // 
+            BoardSizeValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            BoardSizeValueLabel.Location = new Point(142, 114);
+            BoardSizeValueLabel.Name = "BoardSizeValueLabel";
+            BoardSizeValueLabel.Size = new Size(99, 28);
+            BoardSizeValueLabel.TabIndex = 39;
+            BoardSizeValueLabel.Text = "0 x 0";
+            BoardSizeValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BoardSizeLabel
+            // 
+            BoardSizeLabel.AutoSize = true;
+            BoardSizeLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            BoardSizeLabel.Location = new Point(13, 118);
+            BoardSizeLabel.Name = "BoardSizeLabel";
+            BoardSizeLabel.Size = new Size(91, 21);
+            BoardSizeLabel.TabIndex = 38;
+            BoardSizeLabel.Text = "Board Size:";
             // 
             // EfficiencyValueLabel
             // 
             EfficiencyValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            EfficiencyValueLabel.Location = new Point(173, 90);
+            EfficiencyValueLabel.Location = new Point(142, 90);
             EfficiencyValueLabel.Name = "EfficiencyValueLabel";
-            EfficiencyValueLabel.Size = new Size(68, 28);
+            EfficiencyValueLabel.Size = new Size(99, 28);
             EfficiencyValueLabel.TabIndex = 29;
             EfficiencyValueLabel.Text = "0";
             EfficiencyValueLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -592,9 +465,9 @@ namespace MineSweeperPro
             // BBBVTotalValueLabel
             // 
             BBBVTotalValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            BBBVTotalValueLabel.Location = new Point(173, 60);
+            BBBVTotalValueLabel.Location = new Point(142, 60);
             BBBVTotalValueLabel.Name = "BBBVTotalValueLabel";
-            BBBVTotalValueLabel.Size = new Size(68, 28);
+            BBBVTotalValueLabel.Size = new Size(99, 28);
             BBBVTotalValueLabel.TabIndex = 28;
             BBBVTotalValueLabel.Text = "0";
             BBBVTotalValueLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -602,9 +475,9 @@ namespace MineSweeperPro
             // BBBVSValueLabel
             // 
             BBBVSValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            BBBVSValueLabel.Location = new Point(173, 30);
+            BBBVSValueLabel.Location = new Point(142, 30);
             BBBVSValueLabel.Name = "BBBVSValueLabel";
-            BBBVSValueLabel.Size = new Size(68, 28);
+            BBBVSValueLabel.Size = new Size(99, 28);
             BBBVSValueLabel.TabIndex = 27;
             BBBVSValueLabel.Text = "0";
             BBBVSValueLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -612,9 +485,9 @@ namespace MineSweeperPro
             // BBBVValueLabel
             // 
             BBBVValueLabel.Font = new Font("Segoe UI Semibold", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            BBBVValueLabel.Location = new Point(173, 0);
+            BBBVValueLabel.Location = new Point(142, 0);
             BBBVValueLabel.Name = "BBBVValueLabel";
-            BBBVValueLabel.Size = new Size(68, 28);
+            BBBVValueLabel.Size = new Size(99, 28);
             BBBVValueLabel.TabIndex = 26;
             BBBVValueLabel.Text = "0";
             BBBVValueLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -622,10 +495,10 @@ namespace MineSweeperPro
             // LeaderBoardTitleLabel
             // 
             LeaderBoardTitleLabel.AutoSize = true;
-            LeaderBoardTitleLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTitleLabel.Location = new Point(113, 243);
+            LeaderBoardTitleLabel.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            LeaderBoardTitleLabel.Location = new Point(113, 346);
             LeaderBoardTitleLabel.Name = "LeaderBoardTitleLabel";
-            LeaderBoardTitleLabel.Size = new Size(241, 48);
+            LeaderBoardTitleLabel.Size = new Size(258, 42);
             LeaderBoardTitleLabel.TabIndex = 2;
             LeaderBoardTitleLabel.Text = "Leader Board";
             // 
@@ -633,12 +506,13 @@ namespace MineSweeperPro
             // 
             NewGameButton.FlatAppearance.BorderSize = 0;
             NewGameButton.FlatStyle = FlatStyle.Flat;
-            NewGameButton.Location = new Point(255, 472);
+            NewGameButton.Location = new Point(255, 585);
             NewGameButton.Name = "NewGameButton";
             NewGameButton.Size = new Size(112, 34);
             NewGameButton.TabIndex = 0;
             NewGameButton.Text = "New Game";
             NewGameButton.UseVisualStyleBackColor = true;
+            NewGameButton.Click += NewGameButton_Click;
             // 
             // Main
             // 
@@ -673,7 +547,6 @@ namespace MineSweeperPro
             StartPanel.ResumeLayout(false);
             EndGamePanel.ResumeLayout(false);
             EndGamePanel.PerformLayout();
-            LeaderBoardPanel.ResumeLayout(false);
             GameStatsPanel.ResumeLayout(false);
             GameStatsPanel.PerformLayout();
             ResumeLayout(false);
@@ -726,27 +599,16 @@ namespace MineSweeperPro
         private Label ShareLabel;
         private Label HintLabel;
         private Label NewLabel;
-        private Label LeaderBoardNumberLabel1;
         private Label FinalTimeLabel;
         private Label EfficiencyValueLabel;
         private Label BBBVTotalValueLabel;
         private Label BBBVSValueLabel;
         private Label BBBVValueLabel;
         private System.Windows.Forms.Button ShowBoardButton;
-        private Label LeaderBoardNumberLabel5;
-        private Label LeaderBoardNumberLabel4;
-        private Label LeaderBoardNumberLabel3;
-        private Label LeaderBoardNumberLabel2;
         private Panel LeaderBoardPanel;
-        private Label LeaderBoardNameLabel1;
-        private Label LeaderBoardTimeLabel5;
-        private Label LeaderBoardTimeLabel4;
-        private Label LeaderBoardTimeLabel3;
-        private Label LeaderBoardTimeLabel2;
-        private Label LeaderBoardTimeLabel1;
-        private Label LeaderBoardNameLabel5;
-        private Label LeaderBoardNameLabel4;
-        private Label LeaderBoardNameLabel3;
-        private Label LeaderBoardNameLabel2;
+        private Label BoardSizeLabel;
+        private Label MineCountValueLabel;
+        private Label MineCountLabel;
+        private Label BoardSizeValueLabel;
     }
 }

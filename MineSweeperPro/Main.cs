@@ -32,12 +32,13 @@
         private const int HTBOTTOMLEFT = 0x10;
         private const int HTBOTTOMRIGHT = 0x11;
 
-        private Panel toolbarPanel;
-        private Panel buttonPanel;
+        private Panel ToolbarPanel;
+        private Panel ButtonPanel;
         private Button MinimizeButton;
         private Button MaximizeButton;
         private Button CloseButton;
-        private Label titleLabel;
+        private Label TitleLabel;
+        private LeaderBoard LeaderBoard;
 
         const int STATUS_PANEL_WIDTH = 300;
         const int CAPTION_HEIGHT = 40;
@@ -53,6 +54,7 @@
         Timer AnimationTimer;
         Timer BBBVSTimer;
         Timer GlobalTimer;
+        TimeSpan ElapsedTime;
 
         DateTime StartTime;
         int TimerCounter = 0;
@@ -62,7 +64,7 @@
 
         Theme SelectedTheme;
 
-        private List<ScoreEntry> scoreEntries;
+
 
         public Main()
         {
@@ -97,13 +99,13 @@
             double efficiencyPercentage = 0;
 
             int bbbv = MineSweeperPro.BBBV;
-            int bbbvTotal = MineSweeperPro.Get3BVTotal();
+            int bbbvTotal = MineSweeperPro.BBBVTotal;
             if (bbbv > 0 && bbbvTotal > 0)
             {
                 efficiencyPercentage = (double)(bbbv) / (double)(bbbvTotal) * 100;
 
-                BBBVSValueLabel.Text = MineSweeperPro.Get3BVS().ToString("0.00");
-                BBBVTotalValueLabel.Text = MineSweeperPro.Get3BVTotal().ToString();
+                BBBVSValueLabel.Text = MineSweeperPro.BBBVS.ToString("0.00");
+                BBBVTotalValueLabel.Text = MineSweeperPro.BBBVTotal.ToString();
                 EfficiencyValueLabel.Text = efficiencyPercentage.ToString("0.00") + "%";
             }
         }
@@ -114,8 +116,8 @@
             if (IsTimerRunning)
             {
                 TimerCounter++;
-                TimeSpan elapsedTime = DateTime.Now - StartTime;
-                string time = $"{elapsedTime.Minutes:D2}:{elapsedTime.Seconds:D2}:{elapsedTime.Milliseconds / 10:D2}";
+                ElapsedTime = DateTime.Now - StartTime;
+                string time = $"{ElapsedTime.Minutes:D2}:{ElapsedTime.Seconds:D2}:{ElapsedTime.Milliseconds / 10:D2}";
 
                 TimerLabel.Text = time;
             }
@@ -177,6 +179,10 @@
             NewGameButton.ForeColor = SelectedTheme.TextColor;
             SelectedTheme.SetRoundedCorners(NewGameButton);
 
+            ShowBoardButton.BackColor = SelectedTheme.MineCellBackColor;
+            ShowBoardButton.ForeColor = SelectedTheme.TextColor;
+            SelectedTheme.SetRoundedCorners(ShowBoardButton);
+
             TimerLabel.BackColor = SelectedTheme.StatusPanelBackColor;
             RemainingMinesLabel.BackColor = SelectedTheme.StatusPanelBackColor;
             StatusMineIconLabel.BackColor = SelectedTheme.StatusPanelBackColor;
@@ -208,12 +214,13 @@
 
         public void NewGame()
         {
-            MineSweeperPro = new Game(Settings.Default.MineFieldWidth, Settings.Default.MineFieldHeight, Settings.Default.MineCount, Settings.Default.HintCount);
+            MineSweeperPro = new Game(CurrentPlayer, Settings.Default.MineFieldWidth, Settings.Default.MineFieldHeight, Settings.Default.MineCount, Settings.Default.HintCount);
+            LeaderBoard = new LeaderBoard(MineSweeperPro);
 
             if (WindowState != FormWindowState.Maximized)
             {
-                ClientSize = new Size(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS);
-                MinimumSize = new Size(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS);
+                ClientSize = new Size(Math.Max(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
+                MinimumSize = new Size(Math.Max(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
             }
 
             HideButtons();
@@ -223,15 +230,20 @@
             ShowButtons();
             ResizeGameBoard();
 
-            TimerLabel.Text = "00:00:00";
-            RemainingMinesLabel.Text = "0";
-            MineFieldPanel.Enabled = false;
-            RemainingMinesLabel.Text = Settings.Default.MineCount.ToString();
-            BBBVValueLabel.Text = MineSweeperPro.BBBV.ToString();
+            if (MineSweeperPro != null && MineSweeperPro.MineField != null)
+            {
+                TimerLabel.Text = "00:00:00";
+                RemainingMinesLabel.Text = "0";
+                MineFieldPanel.Enabled = false;
+                RemainingMinesLabel.Text = Settings.Default.MineCount.ToString();
+                BBBVValueLabel.Text = MineSweeperPro.BBBV.ToString();
+                BoardSizeValueLabel.Text = MineSweeperPro.MineField.Width.ToString() + " x " + MineSweeperPro.MineField.Height.ToString();
+                MineCountValueLabel.Text = MineSweeperPro.MineField.MineCount.ToString();
 
-            EndGamePanel.Visible = false;
-            StartPanel.Visible = true;
-            StartPanel.BringToFront();
+                EndGamePanel.Visible = false;
+                StartPanel.Visible = true;
+                StartPanel.BringToFront();
+            }
         }
 
         private void ResizeGameBoard()
@@ -253,11 +265,11 @@
             StatusPanel.Location = new Point(ClientSize.Width - STATUS_PANEL_WIDTH - (WINDOW_RESIZE_THICKNESS * 2), 0);
             StatusPanel.PerformLayout();
 
-            toolbarPanel.Size = new Size(GameBoardPanel.ClientSize.Width, CAPTION_HEIGHT);
-            toolbarPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, WINDOW_RESIZE_THICKNESS);
-            toolbarPanel.PerformLayout();
+            ToolbarPanel.Size = new Size(GameBoardPanel.ClientSize.Width, CAPTION_HEIGHT);
+            ToolbarPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, WINDOW_RESIZE_THICKNESS);
+            ToolbarPanel.PerformLayout();
 
-            CenterPanels(MineFieldPanel, buttonPanel, true, true);
+            CenterPanels(MineFieldPanel, ButtonPanel, true, true);
             CenterPanels(MineFieldPanel, EndGamePanel, true, true);
             CenterPanels(MineFieldPanel, StartPanel, true, true);
             CenterPanels(StatusPanel, TimerLabel, true, false);
@@ -283,57 +295,122 @@
             }
         }
 
-        private void ValidateWin()
+        private void ValidateWin(MineCell mineCell)
         {
             if (MineSweeperPro != null)
             {
-                if (!MineSweeperPro.IsGameOver && MineSweeperPro.ValidateWin())
+                if (!MineSweeperPro.IsGameOver && MineSweeperPro.IsWin)
                 {
-                    StopTimer();
+                    GameOver(mineCell);
+                }
+            }
+        }
+        private void GameOver(MineCell mineCell)
+        {
+
+            StopTimer();
+
+            LeaderBoard.AddGameEntry(ElapsedTime);
+            LeaderBoard.LoadData();
+
+            if (MineSweeperPro != null)
+            {
+                MineSweeperPro.IsGameOver = true;
+                EndGamePanel.Visible = true;
+                EndGamePanel.BringToFront();
+
+                CreateLeaderBoard();
+
+                if (MineSweeperPro.IsWin)
+                {
                     WinLoseLabel.Text = "You Won!";
                     WinLoseLabel.ForeColor = Color.Green;
                     FinalTimeLabel.Text = TimerLabel.Text;
 
                     SoundPlayer.AddToQueue(Sound.WinSound);
-
-                    CenterPanels(EndGamePanel, WinLoseLabel, true, false);
-                    CenterPanels(MineFieldPanel, EndGamePanel, true, true);
-
-                    EndGamePanel.Visible = true;
-                    EndGamePanel.BringToFront();
                 }
-            }
-        }
+                else
+                {
+                    RevealAllMines(mineCell);
 
-        private void GameOver(MineCell mineCell)
-        {
-            StopTimer();
+                    WinLoseLabel.Text = "You Exploded!";
+                    WinLoseLabel.ForeColor = Color.Red;
+                    FinalTimeLabel.Text = TimerLabel.Text;
+                    EfficiencyValueLabel.Text = "0%";
 
-            SoundPlayer.Play(Sound.GameOverSound);
+                    SoundPlayer.Play(Sound.GameOverSound);
 
-            if (MineSweeperPro != null)
-            {
-                MineSweeperPro.IsGameOver = true;
-
-                RevealAllMines(mineCell);
-
-                WinLoseLabel.Text = "You Exploded!";
-                WinLoseLabel.ForeColor = Color.Red;
-                FinalTimeLabel.Text = TimerLabel.Text;
-                EfficiencyValueLabel.Text = "0%";
+                    DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())] as DoubleClickButton;
+                    if (mineCellButton != null)
+                    {
+                        mineCellButton.BackColor = SelectedTheme.MineCellNumberColor5;
+                    }
+                }
 
                 CenterPanels(EndGamePanel, WinLoseLabel, true, false);
                 CenterPanels(MineFieldPanel, EndGamePanel, true, true);
 
-                EndGamePanel.Visible = true;
-                EndGamePanel.BringToFront();
+            }
+        }
 
-                DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())] as DoubleClickButton;
-                if (mineCellButton != null)
+        private void CreateLeaderBoard()
+        {
+            LeaderBoardPanel.Controls.Clear();
+
+            var gameEntries = LeaderBoard.GetLeaderBoard();
+            int displayCount = 4; //TODO: make this globally configurable.
+            int count = 0;
+            if (gameEntries != null && gameEntries.Count > 0)
+            {
+                foreach (var scoreEntry in gameEntries)
                 {
-                    mineCellButton.BackColor = SelectedTheme.MineCellNumberColor5;
+                    if (count <= displayCount)
+                    {
+                        CreateLeaderBoardRow(scoreEntry, count);
+                        count++;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
+        }
+        private void CreateLeaderBoardRow(GameEntry gameEntry, int index)
+        {
+            int labelHeight = 30;
+            int labelPadding = 5;
+
+            Label LeaderBoardNumberLabel = new Label();
+            LeaderBoardNumberLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            LeaderBoardNumberLabel.Location = new Point(7, labelHeight * index + labelPadding);
+            LeaderBoardNumberLabel.Name = "LeaderBoardNumberLabel" + index;
+            LeaderBoardNumberLabel.Size = new Size(32, labelHeight);
+            LeaderBoardNumberLabel.TabIndex = 30;
+            LeaderBoardNumberLabel.Text = gameEntry.Rank + ".";
+            LeaderBoardNumberLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+            Label LeaderBoardNameLabel = new Label();
+            LeaderBoardNameLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            LeaderBoardNameLabel.Location = new Point(45, labelHeight * index + labelPadding);
+            LeaderBoardNameLabel.Name = "LeaderBoardNameLabel" + index;
+            LeaderBoardNameLabel.Size = new Size(150, labelHeight);
+            LeaderBoardNameLabel.TabIndex = 35;
+            LeaderBoardNameLabel.Text = gameEntry.Username;
+            LeaderBoardNameLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+            Label LeaderBoardTimeLabel = new Label();
+            LeaderBoardTimeLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            LeaderBoardTimeLabel.Location = new Point(183, labelHeight * index + labelPadding);
+            LeaderBoardTimeLabel.Name = "LeaderBoardTimeLabel" + index;
+            LeaderBoardTimeLabel.Size = new Size(117, labelHeight);
+            LeaderBoardTimeLabel.TabIndex = 40;
+            LeaderBoardTimeLabel.Text = $"{gameEntry.Timestamp.Minutes:D2}:{gameEntry.Timestamp.Seconds:D2}:{gameEntry.Timestamp.Milliseconds / 10:D2}"; ;
+            LeaderBoardTimeLabel.TextAlign = ContentAlignment.MiddleRight;
+
+            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel);
+            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel);
+            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel);
         }
 
         private void SetButtonColor(DoubleClickButton button, int mineCount)
@@ -374,40 +451,31 @@
 
         private void GenerateMineButtons()
         {
-            buttonPanel = new Panel();
-            buttonPanel.AutoSize = true;
+            ButtonPanel = new Panel();
+            ButtonPanel.AutoSize = true;
 
             for (int i = 0; i < Settings.Default.MineFieldWidth; i++)
             {
                 for (int j = 0; j < Settings.Default.MineFieldHeight; j++)
                 {
-                    DoubleClickButton btn = new();
-                    btn.BackColor = SelectedTheme.MineCellBackColor;
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.Size = new Size(DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING, DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING);
-                    btn.FlatAppearance.BorderSize = 0;
+                    DoubleClickButton mineCellButton = new();
+                    mineCellButton.BackColor = SelectedTheme.MineCellBackColor;
+                    mineCellButton.FlatStyle = FlatStyle.Flat;
+                    mineCellButton.Size = new Size(DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING, DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING);
+                    mineCellButton.FlatAppearance.BorderSize = 0;
+                    mineCellButton.Name = i + "," + j;
+                    mineCellButton.Location = new Point((DEFAULT_CELL_SIZE * i), (DEFAULT_CELL_SIZE * j));
+                    mineCellButton.MouseUp += new MouseEventHandler(Btn_MouseUp);
+                    mineCellButton.MouseDown += new MouseEventHandler(Btn_MouseDown);
+                    mineCellButton.Dock = DockStyle.None;
 
-                    int cornerRadius = 10;
+                    SelectedTheme.SetRoundedCorners(mineCellButton);
 
-                    GraphicsPath path = new GraphicsPath();
-                    path.AddArc(btn.ClientRectangle.Left, btn.ClientRectangle.Top, cornerRadius, cornerRadius, 180, 90);
-                    path.AddArc(btn.ClientRectangle.Right - cornerRadius, btn.ClientRectangle.Top, cornerRadius, cornerRadius, 270, 90);
-                    path.AddArc(btn.ClientRectangle.Right - cornerRadius, btn.ClientRectangle.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-                    path.AddArc(btn.ClientRectangle.Left, btn.ClientRectangle.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
-                    path.CloseFigure();
-
-                    btn.Region = new Region(path);
-                    btn.Name = i + "," + j;
-                    btn.Location = new Point((DEFAULT_CELL_SIZE * i), (DEFAULT_CELL_SIZE * j));
-                    btn.MouseUp += new MouseEventHandler(Btn_MouseUp);
-                    btn.MouseDown += new MouseEventHandler(Btn_MouseDown);
-                    btn.Dock = DockStyle.None;
-
-                    buttonPanel.Controls.Add(btn);
-                    MineCellButtonDictionary[btn.Name] = btn;
+                    ButtonPanel.Controls.Add(mineCellButton);
+                    MineCellButtonDictionary[mineCellButton.Name] = mineCellButton;
                 }
             }
-            MineFieldPanel.Controls.Add(buttonPanel);
+            MineFieldPanel.Controls.Add(ButtonPanel);
         }
 
         private void CenterPanels(Control parentPanel, Control childPanel, bool includeX, bool includeY)
@@ -641,7 +709,7 @@
                     {
                         RevealCluster(mineCell);
 
-                        ValidateWin();
+                        ValidateWin(mineCell);
                     }
 
                     break;
@@ -771,7 +839,7 @@
 
                 if (!MineSweeperPro.IsGameOver)
                 {
-                    ValidateWin();
+                    ValidateWin(mineCell);
                 }
             }
         }
@@ -862,7 +930,7 @@
                             Mark(UserActionEnum.LeftClick, EventEnum.CellReveal, mineCell);
                         }
 
-                        ValidateWin();
+                        ValidateWin(mineCell);
 
                     }
                 }
@@ -876,7 +944,7 @@
 
                     if (!MineSweeperPro.IsGameOver)
                     {
-                        ValidateWin();
+                        ValidateWin(mineCell);
                     }
                 }
 
@@ -968,10 +1036,10 @@
 
         private void InitializeCustomWindow()
         {
-            toolbarPanel = new Panel();
-            toolbarPanel.MouseDown += ToolbarOnMouseDown;
+            ToolbarPanel = new Panel();
+            ToolbarPanel.MouseDown += ToolbarOnMouseDown;
 
-            titleLabel = new Label()
+            TitleLabel = new Label()
             {
                 Text = "Mine Sweeper Pro",
                 ForeColor = Color.White,
@@ -988,12 +1056,12 @@
             MaximizeButton.Click += (sender, e) => ToggleMaximize();
             CloseButton.Click += (sender, e) => Close();
 
-            toolbarPanel.Controls.Add(titleLabel);
-            toolbarPanel.Controls.Add(MinimizeButton);
-            toolbarPanel.Controls.Add(MaximizeButton);
-            toolbarPanel.Controls.Add(CloseButton);
+            ToolbarPanel.Controls.Add(TitleLabel);
+            ToolbarPanel.Controls.Add(MinimizeButton);
+            ToolbarPanel.Controls.Add(MaximizeButton);
+            ToolbarPanel.Controls.Add(CloseButton);
 
-            Controls.Add(toolbarPanel);
+            Controls.Add(ToolbarPanel);
         }
 
         private void ToolbarOnMouseDown(object sender, MouseEventArgs e)
@@ -1101,8 +1169,10 @@
 
         private void NewGamePictureBox_Click(object sender, EventArgs e)
         {
-            ApplyTheme();
+
             NewGame();
+            ApplyTheme();
+            ResizeGameBoard();
             EndGamePanel.Visible = false;
         }
 
@@ -1144,6 +1214,20 @@
             //  }
 
             screenshot.Dispose();
+        }
+
+        private void NewGameButton_Click(object sender, EventArgs e)
+        {
+            ApplyTheme();
+            NewGame();
+
+            Enabled = true;
+            EndGamePanel.Visible = false;
+        }
+
+        private void ShowBoardButton_Click(object sender, EventArgs e)
+        {
+            EndGamePanel.Visible = false;
         }
     }
 }
