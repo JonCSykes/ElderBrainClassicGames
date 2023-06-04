@@ -1,7 +1,10 @@
 ﻿using MineSweeperPro.Properties;
 using Newtonsoft.Json;
+using Svg;
+using Svg.FilterEffects;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -17,6 +20,9 @@ namespace MineSweeperPro
     {
         public Color TextColor { get; set; }
         public Color BackColor { get; set; }
+        public Color FlagColor { get; set; }
+        public Color FlagInvalidColor { get; set; }
+        public Color FlagValidColor { get; set; }
         public Color MineFieldBackColor { get; set; }
         
         public Color StatusPanelBackColor { get; set; }
@@ -40,6 +46,8 @@ namespace MineSweeperPro
         public int RoundedCornerRadius { get; set; }
         public Image MineImage { get; set; }
         public Image FlagImage { get; set; }
+        public Image FlagInvalidImage { get; set; }
+        public Image FlagValidImage { get; set; }
         public Image CloseImage { get; set; }
         public Image MinimizeImage { get; set; }
         public Image MaximizeOnImage { get; set; }
@@ -56,6 +64,9 @@ namespace MineSweeperPro
 
             TextColor = ColorTranslator.FromHtml(themeConfig.TextColor);
             BackColor = ColorTranslator.FromHtml(themeConfig.BackColor);
+            FlagColor = ColorTranslator.FromHtml(themeConfig.FlagColor);
+            FlagInvalidColor = ColorTranslator.FromHtml(themeConfig.FlagInvalidColor);
+            FlagValidColor = ColorTranslator.FromHtml(themeConfig.FlagValidColor);
             MineFieldBackColor = ColorTranslator.FromHtml(themeConfig.MineFieldBackColor);
             StatusPanelBackColor = ColorTranslator.FromHtml(themeConfig.StatusPanelBackColor);
             StatusPanelTextColor = ColorTranslator.FromHtml(themeConfig.StatusPanelTextColor);
@@ -86,7 +97,7 @@ namespace MineSweeperPro
             }
             else
             {
-                MineImage = Properties.Resources.mine_small;
+                MineImage = ConvertSVG(Properties.Resources.land_mine_on_solid, themeConfig.TextColor, 40, 40);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.FlagImage))
@@ -100,7 +111,35 @@ namespace MineSweeperPro
             }
             else
             {
-                FlagImage = Properties.Resources.redflag_small;
+                FlagImage = ConvertSVG(Properties.Resources.flag_solid, themeConfig.FlagColor, 25, 25);
+            }
+
+            if (!string.IsNullOrEmpty(themeConfig.FlagInvalidImage))
+            {
+                using (FileStream stream = new FileStream(themeConfig.FlagInvalidImage, FileMode.Open))
+                {
+                    Image flagInvalidImage = Image.FromStream(stream);
+
+                    FlagInvalidImage = flagInvalidImage;
+                }
+            }
+            else
+            {
+                FlagInvalidImage = ConvertSVG(Properties.Resources.flag_solid, themeConfig.FlagInvalidColor, 25, 25);
+            }
+
+            if (!string.IsNullOrEmpty(themeConfig.FlagValidImage))
+            {
+                using (FileStream stream = new FileStream(themeConfig.FlagValidImage, FileMode.Open))
+                {
+                    Image flagValidImage = Image.FromStream(stream);
+
+                    FlagValidImage = flagValidImage;
+                }
+            }
+            else
+            {
+                FlagValidImage = ConvertSVG(Properties.Resources.flag_solid, themeConfig.FlagValidColor, 25, 25);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.CloseImage))
@@ -114,7 +153,7 @@ namespace MineSweeperPro
             }
             else
             {
-                CloseImage = Properties.Resources.close_dark;
+                CloseImage = ConvertSVG(Properties.Resources.xmark_solid, themeConfig.TextColor, 30, 30);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.MinimizeImage))
@@ -128,7 +167,7 @@ namespace MineSweeperPro
             }
             else
             {
-                MinimizeImage = Properties.Resources.minimize_dark;
+                MinimizeImage = ConvertSVG(Properties.Resources.window_minimize_solid, themeConfig.TextColor, 25, 25);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.MaximizeOnImage))
@@ -142,7 +181,7 @@ namespace MineSweeperPro
             }
             else
             {
-                MaximizeOnImage = Properties.Resources.maximize_on_dark;
+                MaximizeOnImage = ConvertSVG(Properties.Resources.window_maximize_regular, themeConfig.TextColor, 25, 25);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.MaximizeOffImage))
@@ -156,7 +195,7 @@ namespace MineSweeperPro
             }
             else
             {
-                MaximizeOffImage = Properties.Resources.maximize_off_dark;
+                MaximizeOffImage = ConvertSVG(Properties.Resources.window_maximize_regular, themeConfig.TextColor, 25, 25);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.NewGameImage))
@@ -170,7 +209,7 @@ namespace MineSweeperPro
             }
             else
             {
-                NewGameImage = Properties.Resources.new_dark;
+                NewGameImage = ConvertSVG(Properties.Resources.circle_play_solid, themeConfig.TextColor, 30, 30);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.HintImage))
@@ -184,7 +223,7 @@ namespace MineSweeperPro
             }
             else
             {
-                HintImage = Properties.Resources.hint_dark;
+                HintImage = ConvertSVG(Properties.Resources.life_ring_solid, themeConfig.TextColor, 30, 30);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.ShareImage))
@@ -198,7 +237,7 @@ namespace MineSweeperPro
             }
             else
             {
-                ShareImage = Properties.Resources.share_dark;
+                ShareImage = ConvertSVG(Properties.Resources.share_nodes_solid, themeConfig.TextColor, 30, 30);
             }
 
             if (!string.IsNullOrEmpty(themeConfig.SettingsImage))
@@ -212,7 +251,7 @@ namespace MineSweeperPro
             }
             else
             {
-                SettingsImage = Properties.Resources.gear_open_dark;
+                SettingsImage = ConvertSVG(Properties.Resources.sliders_solid, themeConfig.TextColor, 30, 30);
             }
         }
 
@@ -230,5 +269,36 @@ namespace MineSweeperPro
                 control.Region = new Region(path);
             }
         }
+
+        public Image ConvertSVG(byte[] svgResource, string color, int width, int height)
+        {
+            using (MemoryStream inputStream = new MemoryStream(svgResource))
+            {
+                using (StreamReader reader = new StreamReader(inputStream))
+                {
+                    string content = reader.ReadToEnd();
+
+                    string modifiedContent = content.Replace(".st0{fill:#FF00CF;}", ".st0{fill:" + color + ";}");
+                    inputStream.Position = 0;
+
+                    using (StreamWriter writer = new StreamWriter(inputStream))
+                    {
+                        writer.Write(modifiedContent);
+                        writer.Flush();
+
+                        using (MemoryStream outputStream = new MemoryStream(Encoding.UTF8.GetBytes(modifiedContent))) 
+                        { 
+                            var svgDoc = SvgDocument.Open<SvgDocument>(outputStream);
+                            svgDoc.Height = height;
+                            svgDoc.Width = width;
+
+                            return svgDoc.Draw();
+                            }
+                    }
+                }
+            }
+        }
+
     }
 }
+

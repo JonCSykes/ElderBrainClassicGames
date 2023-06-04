@@ -19,8 +19,10 @@ namespace MineSweeperPro
 
         public string TextColor { get; set; }
         public string BackColor { get; set; }
+        public string FlagColor { get; set; }
+        public string FlagInvalidColor { get; set; }
+        public string FlagValidColor { get; set; }
         public string MineFieldBackColor { get; set; }
-        
         public string StatusPanelBackColor { get; set; }
         public string StatusPanelTextColor { get; set; }
 
@@ -47,6 +49,8 @@ namespace MineSweeperPro
         public int RoundedCornerRadius { get; set; }
         public string MineImage { get; set; }
         public string FlagImage { get; set; }
+        public string FlagInvalidImage { get; set; }
+        public string FlagValidImage { get; set; }
         public string CloseImage { get; set; }
         public string MinimizeImage { get; set; }
         public string MaximizeOnImage { get; set; }
@@ -154,6 +158,9 @@ namespace MineSweeperPro
         {
             TextColor = themeConfig.TextColor;
             BackColor = themeConfig.BackColor;
+            FlagColor = themeConfig.FlagColor;
+            FlagInvalidColor = themeConfig.FlagInvalidColor;
+            FlagValidColor = themeConfig.FlagValidColor;
             MineFieldBackColor = themeConfig.MineFieldBackColor;
             StatusPanelBackColor = themeConfig.StatusPanelBackColor;
             StatusPanelTextColor = themeConfig.StatusPanelTextColor;
@@ -191,6 +198,18 @@ namespace MineSweeperPro
                 {
                     var flagImagePath = Path.Combine(imagePath, themeConfig.FlagImage);
                     FlagImage = flagImagePath;
+                }
+
+                if (File.Exists(Path.Combine(imagePath, themeConfig.FlagInvalidImage)))
+                {
+                    var flagImagePath = Path.Combine(imagePath, themeConfig.FlagInvalidImage);
+                    FlagInvalidImage = flagImagePath;
+                }
+
+                if (File.Exists(Path.Combine(imagePath, themeConfig.FlagValidImage)))
+                {
+                    var flagImagePath = Path.Combine(imagePath, themeConfig.FlagValidImage);
+                    FlagValidImage = flagImagePath;
                 }
 
                 if (File.Exists(Path.Combine(imagePath, themeConfig.CloseImage)))

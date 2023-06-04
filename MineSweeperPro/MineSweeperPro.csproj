@@ -24,20 +24,9 @@
     <None Remove="Assets\jingles_SAX16.wav" />
     <None Remove="Assets\switch_002.wav" />
     <None Remove="Assets\switch_006.wav" />
+    <None Remove="Resources\bomb-solid.svg" />
     <None Remove="Resources\explosion.wav" />
-    <None Remove="Themes\Dark Reverse\Images\mine_small_dark.png" />
     <None Remove="Themes\Dark Reverse\theme.json" />
-    <None Remove="Themes\Dark\Images\bomb_dark.png" />
-    <None Remove="Themes\Dark\Images\close_dark.png" />
-    <None Remove="Themes\Dark\Images\gear_open_dark.png" />
-    <None Remove="Themes\Dark\Images\hint_dark.png" />
-    <None Remove="Themes\Dark\Images\land_mine_dark.png" />
-    <None Remove="Themes\Dark\Images\maximize_off_dark.png" />
-    <None Remove="Themes\Dark\Images\maximize_on_dark.png" />
-    <None Remove="Themes\Dark\Images\mine_small_dark.png" />
-    <None Remove="Themes\Dark\Images\minimize_dark.png" />
-    <None Remove="Themes\Dark\Images\new_dark.png" />
-    <None Remove="Themes\Dark\Images\share_dark.png" />
     <None Remove="Themes\Dark\theme.json" />
     <None Remove="Themes\Plain\theme.json" />
   </ItemGroup>
@@ -76,6 +65,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Svg" Version="3.4.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -100,37 +90,7 @@
 	  <Content Include="Assets\switch_006.wav">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Themes\Dark Reverse\Images\mine_small_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
 	  <Content Include="Themes\Dark Reverse\theme.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\close_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\gear_open_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\hint_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\land_mine_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\maximize_off_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\maximize_on_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\minimize_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\new_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Themes\Dark\Images\share_dark.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Themes\Dark\theme.json">
@@ -142,23 +102,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Themes\Plain\Images\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Themes\Dark\Images\mine_small_dark.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Content Include="Assets\boom_gameover.wav">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Themes\Dark\Images\bomb_dark.png">
+	  <Content Include="Resources\bomb-solid.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>

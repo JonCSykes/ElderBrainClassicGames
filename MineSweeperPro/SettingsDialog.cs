@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
+using Svg;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MineSweeperPro
 {
@@ -94,11 +96,15 @@ namespace MineSweeperPro
             DefaultHeightTextbox.Text = Settings.Default.MineFieldHeight.ToString();
             DefaultMineCountTextbox.Text = Settings.Default.MineCount.ToString();
             DefaultHintCountTextbox.Text = Settings.Default.HintCount.ToString();
+            ChordControlEnum[] chordControlEnumValues = (ChordControlEnum[])Enum.GetValues(typeof(ChordControlEnum));
+
+            DefaultChordControlComboBox.DataSource = chordControlEnumValues;
+            DefaultChordControlComboBox.SelectedItem = chordControlEnumValues[Settings.Default.ChordControl];
 
             ThemeComboBox.DataSource = ThemeConfig.GetThemeNames();
             ThemeComboBox.SelectedItem = Settings.Default.Theme;
 
-            DebugCheckBox.Checked = Settings.Default.Debug;
+            EnableSoundCheckBox.Checked = Settings.Default.EnableSound;
 
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 15, 15));
 
@@ -184,7 +190,8 @@ namespace MineSweeperPro
 
             Settings.Default.HintCount = defaultHintCount;
             Settings.Default.Theme = ThemeComboBox.SelectedValue?.ToString();
-            Settings.Default.Debug = DebugCheckBox.Checked;
+            Settings.Default.EnableSound = EnableSoundCheckBox.Checked;
+            Settings.Default.ChordControl = (int)DefaultChordControlComboBox.SelectedValue;
             Settings.Default.Save();
 
 

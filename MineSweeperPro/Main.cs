@@ -9,6 +9,7 @@
     using System.Runtime.InteropServices;
     using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
     using static System.Net.WebRequestMethods;
+    using System.Media;
 
     public partial class Main : Form
     {
@@ -49,8 +50,7 @@
         Dictionary<string, DoubleClickButton> MineCellButtonDictionary = new Dictionary<string, DoubleClickButton>();
         Dictionary<string, DoubleClickButton> MineButtonDictionary = new Dictionary<string, DoubleClickButton>();
 
-        Sound SoundPlayer = new Sound();
-
+        Sound SoundPlayer;
         Timer AnimationTimer;
         Timer BBBVSTimer;
         Timer GlobalTimer;
@@ -61,7 +61,6 @@
         bool IsTimerRunning = false;
         public Player CurrentPlayer;
         Game MineSweeperPro;
-
         Theme SelectedTheme;
 
 
@@ -163,6 +162,8 @@
             this.ForeColor = SelectedTheme.TextColor;
             this.BackColor = SelectedTheme.BackColor;
 
+            TitleLabel.ForeColor = SelectedTheme.TextColor;
+
             StartPanel.BackColor = SelectedTheme.StatusPanelBackColor;
             StartPanel.ForeColor = SelectedTheme.TextColor;
             SelectedTheme.SetRoundedCorners(StartPanel);
@@ -196,7 +197,7 @@
             NewGamePictureBox.Image = SelectedTheme.NewGameImage;
             HintPictureBox.Image = SelectedTheme.HintImage;
             SharePictureBox.Image = SelectedTheme.ShareImage;
-            SettingsPictureBox.Image = SelectedTheme.SettingsImage;
+            ConfigPictureBox.Image = SelectedTheme.SettingsImage;
 
             MinimizeButton.Image = SelectedTheme.MinimizeImage;
 
@@ -214,6 +215,7 @@
 
         public void NewGame()
         {
+            SoundPlayer = new Sound(Settings.Default.EnableSound);
             MineSweeperPro = new Game(CurrentPlayer, Settings.Default.MineFieldWidth, Settings.Default.MineFieldHeight, Settings.Default.MineCount, Settings.Default.HintCount);
             LeaderBoard = new LeaderBoard(MineSweeperPro);
 
@@ -378,21 +380,21 @@
         }
         private void CreateLeaderBoardRow(GameEntry gameEntry, int index)
         {
-            int labelHeight = 30;
-            int labelPadding = 5;
+            int labelHeight = 20;
+            int labelPadding = 10;
 
             Label LeaderBoardNumberLabel = new Label();
-            LeaderBoardNumberLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNumberLabel.Location = new Point(7, labelHeight * index + labelPadding);
+            LeaderBoardNumberLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            LeaderBoardNumberLabel.Location = new Point(0, labelPadding / 2);
             LeaderBoardNumberLabel.Name = "LeaderBoardNumberLabel" + index;
-            LeaderBoardNumberLabel.Size = new Size(32, labelHeight);
+            LeaderBoardNumberLabel.Size = new Size(40, labelHeight);
             LeaderBoardNumberLabel.TabIndex = 30;
             LeaderBoardNumberLabel.Text = gameEntry.Rank + ".";
             LeaderBoardNumberLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             Label LeaderBoardNameLabel = new Label();
-            LeaderBoardNameLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardNameLabel.Location = new Point(45, labelHeight * index + labelPadding);
+            LeaderBoardNameLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            LeaderBoardNameLabel.Location = new Point(40, labelPadding / 2);
             LeaderBoardNameLabel.Name = "LeaderBoardNameLabel" + index;
             LeaderBoardNameLabel.Size = new Size(150, labelHeight);
             LeaderBoardNameLabel.TabIndex = 35;
@@ -400,17 +402,31 @@
             LeaderBoardNameLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             Label LeaderBoardTimeLabel = new Label();
-            LeaderBoardTimeLabel.Font = new Font("Consolas", 8F, FontStyle.Bold, GraphicsUnit.Point);
-            LeaderBoardTimeLabel.Location = new Point(183, labelHeight * index + labelPadding);
+            LeaderBoardTimeLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            LeaderBoardTimeLabel.Location = new Point(190, labelPadding / 2);
             LeaderBoardTimeLabel.Name = "LeaderBoardTimeLabel" + index;
-            LeaderBoardTimeLabel.Size = new Size(117, labelHeight);
+            LeaderBoardTimeLabel.Size = new Size(110, labelHeight);
             LeaderBoardTimeLabel.TabIndex = 40;
             LeaderBoardTimeLabel.Text = $"{gameEntry.Timestamp.Minutes:D2}:{gameEntry.Timestamp.Seconds:D2}:{gameEntry.Timestamp.Milliseconds / 10:D2}"; ;
             LeaderBoardTimeLabel.TextAlign = ContentAlignment.MiddleRight;
 
-            LeaderBoardPanel.Controls.Add(LeaderBoardNumberLabel);
-            LeaderBoardPanel.Controls.Add(LeaderBoardNameLabel);
-            LeaderBoardPanel.Controls.Add(LeaderBoardTimeLabel);
+            Panel rowPanel = new Panel();
+            rowPanel.Size = new Size(300, labelHeight + labelPadding);
+            rowPanel.Location = new Point(0, (labelHeight + labelPadding) * index);
+            if (index % 2 == 0)
+            {
+                rowPanel.BackColor = SelectedTheme.MineCellBackColor;
+            }
+            else
+            {
+                rowPanel.BackColor = SelectedTheme.StatusPanelBackColor;
+            }
+
+            rowPanel.Controls.Add(LeaderBoardNumberLabel);
+            rowPanel.Controls.Add(LeaderBoardNameLabel);
+            rowPanel.Controls.Add(LeaderBoardTimeLabel);
+
+            LeaderBoardPanel.Controls.Add(rowPanel);
         }
 
         private void SetButtonColor(DoubleClickButton button, int mineCount)
@@ -541,7 +557,7 @@
                             {
                                 mineCellButton.Text = "";
                                 mineCellButton.BackColor = SelectedTheme.MineCellExplodedBackColor;
-                                mineCellButton.Image = Properties.Resources.greenflag_small;
+                                mineCellButton.Image = SelectedTheme.FlagValidImage;
                             }
 
                             if (mineCell == explodedMineCell)
@@ -737,6 +753,10 @@
                         mineCellButton.Image = null;
                         mineCellButton.Text = mineCell.SurroundingMineCount.ToString();
                         mineCellButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                        if (Settings.Default.ChordControl == (int)ChordControlEnum.DoubleClick)
+                        {
+                            mineCellButton.DoubleClick += Btn_DoubleClick;
+                        }
 
                         SetButtonColor(mineCellButton, mineCell.SurroundingMineCount);
                     }
@@ -768,6 +788,10 @@
                         mineCellButton.Image = null;
                         mineCellButton.Text = mineCell.SurroundingMineCount.ToString();
                         mineCellButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                        if (Settings.Default.ChordControl == (int)ChordControlEnum.DoubleClick)
+                        {
+                            mineCellButton.DoubleClick += Btn_DoubleClick;
+                        }
 
                         SetButtonColor(mineCellButton, mineCell.SurroundingMineCount);
                     }
@@ -835,6 +859,8 @@
                     {
                         SoundPlayer.AddToQueue(Sound.ClusterRevealSound, 500);
                     }
+
+                    Mark(UserActionEnum.DoubleClick, EventEnum.ChordReveal, mineCell);
                 }
 
                 if (!MineSweeperPro.IsGameOver)
@@ -859,7 +885,7 @@
                 {
                     if (!MineSweeperPro.IsGameOver)
                     {
-                        if (mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
+                        if (Settings.Default.ChordControl == (int)ChordControlEnum.SingleClick && mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
                         {
                             var mineCellGroup = MineSweeperPro.MineField.GetMineCellGroup(mineCell);
                             if (mineCellGroup != null)
@@ -878,7 +904,6 @@
                 }
             }
         }
-
 
         private void Btn_MouseUp(object sender, MouseEventArgs e)
         {
@@ -911,7 +936,7 @@
 
                             Mark(UserActionEnum.LeftClick, EventEnum.ChordReveal, mineCell);
                         }
-                        else if (mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
+                        else if (Settings.Default.ChordControl == (int)ChordControlEnum.SingleClick && mineCell.Status == MineCellStatusEnum.Revealed && mineCell.SurroundingMineCount == surroundingFlagCount)
                         {
                             var clusterCount = RevealMineGroup(mineCell);
 
@@ -1042,7 +1067,6 @@
             TitleLabel = new Label()
             {
                 Text = "Mine Sweeper Pro",
-                ForeColor = Color.White,
                 Font = new Font(Font.FontFamily, 12, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Size = new Size(250, 30)
@@ -1155,7 +1179,7 @@
         {
         }
 
-        private void SettingsPictureBox_Click(object sender, EventArgs e)
+        private void ConfigPictureBox_Click(object sender, EventArgs e)
         {
             using (SettingsDialog settingsForm = new SettingsDialog())
             {

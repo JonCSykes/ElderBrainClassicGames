@@ -1,6 +1,11 @@
 {
   "TextColor": "#dbdcde",
   "BackColor": "#1e1f22",
+
+  "FlagColor": "#a52323",
+  "FlagInvalidColor": "#a52323",
+  "FlagValidColor": "#23a559",
+
   "MineFieldBackColor": "#232428",
   "StatusPanelBackColor": "#2b2d31",
   "StatusPanelTextColor": "#dbdcde",
@@ -22,14 +27,16 @@
 
   "RoundedCornerRadius": 15,
 
-  "MineImage": "land_mine_dark.png",
+  "MineImage": "",
   "FlagImage": "",
-  "CloseImage": "close_dark.png",
-  "MinimizeImage": "minimize_dark.png",
-  "MaximizeOnImage": "maximize_on_dark.png",
-  "MaximizeOffImage": "maximize_off_dark.png",
-  "NewGameImage": "new_dark.png",
-  "HintImage": "hint_dark.png",
-  "ShareImage": "share_dark.png",
-  "SettingsImage": "gear_open_dark.png"
+  "FlagInvalidImage": "",
+  "FlagValidImage": "",
+  "CloseImage": "",
+  "MinimizeImage": "",
+  "MaximizeOnImage": "",
+  "MaximizeOffImage": "",
+  "NewGameImage": "",
+  "HintImage": "",
+  "ShareImage": "",
+  "SettingsImage": ""
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Svg;
+using Svg.FilterEffects;
 
 namespace MineSweeperPro
 {
@@ -17,11 +19,15 @@ namespace MineSweeperPro
             InitializeComponent();
 
             ApplyTheme(this);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
         }
+
+
+
     }
 }

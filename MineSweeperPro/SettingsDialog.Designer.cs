@@ -40,7 +40,9 @@
             DefaultHintCountTextbox = new TextBox();
             ThemeComboBox = new ComboBox();
             label1 = new Label();
-            DebugCheckBox = new CheckBox();
+            EnableSoundCheckBox = new CheckBox();
+            ChordControlLabel = new Label();
+            DefaultChordControlComboBox = new ComboBox();
             SuspendLayout();
             // 
             // SaveButton
@@ -140,7 +142,7 @@
             // ThemeComboBox
             // 
             ThemeComboBox.FormattingEnabled = true;
-            ThemeComboBox.Location = new Point(397, 39);
+            ThemeComboBox.Location = new Point(322, 67);
             ThemeComboBox.Name = "ThemeComboBox";
             ThemeComboBox.Size = new Size(182, 33);
             ThemeComboBox.TabIndex = 19;
@@ -154,16 +156,36 @@
             label1.TabIndex = 20;
             label1.Text = "Theme:";
             // 
-            // DebugCheckBox
+            // EnableSoundCheckBox
             // 
-            DebugCheckBox.AutoSize = true;
-            DebugCheckBox.Font = new Font("Segoe UI", 8F, FontStyle.Italic, GraphicsUnit.Point);
-            DebugCheckBox.Location = new Point(12, 288);
-            DebugCheckBox.Name = "DebugCheckBox";
-            DebugCheckBox.Size = new Size(125, 25);
-            DebugCheckBox.TabIndex = 21;
-            DebugCheckBox.Text = "Debug Mode";
-            DebugCheckBox.UseVisualStyleBackColor = true;
+            EnableSoundCheckBox.AutoSize = true;
+            EnableSoundCheckBox.Checked = true;
+            EnableSoundCheckBox.CheckState = CheckState.Checked;
+            EnableSoundCheckBox.Font = new Font("Segoe UI", 8F, FontStyle.Italic, GraphicsUnit.Point);
+            EnableSoundCheckBox.Location = new Point(12, 288);
+            EnableSoundCheckBox.Name = "EnableSoundCheckBox";
+            EnableSoundCheckBox.Size = new Size(131, 25);
+            EnableSoundCheckBox.TabIndex = 21;
+            EnableSoundCheckBox.Text = "Enable Sound";
+            EnableSoundCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ChordControlLabel
+            // 
+            ChordControlLabel.Location = new Point(322, 127);
+            ChordControlLabel.Margin = new Padding(0);
+            ChordControlLabel.Name = "ChordControlLabel";
+            ChordControlLabel.Size = new Size(207, 29);
+            ChordControlLabel.TabIndex = 23;
+            ChordControlLabel.Text = "Default Chord Control:";
+            ChordControlLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // DefaultChordControlComboBox
+            // 
+            DefaultChordControlComboBox.FormattingEnabled = true;
+            DefaultChordControlComboBox.Location = new Point(322, 159);
+            DefaultChordControlComboBox.Name = "DefaultChordControlComboBox";
+            DefaultChordControlComboBox.Size = new Size(182, 33);
+            DefaultChordControlComboBox.TabIndex = 22;
             // 
             // SettingsDialog
             // 
@@ -172,7 +194,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             CausesValidation = false;
             ClientSize = new Size(600, 334);
-            Controls.Add(DebugCheckBox);
+            Controls.Add(ChordControlLabel);
+            Controls.Add(DefaultChordControlComboBox);
+            Controls.Add(EnableSoundCheckBox);
             Controls.Add(label1);
             Controls.Add(ThemeComboBox);
             Controls.Add(DefaultHintCountLabel);
@@ -212,6 +236,8 @@
         private TextBox DefaultHintCountTextbox;
         private ComboBox ThemeComboBox;
         private Label label1;
-        private CheckBox DebugCheckBox;
+        private CheckBox EnableSoundCheckBox;
+        private Label ChordControlLabel;
+        private ComboBox DefaultChordControlComboBox;
     }
 }

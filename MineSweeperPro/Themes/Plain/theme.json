@@ -1,15 +1,16 @@
 {
   "TextColor": "#4e5058",
+  "BackColor": "#cfc1b3",
+
+  "FlagColor": "#a52323",
+  "FlagInvalidColor": "#a52323",
+  "FlagValidColor": "#23a559",
+
   "MineFieldBackColor": "#eee6dd",
   "StatusPanelBackColor": "#f7f3ef",
   "StatusPanelTextColor": "#4e5058",
-  "MenuBackColor": "#eee6dd",
-  "MenuTextColor": "#4e5058",
-  "MenuHoverBackgroundColor": "#faf8f6",
-  "MenuHoverTextColor": "#34353b",
 
-
-  "MineCellBackColor": "#fdfbfa",
+  "MineCellBackColor": "#f7f3ef",
   "MineCellActivatedBackColor": "#f7f3ef",
   "MineCellFlaggedBackColor": "#cfc1b3",
   "MineCellExplodedBackColor": "#cfc1b3",
@@ -24,6 +25,18 @@
   "MineCellNumberColor7": "#9a23a5",
   "MineCellNumberColor8": "#dbdcde",
 
+  "RoundedCornerRadius": 15,
+
   "MineImage": "",
-  "FlagImage": ""
+  "FlagImage": "",
+  "FlagInvalidImage": "",
+  "FlagValidImage": "",
+  "CloseImage": "",
+  "MinimizeImage": "",
+  "MaximizeOnImage": "",
+  "MaximizeOffImage": "",
+  "NewGameImage": "",
+  "HintImage": "",
+  "ShareImage": "",
+  "SettingsImage": ""
 }

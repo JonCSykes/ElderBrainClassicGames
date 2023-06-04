@@ -25,41 +25,57 @@ namespace MineSweeperPro
         private CancellationTokenSource cancellationTokenSource;
         private Task playbackTask;
 
-        public void AddToQueue(string soundName) {
+        public bool EnableSound { get; set; }
 
-            string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string filePath = Path.Combine(exePath, "Assets", soundName);
+        public Sound(bool enableSound)
+        {
+            EnableSound = enableSound;
+        }
 
-            soundQueue.Enqueue(filePath);
+        public void AddToQueue(string soundName)
+        {
+            if (EnableSound) 
+            { 
+                string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = Path.Combine(exePath, "Assets", soundName);
 
-            if (playbackTask == null || playbackTask.IsCompleted)
-            {
-                cancellationTokenSource = new CancellationTokenSource();
-                playbackTask = Task.Run(() => PlaySoundsFromQueue(cancellationTokenSource.Token, 200));
+                soundQueue.Enqueue(filePath);
+
+                if (playbackTask == null || playbackTask.IsCompleted)
+                {
+                    cancellationTokenSource = new CancellationTokenSource();
+                    playbackTask = Task.Run(() => PlaySoundsFromQueue(cancellationTokenSource.Token, 200));
+                }
             }
         }
 
         public void AddToQueue(string soundName, int delay) 
         {
-            string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string filePath = Path.Combine(exePath, "Assets", soundName);
-
-            soundQueue.Enqueue(filePath);
-            
-            if (playbackTask == null || playbackTask.IsCompleted)
+            if (EnableSound)
             {
-                cancellationTokenSource = new CancellationTokenSource();
-                playbackTask = Task.Run(() => PlaySoundsFromQueue(cancellationTokenSource.Token, delay));
+                string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = Path.Combine(exePath, "Assets", soundName);
+
+                soundQueue.Enqueue(filePath);
+
+                if (playbackTask == null || playbackTask.IsCompleted)
+                {
+                    cancellationTokenSource = new CancellationTokenSource();
+                    playbackTask = Task.Run(() => PlaySoundsFromQueue(cancellationTokenSource.Token, delay));
+                }
             }
         }
         
         public void Play(string soundName) 
         {
-            string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string filePath = Path.Combine(exePath, "Assets", soundName);
+            if (EnableSound)
+            {
+                string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = Path.Combine(exePath, "Assets", soundName);
 
-            soundPlayer.SoundLocation = filePath;
-            soundPlayer.Play();
+                soundPlayer.SoundLocation = filePath;
+                soundPlayer.Play();
+            }
         }
 
         public void Stop()

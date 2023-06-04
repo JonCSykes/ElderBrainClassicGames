@@ -136,67 +136,52 @@
   <data name="profile_dragon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\profile_dragon.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="trophy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\trophy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="greenflag_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\greenflag_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="profile_blue_dragon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\profile_blue_dragon.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="profile_monkey" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\profile_monkey.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gear_open_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gear_open_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="explosion1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\explosion.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="redflag_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\redflag_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mine" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="share_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\share_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mine_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mine_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="explosion_transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\explosion_transparent.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="redflag" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\redflag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="bomb_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bomb-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="hint_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hint_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="circle_play_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\circle-play-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="red_flag_animated" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red_flag_animated.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="flag_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\flag-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="land_mine_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_main_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gears_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gears-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="bomb_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bomb_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="land_mine_on_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\land-mine-on-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="close_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="life_ring_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\life-ring-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="maximize_off_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\maximize_off_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ranking_star_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ranking-star-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="maximize_on_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\maximize_on_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="share_nodes_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\share-nodes-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="minimize_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\minimize_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sliders_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sliders-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="window_maximize_regular" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\window-maximize-regular.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="window_minimize_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\window-minimize-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xmark_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xmark-solid.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
