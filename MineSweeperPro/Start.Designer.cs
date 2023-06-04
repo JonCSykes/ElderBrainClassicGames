@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeperPro
 {
     partial class Start
     {
@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             StartButton = new Button();
+            svgImage = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)svgImage).BeginInit();
             SuspendLayout();
             // 
             // StartButton
@@ -41,19 +43,30 @@
             StartButton.UseVisualStyleBackColor = true;
             StartButton.Click += button1_Click;
             // 
+            // svgImage
+            // 
+            svgImage.Location = new Point(71, 39);
+            svgImage.Name = "svgImage";
+            svgImage.Size = new Size(150, 75);
+            svgImage.TabIndex = 1;
+            svgImage.TabStop = false;
+            // 
             // Start
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(svgImage);
             Controls.Add(StartButton);
             Name = "Start";
             Text = "Start";
+            ((System.ComponentModel.ISupportInitialize)svgImage).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button StartButton;
+        private PictureBox svgImage;
     }
 }

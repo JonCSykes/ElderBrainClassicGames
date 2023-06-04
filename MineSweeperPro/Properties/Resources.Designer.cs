@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MineSweeper.Properties {
+namespace MineSweeperPro.Properties {
     using System;
     
     
@@ -61,6 +61,26 @@ namespace MineSweeper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] bomb_solid {
+            get {
+                object obj = ResourceManager.GetObject("bomb_solid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] circle_play_solid {
+            get {
+                object obj = ResourceManager.GetObject("circle_play_solid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap explosion_transparent {
@@ -90,32 +110,42 @@ namespace MineSweeper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap greenflag_small {
+        public static byte[] flag_solid {
             get {
-                object obj = ResourceManager.GetObject("greenflag_small", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("flag_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap mine {
+        public static byte[] gears_solid {
             get {
-                object obj = ResourceManager.GetObject("mine", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("gears_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap mine_small {
+        public static byte[] land_mine_on_solid {
             get {
-                object obj = ResourceManager.GetObject("mine_small", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("land_mine_on_solid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] life_ring_solid {
+            get {
+                object obj = ResourceManager.GetObject("life_ring_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -190,32 +220,62 @@ namespace MineSweeper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap red_flag_animated {
+        public static byte[] ranking_star_solid {
             get {
-                object obj = ResourceManager.GetObject("red_flag_animated", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("ranking_star_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap redflag {
+        public static byte[] share_nodes_solid {
             get {
-                object obj = ResourceManager.GetObject("redflag", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("share_nodes_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static System.Drawing.Bitmap redflag_small {
+        public static byte[] sliders_solid {
             get {
-                object obj = ResourceManager.GetObject("redflag_small", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("sliders_solid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] window_maximize_regular {
+            get {
+                object obj = ResourceManager.GetObject("window_maximize_regular", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] window_minimize_solid {
+            get {
+                object obj = ResourceManager.GetObject("window_minimize_solid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] xmark_solid {
+            get {
+                object obj = ResourceManager.GetObject("xmark_solid", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

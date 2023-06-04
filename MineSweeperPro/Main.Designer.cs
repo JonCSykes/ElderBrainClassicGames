@@ -1,6 +1,7 @@
-﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+﻿using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     partial class Main
     {
@@ -30,42 +31,71 @@ namespace MineSweeper
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             TimerLabel = new Label();
-            MineFieldPanel = new Panel();
-            StartPanel = new Panel();
-            StartButton = new System.Windows.Forms.Button();
+            GameBoardPanel = new Panel();
             StatusPanel = new Panel();
-            DebugPanel = new Panel();
-            DebugGroupButton5 = new DoubleClickButton();
-            DebugGroupButton9 = new DoubleClickButton();
-            DebugRevealedLabel = new Label();
-            DebugGroupButton8 = new DoubleClickButton();
-            DebugMinesFlaggedLabel = new Label();
-            DebugGroupButton7 = new DoubleClickButton();
-            DebugEventLabel = new Label();
-            DebugGroupButton6 = new DoubleClickButton();
-            DebugGroupButton1 = new DoubleClickButton();
-            DebugGroupButton2 = new DoubleClickButton();
-            DebugGroupButton4 = new DoubleClickButton();
-            DebugGroupButton3 = new DoubleClickButton();
+            GameControlPanel = new Panel();
+            ConfigLabel = new Label();
+            ShareLabel = new Label();
+            HintLabel = new Label();
+            NewLabel = new Label();
+            NewGamePictureBox = new PictureBox();
+            HintPictureBox = new PictureBox();
+            SharePictureBox = new PictureBox();
+            ConfigPictureBox = new PictureBox();
             UsernameLabel = new Label();
             ProfilePictureBox = new RoundedPictureBox();
-            BoardDetailsLabel = new Label();
-            GameStatusLabel = new Label();
+            RemainingMineCountPanel = new Panel();
             RemainingMinesLabel = new Label();
             StatusMineIconLabel = new Label();
-            StartPanel.SuspendLayout();
+            MineFieldPanel = new Panel();
+            EfficiencyLabel = new Label();
+            BBBVTotalLabel = new Label();
+            BBBVSLabel = new Label();
+            BBBVLabel = new Label();
+            StartPanel = new Panel();
+            StartButton = new System.Windows.Forms.Button();
+            EndGamePanel = new Panel();
+            LeaderBoardPanel = new Panel();
+            ShowBoardButton = new System.Windows.Forms.Button();
+            FinalTimeLabel = new Label();
+            WinLoseLabel = new Label();
+            GameStatsPanel = new Panel();
+            HintsUsedValueLabel = new Label();
+            HintsUsedLabel = new Label();
+            MineCountValueLabel = new Label();
+            MineCountLabel = new Label();
+            BoardSizeValueLabel = new Label();
+            BoardSizeLabel = new Label();
+            EfficiencyValueLabel = new Label();
+            BBBVTotalValueLabel = new Label();
+            BBBVSValueLabel = new Label();
+            BBBVValueLabel = new Label();
+            LeaderBoardTitleLabel = new Label();
+            NewGameButton = new System.Windows.Forms.Button();
+            ConfigButtonPanel = new Panel();
+            ShareButtonPanel = new Panel();
+            HintButtonPanel = new Panel();
+            NewButtonPanel = new Panel();
+            GameBoardPanel.SuspendLayout();
             StatusPanel.SuspendLayout();
-            DebugPanel.SuspendLayout();
+            GameControlPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NewGamePictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)HintPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SharePictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ConfigPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ProfilePictureBox).BeginInit();
+            RemainingMineCountPanel.SuspendLayout();
+            StartPanel.SuspendLayout();
+            EndGamePanel.SuspendLayout();
+            GameStatsPanel.SuspendLayout();
             SuspendLayout();
             // 
             // TimerLabel
             // 
             TimerLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TimerLabel.BackColor = Color.Transparent;
-            TimerLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            TimerLabel.Font = new Font("Consolas", 16F, FontStyle.Bold, GraphicsUnit.Point);
             TimerLabel.Location = new Point(0, 213);
             TimerLabel.Margin = new Padding(0);
             TimerLabel.Name = "TimerLabel";
@@ -75,198 +105,180 @@ namespace MineSweeper
             TimerLabel.TextAlign = ContentAlignment.MiddleCenter;
             TimerLabel.Click += TimerLabel_Click;
             // 
-            // MineFieldPanel
+            // GameBoardPanel
             // 
-            MineFieldPanel.Dock = DockStyle.Fill;
-            MineFieldPanel.Location = new Point(0, 0);
-            MineFieldPanel.Margin = new Padding(0);
-            MineFieldPanel.Name = "MineFieldPanel";
-            MineFieldPanel.Size = new Size(1005, 1035);
-            MineFieldPanel.TabIndex = 0;
-            // 
-            // StartPanel
-            // 
-            StartPanel.Controls.Add(StartButton);
-            StartPanel.Location = new Point(344, 351);
-            StartPanel.Name = "StartPanel";
-            StartPanel.Size = new Size(300, 150);
-            StartPanel.TabIndex = 0;
-            StartPanel.Visible = false;
-            // 
-            // StartButton
-            // 
-            StartButton.FlatAppearance.BorderSize = 0;
-            StartButton.FlatStyle = FlatStyle.Flat;
-            StartButton.Location = new Point(95, 60);
-            StartButton.Name = "StartButton";
-            StartButton.Size = new Size(112, 34);
-            StartButton.TabIndex = 0;
-            StartButton.Text = "Start";
-            StartButton.UseVisualStyleBackColor = true;
-            StartButton.Click += StartButton_Click;
+            GameBoardPanel.AutoSize = true;
+            GameBoardPanel.Controls.Add(StatusPanel);
+            GameBoardPanel.Controls.Add(MineFieldPanel);
+            GameBoardPanel.Location = new Point(0, 0);
+            GameBoardPanel.Margin = new Padding(0);
+            GameBoardPanel.Name = "GameBoardPanel";
+            GameBoardPanel.Size = new Size(1465, 1035);
+            GameBoardPanel.TabIndex = 0;
             // 
             // StatusPanel
             // 
-            StatusPanel.AccessibleDescription = resources.GetString("StatusPanel.AccessibleDescription");
-            StatusPanel.Controls.Add(DebugPanel);
+            StatusPanel.Controls.Add(GameControlPanel);
             StatusPanel.Controls.Add(UsernameLabel);
             StatusPanel.Controls.Add(ProfilePictureBox);
-            StatusPanel.Controls.Add(BoardDetailsLabel);
-            StatusPanel.Controls.Add(GameStatusLabel);
-            StatusPanel.Controls.Add(RemainingMinesLabel);
-            StatusPanel.Controls.Add(StatusMineIconLabel);
+            StatusPanel.Controls.Add(RemainingMineCountPanel);
             StatusPanel.Controls.Add(TimerLabel);
-            StatusPanel.Dock = DockStyle.Right;
             StatusPanel.Location = new Point(1005, 0);
             StatusPanel.Margin = new Padding(0);
             StatusPanel.Name = "StatusPanel";
-            StatusPanel.Size = new Size(230, 1035);
+            StatusPanel.Size = new Size(250, 1035);
             StatusPanel.TabIndex = 1;
             // 
-            // DebugPanel
+            // GameControlPanel
             // 
-            DebugPanel.Controls.Add(DebugGroupButton5);
-            DebugPanel.Controls.Add(DebugGroupButton9);
-            DebugPanel.Controls.Add(DebugRevealedLabel);
-            DebugPanel.Controls.Add(DebugGroupButton8);
-            DebugPanel.Controls.Add(DebugMinesFlaggedLabel);
-            DebugPanel.Controls.Add(DebugGroupButton7);
-            DebugPanel.Controls.Add(DebugEventLabel);
-            DebugPanel.Controls.Add(DebugGroupButton6);
-            DebugPanel.Controls.Add(DebugGroupButton1);
-            DebugPanel.Controls.Add(DebugGroupButton2);
-            DebugPanel.Controls.Add(DebugGroupButton4);
-            DebugPanel.Controls.Add(DebugGroupButton3);
-            DebugPanel.Location = new Point(0, 475);
-            DebugPanel.Name = "DebugPanel";
-            DebugPanel.Size = new Size(224, 201);
-            DebugPanel.TabIndex = 21;
+            GameControlPanel.Controls.Add(ConfigButtonPanel);
+            GameControlPanel.Controls.Add(ShareButtonPanel);
+            GameControlPanel.Controls.Add(HintButtonPanel);
+            GameControlPanel.Controls.Add(NewButtonPanel);
+            GameControlPanel.Location = new Point(0, 0);
+            GameControlPanel.Name = "GameControlPanel";
+            GameControlPanel.Size = new Size(250, 50);
+            GameControlPanel.TabIndex = 0;
+            //
+            // ConfigButtonPanel
+            //
+            ConfigButtonPanel.Controls.Add(ConfigPictureBox);
+            ConfigButtonPanel.Controls.Add(ConfigLabel);
+            ConfigButtonPanel.Location = new Point(190, 0);
+            ConfigButtonPanel.Name = "ConfigButtonPanel";
+            ConfigButtonPanel.Size = new Size(50, 50);
+            ConfigButtonPanel.TabIndex = 0;
+            ConfigButtonPanel.AutoSize = false;
+            ConfigButtonPanel.Padding = new Padding(0);
+            ConfigButtonPanel.Margin = new Padding(0);
             // 
-            // DebugGroupButton5
+            // SettingsPictureBox
             // 
-            DebugGroupButton5.Enabled = false;
-            DebugGroupButton5.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton5.Location = new Point(55, 115);
-            DebugGroupButton5.Name = "DebugGroupButton5";
-            DebugGroupButton5.Size = new Size(25, 25);
-            DebugGroupButton5.TabIndex = 16;
-            DebugGroupButton5.Text = "0";
-            DebugGroupButton5.UseVisualStyleBackColor = true;
+            ConfigPictureBox.Cursor = Cursors.Hand;
+            ConfigPictureBox.Location = new Point(10, 0);
+            ConfigPictureBox.Name = "SettingsPictureBox";
+            ConfigPictureBox.Size = new Size(30, 30);
+            ConfigPictureBox.TabIndex = 27;
+            ConfigPictureBox.TabStop = false;
+            ConfigPictureBox.Click += ConfigPictureBox_Click;
             // 
-            // DebugGroupButton9
+            // ConfigLabel
             // 
-            DebugGroupButton9.Enabled = false;
-            DebugGroupButton9.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton9.Location = new Point(86, 146);
-            DebugGroupButton9.Name = "DebugGroupButton9";
-            DebugGroupButton9.Size = new Size(25, 25);
-            DebugGroupButton9.TabIndex = 20;
-            DebugGroupButton9.Text = "0";
-            DebugGroupButton9.UseVisualStyleBackColor = true;
+            ConfigLabel.Font = new Font("Consolas", 6F, FontStyle.Regular, GraphicsUnit.Point);
+            ConfigLabel.Location = new Point(0, 30);
+            ConfigLabel.Name = "ConfigLabel";
+            ConfigLabel.Size = new Size(50, 20);
+            ConfigLabel.TabIndex = 34;
+            ConfigLabel.Text = "Config";
+            ConfigLabel.AutoSize = false;
+            ConfigLabel.Padding = new Padding(0);
+            ConfigLabel.Margin = new Padding(0);
+            ConfigLabel.TextAlign = ContentAlignment.MiddleCenter;
+            //
+            // ShareButtonPanel
+            //
+            ShareButtonPanel.Controls.Add(SharePictureBox);
+            ShareButtonPanel.Controls.Add(ShareLabel);
+            ShareButtonPanel.Location = new Point(130, 0);
+            ShareButtonPanel.Name = "ShareButtonPanel";
+            ShareButtonPanel.Size = new Size(50, 50);
+            ShareButtonPanel.TabIndex = 0;
+            ShareButtonPanel.AutoSize = false;
+            ShareButtonPanel.Padding = new Padding(0);
+            ShareButtonPanel.Margin = new Padding(0);
             // 
-            // DebugRevealedLabel
+            // ShareLabel
             // 
-            DebugRevealedLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugRevealedLabel.Location = new Point(21, 0);
-            DebugRevealedLabel.Name = "DebugRevealedLabel";
-            DebugRevealedLabel.Size = new Size(200, 26);
-            DebugRevealedLabel.TabIndex = 9;
-            DebugRevealedLabel.Text = "Revealed:";
+            ShareLabel.Font = new Font("Consolas", 6F, FontStyle.Regular, GraphicsUnit.Point);
+            ShareLabel.Location = new Point(0, 30);
+            ShareLabel.Name = "ShareLabel";
+            ShareLabel.Size = new Size(50, 20);
+            ShareLabel.TabIndex = 33;
+            ShareLabel.Text = "Share";
+            ShareLabel.AutoSize = false;
+            ShareLabel.Padding = new Padding(0);
+            ShareLabel.Margin = new Padding(0);
+            ShareLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // DebugGroupButton8
+            // SharePictureBox
             // 
-            DebugGroupButton8.Enabled = false;
-            DebugGroupButton8.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton8.Location = new Point(55, 146);
-            DebugGroupButton8.Name = "DebugGroupButton8";
-            DebugGroupButton8.Size = new Size(25, 25);
-            DebugGroupButton8.TabIndex = 19;
-            DebugGroupButton8.Text = "0";
-            DebugGroupButton8.UseVisualStyleBackColor = true;
+            SharePictureBox.Cursor = Cursors.Hand;
+            SharePictureBox.Location = new Point(10, 0);
+            SharePictureBox.Name = "SharePictureBox";
+            SharePictureBox.Size = new Size(30, 30);
+            SharePictureBox.TabIndex = 30;
+            SharePictureBox.TabStop = false;
+            SharePictureBox.Click += SharePictureBox_Click;
+            //
+            // HintButtonPanel
+            //
+            HintButtonPanel.Controls.Add(HintPictureBox);
+            HintButtonPanel.Controls.Add(HintLabel);
+            HintButtonPanel.Location = new Point(70, 0);
+            HintButtonPanel.Name = "HintButtonPanel";
+            HintButtonPanel.Size = new Size(50, 50);
+            HintButtonPanel.TabIndex = 0;
+            HintButtonPanel.AutoSize = false;
+            HintButtonPanel.Padding = new Padding(0);
+            HintButtonPanel.Margin = new Padding(0);
             // 
-            // DebugMinesFlaggedLabel
+            // HintPictureBox
             // 
-            DebugMinesFlaggedLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugMinesFlaggedLabel.Location = new Point(21, 23);
-            DebugMinesFlaggedLabel.Name = "DebugMinesFlaggedLabel";
-            DebugMinesFlaggedLabel.Size = new Size(197, 20);
-            DebugMinesFlaggedLabel.TabIndex = 10;
-            DebugMinesFlaggedLabel.Text = "Mines Flagged:";
+            HintPictureBox.Cursor = Cursors.Hand;
+            HintPictureBox.Location = new Point(10, 0);
+            HintPictureBox.Name = "HintPictureBox";
+            HintPictureBox.Size = new Size(30, 30);
+            HintPictureBox.TabIndex = 29;
+            HintPictureBox.TabStop = false;
+            HintPictureBox.Click += HintPictureBox_Click;
             // 
-            // DebugGroupButton7
+            // HintLabel
             // 
-            DebugGroupButton7.Enabled = false;
-            DebugGroupButton7.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton7.Location = new Point(24, 146);
-            DebugGroupButton7.Name = "DebugGroupButton7";
-            DebugGroupButton7.Size = new Size(25, 25);
-            DebugGroupButton7.TabIndex = 18;
-            DebugGroupButton7.Text = "0";
-            DebugGroupButton7.UseVisualStyleBackColor = true;
+            HintLabel.Font = new Font("Consolas", 6F, FontStyle.Regular, GraphicsUnit.Point);
+            HintLabel.Location = new Point(0, 30);
+            HintLabel.Name = "HintLabel";
+            HintLabel.Size = new Size(50, 20);
+            HintLabel.TabIndex = 32;
+            HintLabel.Text = "Hint";
+            HintLabel.AutoSize = false;
+            HintLabel.Padding = new Padding(0);
+            HintLabel.Margin = new Padding(0);
+            HintLabel.TextAlign = ContentAlignment.MiddleCenter;
+            //
+            // NewButtonPanel
+            //
+            NewButtonPanel.Controls.Add(NewGamePictureBox);
+            NewButtonPanel.Controls.Add(NewLabel);
+            NewButtonPanel.Location = new Point(10, 0);
+            NewButtonPanel.Name = "NewButtonPanel";
+            NewButtonPanel.Size = new Size(50, 50);
+            NewButtonPanel.TabIndex = 0;
+            NewButtonPanel.AutoSize = false;
+            NewButtonPanel.Padding = new Padding(0);
+            NewButtonPanel.Margin = new Padding(0);
             // 
-            // DebugEventLabel
+            // NewGamePictureBox
             // 
-            DebugEventLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugEventLabel.Location = new Point(21, 46);
-            DebugEventLabel.Name = "DebugEventLabel";
-            DebugEventLabel.Size = new Size(197, 23);
-            DebugEventLabel.TabIndex = 11;
-            DebugEventLabel.Text = "Event:";
+            NewGamePictureBox.Cursor = Cursors.Hand;
+            NewGamePictureBox.Location = new Point(10, 0);
+            NewGamePictureBox.Name = "NewGamePictureBox";
+            NewGamePictureBox.Size = new Size(30, 30);
+            NewGamePictureBox.TabIndex = 28;
+            NewGamePictureBox.TabStop = false;
+            NewGamePictureBox.Click += NewGamePictureBox_Click;
             // 
-            // DebugGroupButton6
+            // NewLabel
             // 
-            DebugGroupButton6.Enabled = false;
-            DebugGroupButton6.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton6.Location = new Point(86, 115);
-            DebugGroupButton6.Name = "DebugGroupButton6";
-            DebugGroupButton6.Size = new Size(25, 25);
-            DebugGroupButton6.TabIndex = 17;
-            DebugGroupButton6.Text = "0";
-            DebugGroupButton6.UseVisualStyleBackColor = true;
-            // 
-            // DebugGroupButton1
-            // 
-            DebugGroupButton1.Enabled = false;
-            DebugGroupButton1.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton1.Location = new Point(24, 84);
-            DebugGroupButton1.Name = "DebugGroupButton1";
-            DebugGroupButton1.Size = new Size(25, 25);
-            DebugGroupButton1.TabIndex = 12;
-            DebugGroupButton1.Text = "0";
-            DebugGroupButton1.UseVisualStyleBackColor = true;
-            // 
-            // DebugGroupButton2
-            // 
-            DebugGroupButton2.Enabled = false;
-            DebugGroupButton2.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton2.Location = new Point(55, 84);
-            DebugGroupButton2.Name = "DebugGroupButton2";
-            DebugGroupButton2.Size = new Size(25, 25);
-            DebugGroupButton2.TabIndex = 13;
-            DebugGroupButton2.Text = "0";
-            DebugGroupButton2.UseVisualStyleBackColor = true;
-            // 
-            // DebugGroupButton4
-            // 
-            DebugGroupButton4.Enabled = false;
-            DebugGroupButton4.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton4.Location = new Point(24, 115);
-            DebugGroupButton4.Name = "DebugGroupButton4";
-            DebugGroupButton4.Size = new Size(25, 25);
-            DebugGroupButton4.TabIndex = 15;
-            DebugGroupButton4.Text = "0";
-            DebugGroupButton4.UseVisualStyleBackColor = true;
-            // 
-            // DebugGroupButton3
-            // 
-            DebugGroupButton3.Enabled = false;
-            DebugGroupButton3.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
-            DebugGroupButton3.Location = new Point(86, 84);
-            DebugGroupButton3.Name = "DebugGroupButton3";
-            DebugGroupButton3.Size = new Size(25, 25);
-            DebugGroupButton3.TabIndex = 14;
-            DebugGroupButton3.Text = "0";
-            DebugGroupButton3.UseVisualStyleBackColor = true;
+            NewLabel.AutoSize = false;
+            NewLabel.Font = new Font("Consolas", 6F, FontStyle.Regular, GraphicsUnit.Point);
+            NewLabel.Location = new Point(0, 30);
+            NewLabel.Name = "NewLabel";
+            NewLabel.Size = new Size(50, 20);
+            NewLabel.Padding = new Padding(0);
+            NewLabel.Margin = new Padding(0);
+            NewLabel.TabIndex = 31;
+            NewLabel.Text = "New";
+            NewLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // UsernameLabel
             // 
@@ -290,65 +302,340 @@ namespace MineSweeper
             ProfilePictureBox.TabStop = false;
             ProfilePictureBox.Click += ProfilePictureBox_Click;
             // 
-            // BoardDetailsLabel
+            // RemainingMineCountPanel
             // 
-            BoardDetailsLabel.Dock = DockStyle.Bottom;
-            BoardDetailsLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            BoardDetailsLabel.Location = new Point(0, 997);
-            BoardDetailsLabel.Name = "BoardDetailsLabel";
-            BoardDetailsLabel.Size = new Size(230, 38);
-            BoardDetailsLabel.TabIndex = 6;
-            BoardDetailsLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // GameStatusLabel
-            // 
-            GameStatusLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            GameStatusLabel.Location = new Point(0, 351);
-            GameStatusLabel.Margin = new Padding(0);
-            GameStatusLabel.Name = "GameStatusLabel";
-            GameStatusLabel.Padding = new Padding(5);
-            GameStatusLabel.Size = new Size(230, 74);
-            GameStatusLabel.TabIndex = 5;
-            GameStatusLabel.TextAlign = ContentAlignment.MiddleCenter;
+            RemainingMineCountPanel.Controls.Add(RemainingMinesLabel);
+            RemainingMineCountPanel.Controls.Add(StatusMineIconLabel);
+            RemainingMineCountPanel.Location = new Point(0, 275);
+            RemainingMineCountPanel.Name = "RemainingMineCountPanel";
+            RemainingMineCountPanel.Size = new Size(145, 45);
+            RemainingMineCountPanel.TabIndex = 26;
             // 
             // RemainingMinesLabel
             // 
-            RemainingMinesLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            RemainingMinesLabel.Location = new Point(104, 262);
+            RemainingMinesLabel.Font = new Font("Consolas", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            RemainingMinesLabel.Location = new Point(60, 0);
             RemainingMinesLabel.Margin = new Padding(0);
             RemainingMinesLabel.Name = "RemainingMinesLabel";
-            RemainingMinesLabel.Size = new Size(126, 42);
+            RemainingMinesLabel.Size = new Size(75, 45);
             RemainingMinesLabel.TabIndex = 4;
-            RemainingMinesLabel.Text = "0";
-            RemainingMinesLabel.TextAlign = ContentAlignment.MiddleLeft;
+            RemainingMinesLabel.Text = "200";
+            RemainingMinesLabel.TextAlign = ContentAlignment.BottomLeft;
             // 
             // StatusMineIconLabel
             // 
-            // StatusMineIconLabel.Image = Properties.Resources.mine_small;
-            StatusMineIconLabel.Location = new Point(63, 267);
+            StatusMineIconLabel.Location = new Point(10, 4);
             StatusMineIconLabel.Name = "StatusMineIconLabel";
-            StatusMineIconLabel.Size = new Size(40, 42);
+            StatusMineIconLabel.Size = new Size(40, 40);
             StatusMineIconLabel.TabIndex = 3;
+            // 
+            // MineFieldPanel
+            // 
+            MineFieldPanel.Location = new Point(0, 0);
+            MineFieldPanel.Margin = new Padding(0);
+            MineFieldPanel.Name = "MineFieldPanel";
+            MineFieldPanel.Size = new Size(1235, 1035);
+            MineFieldPanel.TabIndex = 0;
+            // 
+            // EfficiencyLabel
+            // 
+            EfficiencyLabel.AutoSize = true;
+            EfficiencyLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            EfficiencyLabel.Location = new Point(0, 75);
+            EfficiencyLabel.Name = "EfficiencyLabel";
+            EfficiencyLabel.Size = new Size(96, 17);
+            EfficiencyLabel.TabIndex = 25;
+            EfficiencyLabel.Text = "Efficiency:";
+            EfficiencyLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // BBBVTotalLabel
+            // 
+            BBBVTotalLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVTotalLabel.Location = new Point(0, 50);
+            BBBVTotalLabel.Name = "BBBVTotalLabel";
+            BBBVTotalLabel.Size = new Size(225, 20);
+            BBBVTotalLabel.TabIndex = 24;
+            BBBVTotalLabel.Text = "Total Reveal Clicks (3BVT):";
+            BBBVTotalLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // BBBVSLabel
+            // 
+            BBBVSLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVSLabel.Location = new Point(0, 25);
+            BBBVSLabel.Name = "BBBVSLabel";
+            BBBVSLabel.Size = new Size(225, 20);
+            BBBVSLabel.TabIndex = 23;
+            BBBVSLabel.Text = "Reveals/Sec (3BV/S):";
+            BBBVSLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // BBBVLabel
+            // 
+            BBBVLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVLabel.Location = new Point(0, 0);
+            BBBVLabel.Name = "BBBVLabel";
+            BBBVLabel.Size = new Size(225, 20);
+            BBBVLabel.TabIndex = 22;
+            BBBVLabel.Text = "Min. clicks to win (3BV):";
+            BBBVLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // StartPanel
+            // 
+            StartPanel.Controls.Add(StartButton);
+            StartPanel.Location = new Point(0, 0);
+            StartPanel.Name = "StartPanel";
+            StartPanel.Size = new Size(300, 150);
+            StartPanel.TabIndex = 0;
+            StartPanel.Visible = false;
+            // 
+            // StartButton
+            // 
+            StartButton.FlatAppearance.BorderSize = 0;
+            StartButton.FlatStyle = FlatStyle.Flat;
+            StartButton.Location = new Point(95, 60);
+            StartButton.Name = "StartButton";
+            StartButton.Size = new Size(112, 34);
+            StartButton.TabIndex = 0;
+            StartButton.Text = "Start";
+            StartButton.UseVisualStyleBackColor = true;
+            StartButton.Click += StartButton_Click;
+            // 
+            // EndGamePanel
+            // 
+            EndGamePanel.Controls.Add(LeaderBoardPanel);
+            EndGamePanel.Controls.Add(ShowBoardButton);
+            EndGamePanel.Controls.Add(FinalTimeLabel);
+            EndGamePanel.Controls.Add(WinLoseLabel);
+            EndGamePanel.Controls.Add(GameStatsPanel);
+            EndGamePanel.Controls.Add(LeaderBoardTitleLabel);
+            EndGamePanel.Controls.Add(NewGameButton);
+            EndGamePanel.Location = new Point(130, 140);
+            EndGamePanel.Name = "EndGamePanel";
+            EndGamePanel.Size = new Size(450, 644);
+            EndGamePanel.TabIndex = 0;
+            EndGamePanel.Visible = false;
+            // 
+            // LeaderBoardPanel
+            // 
+            LeaderBoardPanel.Location = new Point(87, 395);
+            LeaderBoardPanel.Name = "LeaderBoardPanel";
+            LeaderBoardPanel.Size = new Size(300, 162);
+            LeaderBoardPanel.TabIndex = 36;
+            // 
+            // ShowBoardButton
+            // 
+            ShowBoardButton.FlatAppearance.BorderSize = 0;
+            ShowBoardButton.FlatStyle = FlatStyle.Flat;
+            ShowBoardButton.Location = new Point(87, 585);
+            ShowBoardButton.Name = "ShowBoardButton";
+            ShowBoardButton.Size = new Size(123, 34);
+            ShowBoardButton.TabIndex = 35;
+            ShowBoardButton.Text = "Show Board";
+            ShowBoardButton.UseVisualStyleBackColor = true;
+            ShowBoardButton.Click += ShowBoardButton_Click;
+            // 
+            // FinalTimeLabel
+            // 
+            FinalTimeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            FinalTimeLabel.BackColor = Color.Transparent;
+            FinalTimeLabel.Font = new Font("Consolas", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            FinalTimeLabel.Location = new Point(113, 60);
+            FinalTimeLabel.Margin = new Padding(0);
+            FinalTimeLabel.Name = "FinalTimeLabel";
+            FinalTimeLabel.Size = new Size(230, 47);
+            FinalTimeLabel.TabIndex = 5;
+            FinalTimeLabel.Text = "00:00:00";
+            FinalTimeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // WinLoseLabel
+            // 
+            WinLoseLabel.AutoSize = true;
+            WinLoseLabel.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            WinLoseLabel.Location = new Point(134, 13);
+            WinLoseLabel.Name = "WinLoseLabel";
+            WinLoseLabel.Size = new Size(178, 42);
+            WinLoseLabel.TabIndex = 4;
+            WinLoseLabel.Text = "You Won!";
+            // 
+            // GameStatsPanel
+            // 
+            GameStatsPanel.Controls.Add(HintsUsedValueLabel);
+            GameStatsPanel.Controls.Add(HintsUsedLabel);
+            GameStatsPanel.Controls.Add(MineCountValueLabel);
+            GameStatsPanel.Controls.Add(MineCountLabel);
+            GameStatsPanel.Controls.Add(BoardSizeValueLabel);
+            GameStatsPanel.Controls.Add(BoardSizeLabel);
+            GameStatsPanel.Controls.Add(EfficiencyValueLabel);
+            GameStatsPanel.Controls.Add(BBBVTotalValueLabel);
+            GameStatsPanel.Controls.Add(BBBVSValueLabel);
+            GameStatsPanel.Controls.Add(BBBVValueLabel);
+            GameStatsPanel.Controls.Add(EfficiencyLabel);
+            GameStatsPanel.Controls.Add(BBBVTotalLabel);
+            GameStatsPanel.Controls.Add(BBBVSLabel);
+            GameStatsPanel.Controls.Add(BBBVLabel);
+            GameStatsPanel.Location = new Point(87, 121);
+            GameStatsPanel.Name = "GameStatsPanel";
+            GameStatsPanel.Size = new Size(300, 202);
+            GameStatsPanel.TabIndex = 3;
+            // 
+            // HintsUsedValueLabel
+            // 
+            HintsUsedValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            HintsUsedValueLabel.Location = new Point(225, 150);
+            HintsUsedValueLabel.Name = "HintsUsedValueLabel";
+            HintsUsedValueLabel.Size = new Size(75, 20);
+            HintsUsedValueLabel.TabIndex = 43;
+            HintsUsedValueLabel.Text = "0";
+            HintsUsedValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // HintsUsedLabel
+            // 
+            HintsUsedLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            HintsUsedLabel.Location = new Point(0, 150);
+            HintsUsedLabel.Name = "HintsUsedLabel";
+            HintsUsedLabel.Size = new Size(225, 20);
+            HintsUsedLabel.TabIndex = 42;
+            HintsUsedLabel.Text = "Hints Used:";
+            HintsUsedLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // MineCountValueLabel
+            // 
+            MineCountValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            MineCountValueLabel.Location = new Point(225, 125);
+            MineCountValueLabel.Name = "MineCountValueLabel";
+            MineCountValueLabel.Size = new Size(75, 20);
+            MineCountValueLabel.TabIndex = 41;
+            MineCountValueLabel.Text = "0";
+            MineCountValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // MineCountLabel
+            // 
+            MineCountLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            MineCountLabel.Location = new Point(0, 125);
+            MineCountLabel.Name = "MineCountLabel";
+            MineCountLabel.Size = new Size(225, 20);
+            MineCountLabel.TabIndex = 40;
+            MineCountLabel.Text = "Mine Count:";
+            MineCountLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // BoardSizeValueLabel
+            // 
+            BoardSizeValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BoardSizeValueLabel.Location = new Point(225, 100);
+            BoardSizeValueLabel.Name = "BoardSizeValueLabel";
+            BoardSizeValueLabel.Size = new Size(75, 20);
+            BoardSizeValueLabel.TabIndex = 39;
+            BoardSizeValueLabel.Text = "0 x 0";
+            BoardSizeValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BoardSizeLabel
+            // 
+            BoardSizeLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BoardSizeLabel.Location = new Point(0, 100);
+            BoardSizeLabel.Name = "BoardSizeLabel";
+            BoardSizeLabel.Size = new Size(225, 20);
+            BoardSizeLabel.TabIndex = 38;
+            BoardSizeLabel.Text = "Board Size:";
+            BoardSizeLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // EfficiencyValueLabel
+            // 
+            EfficiencyValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            EfficiencyValueLabel.Location = new Point(225, 75);
+            EfficiencyValueLabel.Name = "EfficiencyValueLabel";
+            EfficiencyValueLabel.Size = new Size(75, 20);
+            EfficiencyValueLabel.TabIndex = 29;
+            EfficiencyValueLabel.Text = "0";
+            EfficiencyValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BBBVTotalValueLabel
+            // 
+            BBBVTotalValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVTotalValueLabel.Location = new Point(225, 50);
+            BBBVTotalValueLabel.Name = "BBBVTotalValueLabel";
+            BBBVTotalValueLabel.Size = new Size(75, 20);
+            BBBVTotalValueLabel.TabIndex = 28;
+            BBBVTotalValueLabel.Text = "0";
+            BBBVTotalValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BBBVSValueLabel
+            // 
+            BBBVSValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVSValueLabel.Location = new Point(225, 25);
+            BBBVSValueLabel.Name = "BBBVSValueLabel";
+            BBBVSValueLabel.Size = new Size(75, 20);
+            BBBVSValueLabel.TabIndex = 27;
+            BBBVSValueLabel.Text = "0";
+            BBBVSValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // BBBVValueLabel
+            // 
+            BBBVValueLabel.Font = new Font("Consolas", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            BBBVValueLabel.Location = new Point(225, 0);
+            BBBVValueLabel.Name = "BBBVValueLabel";
+            BBBVValueLabel.Size = new Size(75, 20);
+            BBBVValueLabel.TabIndex = 26;
+            BBBVValueLabel.Text = "0";
+            BBBVValueLabel.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // LeaderBoardTitleLabel
+            // 
+            LeaderBoardTitleLabel.AutoSize = true;
+            LeaderBoardTitleLabel.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            LeaderBoardTitleLabel.Location = new Point(113, 325);
+            LeaderBoardTitleLabel.Name = "LeaderBoardTitleLabel";
+            LeaderBoardTitleLabel.Size = new Size(258, 42);
+            LeaderBoardTitleLabel.TabIndex = 2;
+            LeaderBoardTitleLabel.Text = "Leader Board";
+            // 
+            // NewGameButton
+            // 
+            NewGameButton.FlatAppearance.BorderSize = 0;
+            NewGameButton.FlatStyle = FlatStyle.Flat;
+            NewGameButton.Location = new Point(255, 585);
+            NewGameButton.Name = "NewGameButton";
+            NewGameButton.Size = new Size(112, 34);
+            NewGameButton.TabIndex = 0;
+            NewGameButton.Text = "New Game";
+            NewGameButton.UseVisualStyleBackColor = true;
+            NewGameButton.Click += NewGameButton_Click;
             // 
             // Main
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1235, 1035);
+            AutoScaleMode = AutoScaleMode.None;
+            ClientSize = new Size(1465, 1035);
+            ControlBox = false;
+            Controls.Add(EndGamePanel);
             Controls.Add(StartPanel);
-            Controls.Add(MineFieldPanel);
-            Controls.Add(StatusPanel);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Controls.Add(GameBoardPanel);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Main";
+            ShowIcon = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Mine Sweeper Pro";
             Load += Main_Load;
             Shown += Main_Shown;
-            StartPanel.ResumeLayout(false);
+            ResizeEnd += Main_ResizeEnd;
+            Resize += Main_Resize;
+            GameBoardPanel.ResumeLayout(false);
             StatusPanel.ResumeLayout(false);
-            DebugPanel.ResumeLayout(false);
+            GameControlPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NewGamePictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)HintPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SharePictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ConfigPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)ProfilePictureBox).EndInit();
+            RemainingMineCountPanel.ResumeLayout(false);
+            StartPanel.ResumeLayout(false);
+            EndGamePanel.ResumeLayout(false);
+            EndGamePanel.PerformLayout();
+            GameStatsPanel.ResumeLayout(false);
+            GameStatsPanel.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -356,6 +643,7 @@ namespace MineSweeper
         private Label TimerLabel;
         private Panel MineFieldPanel;
         private Panel StatusPanel;
+        private Panel GameBoardPanel;
         private Label RemainingMinesLabel;
         private Label StatusMineIconLabel;
         private Label GameStatusLabel;
@@ -377,5 +665,41 @@ namespace MineSweeper
         private DoubleClickButton DebugGroupButton3;
         private Panel StartPanel;
         private System.Windows.Forms.Button StartButton;
+        private Panel EndGamePanel;
+        private System.Windows.Forms.Button NewGameButton;
+        private Label LeaderBoardTitleLabel;
+        private Label BBBVLabel;
+        private Label BBBVSLabel;
+        private Label BBBVTotalLabel;
+        private Label EfficiencyLabel;
+        private Panel GameStatsPanel;
+        private Label WinLoseLabel;
+        private PictureBox ConfigPictureBox;
+        private PictureBox SharePictureBox;
+        private PictureBox HintPictureBox;
+        private PictureBox NewGamePictureBox;
+        private Panel GameControlPanel;
+        private Panel RemainingMineCountPanel;
+        private Label ConfigLabel;
+        private Label ShareLabel;
+        private Label HintLabel;
+        private Label NewLabel;
+        private Label FinalTimeLabel;
+        private Label EfficiencyValueLabel;
+        private Label BBBVTotalValueLabel;
+        private Label BBBVSValueLabel;
+        private Label BBBVValueLabel;
+        private System.Windows.Forms.Button ShowBoardButton;
+        private Panel LeaderBoardPanel;
+        private Label BoardSizeLabel;
+        private Label MineCountValueLabel;
+        private Label MineCountLabel;
+        private Label BoardSizeValueLabel;
+        private Label HintsUsedValueLabel;
+        private Label HintsUsedLabel;
+        private Panel ConfigButtonPanel;
+        private Panel ShareButtonPanel;
+        private Panel HintButtonPanel;
+        private Panel NewButtonPanel;
     }
 }

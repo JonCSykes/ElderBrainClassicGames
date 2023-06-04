@@ -1,4 +1,4 @@
-﻿using MineSweeper.Properties;
+﻿using MineSweeperPro.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
+using Svg;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public partial class SettingsDialog : Form
     {
@@ -44,7 +46,7 @@ namespace MineSweeper
         public event SaveSettingsDelegate SaveSettingsEvent;
         public event CreateNewGameDelegate CreateNewGameEvent;
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
 
         protected override CreateParams CreateParams
         {
@@ -94,11 +96,15 @@ namespace MineSweeper
             DefaultHeightTextbox.Text = Settings.Default.MineFieldHeight.ToString();
             DefaultMineCountTextbox.Text = Settings.Default.MineCount.ToString();
             DefaultHintCountTextbox.Text = Settings.Default.HintCount.ToString();
+            ChordControlEnum[] chordControlEnumValues = (ChordControlEnum[])Enum.GetValues(typeof(ChordControlEnum));
 
-            ThemeComboBox.DataSource = Theme.GetThemeNames();
+            DefaultChordControlComboBox.DataSource = chordControlEnumValues;
+            DefaultChordControlComboBox.SelectedItem = chordControlEnumValues[Settings.Default.ChordControl];
+
+            ThemeComboBox.DataSource = ThemeConfig.GetThemeNames();
             ThemeComboBox.SelectedItem = Settings.Default.Theme;
 
-            DebugCheckBox.Checked = Settings.Default.Debug;
+            EnableSoundCheckBox.Checked = Settings.Default.EnableSound;
 
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 15, 15));
 
@@ -106,7 +112,7 @@ namespace MineSweeper
         }
         public void ApplyTheme()
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
@@ -184,7 +190,8 @@ namespace MineSweeper
 
             Settings.Default.HintCount = defaultHintCount;
             Settings.Default.Theme = ThemeComboBox.SelectedValue?.ToString();
-            Settings.Default.Debug = DebugCheckBox.Checked;
+            Settings.Default.EnableSound = EnableSoundCheckBox.Checked;
+            Settings.Default.ChordControl = (int)DefaultChordControlComboBox.SelectedValue;
             Settings.Default.Save();
 
 

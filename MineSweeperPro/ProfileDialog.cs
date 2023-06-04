@@ -1,4 +1,4 @@
-﻿using MineSweeper.Properties;
+﻿using MineSweeperPro.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public partial class ProfileDialog : Form
     {
@@ -44,7 +44,7 @@ namespace MineSweeper
 
         public event LoadProfileDelegate LoadProfileEvent;
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
         
 
         protected override CreateParams CreateParams
@@ -131,7 +131,7 @@ namespace MineSweeper
 
         public void ApplyTheme()
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
@@ -241,11 +241,11 @@ namespace MineSweeper
             return true;
         }
 
-        private System.Drawing.Image ResizePortrait(System.Drawing.Image image)
+        private System.Drawing.Bitmap ResizePortrait(System.Drawing.Image image)
         {
             int targetSize = 150;
 
-            System.Drawing.Image resizedImage = image.GetThumbnailImage(targetSize, targetSize, null, IntPtr.Zero);
+            System.Drawing.Bitmap resizedImage = (Bitmap)image.GetThumbnailImage(targetSize, targetSize, null, IntPtr.Zero);
 
             image.Dispose();
 

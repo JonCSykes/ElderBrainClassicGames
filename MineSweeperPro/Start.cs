@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Svg;
+using Svg.FilterEffects;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public partial class Start : ThemedForm
     {
@@ -17,11 +19,15 @@ namespace MineSweeper
             InitializeComponent();
 
             ApplyTheme(this);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
         }
+
+
+
     }
 }

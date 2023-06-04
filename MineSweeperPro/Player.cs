@@ -5,8 +5,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public class Player
     {
@@ -19,9 +20,11 @@ namespace MineSweeper
         [XmlElement("PortraitName")]
         public string PortraitName { get; set; }
 
+        [JsonIgnore]
         [XmlIgnore]
-        public Image Portrait { get; set; }
-
+        public Bitmap Portrait { get; set; }
+        
+        [JsonIgnore]
         [XmlElement("PortraitData")]
         public byte[] PortraitData
         {
@@ -53,15 +56,11 @@ namespace MineSweeper
             }
         }
 
-        [XmlElement("Metrics")]
-        public Metrics Metrics { get; set; }
-
-        public Player(string username, string portraitName, Bitmap portrait, Metrics metrics) { 
+        public Player(string username, string portraitName, Bitmap portrait) { 
             
             Username = username;
             PortraitName = portraitName;
             Portrait = portrait;
-            Metrics = metrics;
 
             UpdateSettings();
         }
@@ -133,7 +132,6 @@ namespace MineSweeper
                     this.Username = loadedSettings.Username;
                     this.Portrait = loadedSettings.Portrait;
                     this.PortraitName = loadedSettings.PortraitName;
-                    this.Metrics = loadedSettings.Metrics;
                     
                 }
             }

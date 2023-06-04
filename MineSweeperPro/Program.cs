@@ -1,4 +1,4 @@
-namespace MineSweeper
+namespace MineSweeperPro
 {
     internal static class Program
     {
@@ -14,13 +14,15 @@ namespace MineSweeper
 
             string homeFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            string appFolderPath = Path.Combine(homeFolderPath, "Pyrobolum");
+            string appFolderPath = Path.Combine(homeFolderPath, "MineSweeperPro");
 
             if (!Directory.Exists(appFolderPath))
             {
                 Directory.CreateDirectory(appFolderPath);
             }
 
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
         }
     }

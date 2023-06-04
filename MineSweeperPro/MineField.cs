@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public class MineField
     {
-        public int Width { get; set; } 
+        public int Width { get; set; }
         public int Height { get; set; }
         public int MineCount { get; set; }
         public int MineCellsFlaggedCounter { get; set; }
@@ -73,6 +73,47 @@ namespace MineSweeper
                 }
             }
         }
+
+        public IEnumerable<MineCell> GetClusterCells(MineCell cell)
+        {
+            List<MineCell> clusterCells = new List<MineCell>();
+            Queue<MineCell> queue = new Queue<MineCell>();
+            queue.Enqueue(cell);
+
+            while (queue.Count > 0)
+            {
+                MineCell currentCell = queue.Dequeue();
+                clusterCells.Add(currentCell);
+
+                if (currentCell.ClusterSize > 1)
+                {
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for (int y = -1; y <= 1; y++)
+                        {
+                            int newRow = currentCell.X + x;
+                            int newCol = currentCell.Y + y;
+
+                            if (newRow >= 0 && newRow < Width && newCol >= 0 && newCol < Height)
+                            {
+                                if (MineCellCollection != null)
+                                {
+                                    MineCell adjacentCell = MineCellCollection[newRow, newCol];
+                                    if (!clusterCells.Contains(adjacentCell) && !queue.Contains(adjacentCell))
+                                    {
+                                        queue.Enqueue(adjacentCell);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return clusterCells;
+        }
+
+   
 
         // GetMineCellGroup - Returns the given mine cell coordinates along with the surrounding 8 mine cells.
         public List<MineCell> GetMineCellGroup(int x, int y)

@@ -1,4 +1,4 @@
-﻿using MineSweeper.Properties;
+﻿using MineSweeperPro.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MineSweeper
+namespace MineSweeperPro
 {
     public class ThemedForm : Form
     {
@@ -34,7 +34,7 @@ namespace MineSweeper
         [DllImport("user32.dll")]
         private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-        Theme ConfiguredTheme;
+        ThemeConfig ConfiguredTheme;
 
         protected override CreateParams CreateParams
         {
@@ -108,7 +108,7 @@ namespace MineSweeper
 
         public void ApplyTheme(Control control)
         {
-            ConfiguredTheme = new Theme();
+            ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);

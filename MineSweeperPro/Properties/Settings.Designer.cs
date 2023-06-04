@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MineSweeper.Properties {
+namespace MineSweeperPro.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -85,13 +85,25 @@ namespace MineSweeper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Debug {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableSound {
             get {
-                return ((bool)(this["Debug"]));
+                return ((bool)(this["EnableSound"]));
             }
             set {
-                this["Debug"] = value;
+                this["EnableSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ChordControl {
+            get {
+                return ((int)(this["ChordControl"]));
+            }
+            set {
+                this["ChordControl"] = value;
             }
         }
     }
