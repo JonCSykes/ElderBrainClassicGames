@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
-namespace MineSweeperPro       
+﻿namespace MineSweeperPro
 {
     public class Game
     {
@@ -16,12 +9,12 @@ namespace MineSweeperPro
         public int HintCounter { get; set; }
         public bool IsGameStarted { get; set; }
         public bool IsGameOver { get; set; }
-        public bool IsWin 
-        { 
-            get 
+        public bool IsWin
+        {
+            get
             {
                 return ValidateWin();
-            } 
+            }
         }
 
         public int BBBV
@@ -34,12 +27,12 @@ namespace MineSweeperPro
         public double BBBVS
         {
             get
-            { 
+            {
                 return Get3BVS();
             }
         }
         public int BBBVTotal
-        { 
+        {
             get
             {
                 return Get3BVTotal();

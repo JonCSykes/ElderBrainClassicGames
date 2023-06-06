@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MineSweeperPro
+﻿namespace MineSweeperPro
 {
     public class MineField
     {
@@ -113,7 +107,7 @@ namespace MineSweeperPro
             return clusterCells;
         }
 
-   
+
 
         // GetMineCellGroup - Returns the given mine cell coordinates along with the surrounding 8 mine cells.
         public List<MineCell> GetMineCellGroup(int x, int y)
@@ -187,7 +181,7 @@ namespace MineSweeperPro
                         {
                             MineCellCollection[x, y].SurroundingMineCount = GetMineCount(MineCellCollection[x, y]);
                         }
-                        else 
+                        else
                         {
                             MineCellCollection[x, y].SurroundingMineCount = -1;
                         }
@@ -266,7 +260,7 @@ namespace MineSweeperPro
 
                 mineCell.ClusterSize = clusterSize;
             }
-           
+
         }
 
         // GetAllClusterSizes - Iterates through all of the mine cells and sets the cluster size on each cell.

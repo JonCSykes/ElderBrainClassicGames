@@ -1,12 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MineSweeperPro
 {
@@ -19,20 +14,18 @@ namespace MineSweeperPro
         private static readonly byte[] IV = Encoding.UTF8.GetBytes("FlaggingIsAVerb!");
 
         private List<GameEntry> gameEntries = new List<GameEntry>();
-        private Game Game;
+        public Game Game { get; set; }
 
-        public LeaderBoard(Game game) 
+        public LeaderBoard()
         {
             gameEntries = new List<GameEntry>();
-
-            Game = game;
 
             LoadData();
         }
 
         public void AddGameEntry(TimeSpan timestamp)
         {
-            if (Game != null && Game.MineField != null) 
+            if (Game != null && Game.MineField != null)
             {
                 string searchKey = string.Concat(Game.MineField.Width, Game.MineField.Height, Game.MineField.MineCount, Game.HintCount);
 
@@ -46,7 +39,7 @@ namespace MineSweeperPro
             }
         }
 
-        public List<GameEntry> GetLeaderBoard() 
+        public List<GameEntry> GetLeaderBoard()
         {
             List<GameEntry> scores = new List<GameEntry>();
 
@@ -61,10 +54,10 @@ namespace MineSweeperPro
 
         private void SortGameEntries(string searchKey)
         {
-            gameEntries.Sort((e1, e2) => 
+            gameEntries.Sort((e1, e2) =>
              {
-                 int result = e2.Win.CompareTo(e1.Win);  
-                 if (result == 0)  
+                 int result = e2.Win.CompareTo(e1.Win);
+                 if (result == 0)
                      result = e1.Timestamp.CompareTo(e2.Timestamp);
                  return result;
              });
@@ -132,7 +125,7 @@ namespace MineSweeperPro
             if (!string.IsNullOrEmpty(HOME_FOLDER))
             {
                 string scoresFilePath = Path.Combine(HOME_FOLDER, SCORES_FILE);
-                
+
                 if (!Directory.Exists(HOME_FOLDER))
                 {
                     Directory.CreateDirectory(HOME_FOLDER);

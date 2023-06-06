@@ -1,18 +1,6 @@
 ﻿using MineSweeperPro.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
-using Svg;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MineSweeperPro
 {
@@ -39,12 +27,6 @@ namespace MineSweeperPro
 
         [DllImport("user32.dll")]
         private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-        public delegate void SaveSettingsDelegate();
-        public delegate void CreateNewGameDelegate();
-
-        public event SaveSettingsDelegate SaveSettingsEvent;
-        public event CreateNewGameDelegate CreateNewGameEvent;
 
         ThemeConfig ConfiguredTheme;
 
@@ -115,8 +97,8 @@ namespace MineSweeperPro
             ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
-            this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-            this.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
+            ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
+            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
 
             int cornerRadius = 10;
 
@@ -157,14 +139,14 @@ namespace MineSweeperPro
 
             if (defaultWidth > 7 && defaultHeight > 7)
             {
-                if (defaultWidth * defaultHeight >= 64 && defaultWidth * defaultHeight <= 1000)
+                if (defaultWidth * defaultHeight >= 64 && defaultWidth * defaultHeight <= 1500)
                 {
                     Settings.Default.MineFieldWidth = defaultWidth;
                     Settings.Default.MineFieldHeight = defaultHeight;
                 }
                 else
                 {
-                    MessageBox.Show("Your width and height must calculate to at least 64 blocks total and no greater that 500 blocks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Your width and height must calculate to at least 64 blocks total and no greater that 1500 blocks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -193,11 +175,6 @@ namespace MineSweeperPro
             Settings.Default.EnableSound = EnableSoundCheckBox.Checked;
             Settings.Default.ChordControl = (int)DefaultChordControlComboBox.SelectedValue;
             Settings.Default.Save();
-
-
-            CreateNewGameEvent?.Invoke();
-
-            SaveSettingsEvent?.Invoke();
 
             Close();
         }

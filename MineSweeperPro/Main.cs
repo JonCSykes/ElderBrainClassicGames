@@ -1,15 +1,10 @@
 ﻿namespace MineSweeperPro
 {
+    using Properties;
     using System;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
-    using System.Windows.Forms;
-    using Properties;
     using System.Drawing.Imaging;
-    using System.Runtime.InteropServices;
-    using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-    using static System.Net.WebRequestMethods;
-    using System.Media;
+    using System.Windows.Forms;
 
     public partial class Main : Form
     {
@@ -40,6 +35,14 @@
         private Button CloseButton;
         private Label TitleLabel;
         private LeaderBoard LeaderBoard;
+        private Sound SoundPlayer;
+        private Timer AnimationTimer;
+        private Timer BBBVSTimer;
+        private Timer GlobalTimer;
+        private TimeSpan ElapsedTime;
+        private DateTime StartTime;
+
+        private bool IsTimerRunning = false;
 
         const int STATUS_PANEL_WIDTH = 300;
         const int CAPTION_HEIGHT = 40;
@@ -48,30 +51,16 @@
         const int WINDOW_RESIZE_THICKNESS = 10;
 
         Dictionary<string, DoubleClickButton> MineCellButtonDictionary = new Dictionary<string, DoubleClickButton>();
-        Dictionary<string, DoubleClickButton> MineButtonDictionary = new Dictionary<string, DoubleClickButton>();
 
-        Sound SoundPlayer;
-        Timer AnimationTimer;
-        Timer BBBVSTimer;
-        Timer GlobalTimer;
-        TimeSpan ElapsedTime;
-
-        DateTime StartTime;
-        int TimerCounter = 0;
-        bool IsTimerRunning = false;
-        public Player CurrentPlayer;
+        Player CurrentPlayer;
         Game MineSweeperPro;
         Theme SelectedTheme;
 
-
-
         public Main()
         {
-            this.SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
             InitializeComponent();
             InitializeCustomWindow();
-
-            Enabled = false;
 
             CurrentPlayer = new Player();
         }
@@ -86,11 +75,12 @@
             BBBVSTimer.Interval = 1;
             BBBVSTimer.Tick += new EventHandler(BBBVSTimer_Tick);
 
+            LeaderBoard = new LeaderBoard();
+
             ApplyTheme();
-            NewGame();
 
-            Enabled = true;
-
+            StartPanel.Visible = true;
+            StartPanel.BringToFront();
         }
 
         private void BBBVSTimer_Tick(object sender, EventArgs e)
@@ -101,7 +91,7 @@
             int bbbvTotal = MineSweeperPro.BBBVTotal;
             if (bbbv > 0 && bbbvTotal > 0)
             {
-                efficiencyPercentage = (double)(bbbv) / (double)(bbbvTotal) * 100;
+                efficiencyPercentage = bbbv / (double)(bbbvTotal) * 100;
 
                 BBBVSValueLabel.Text = MineSweeperPro.BBBVS.ToString("0.00");
                 BBBVTotalValueLabel.Text = MineSweeperPro.BBBVTotal.ToString();
@@ -114,7 +104,6 @@
 
             if (IsTimerRunning)
             {
-                TimerCounter++;
                 ElapsedTime = DateTime.Now - StartTime;
                 string time = $"{ElapsedTime.Minutes:D2}:{ElapsedTime.Seconds:D2}:{ElapsedTime.Milliseconds / 10:D2}";
 
@@ -125,7 +114,6 @@
 
         public void StartTimer()
         {
-            TimerCounter = 0;
             StartTime = DateTime.Now;
             IsTimerRunning = true;
             GlobalTimer.Start();
@@ -159,8 +147,8 @@
         {
             SelectedTheme = new Theme(Settings.Default.Theme);
 
-            this.ForeColor = SelectedTheme.TextColor;
-            this.BackColor = SelectedTheme.BackColor;
+            ForeColor = SelectedTheme.TextColor;
+            BackColor = SelectedTheme.BackColor;
 
             TitleLabel.ForeColor = SelectedTheme.TextColor;
 
@@ -172,13 +160,21 @@
             EndGamePanel.ForeColor = SelectedTheme.TextColor;
             SelectedTheme.SetRoundedCorners(EndGamePanel);
 
-            StartButton.BackColor = SelectedTheme.MineCellNumberColor2;
-            StartButton.ForeColor = SelectedTheme.TextColor;
-            SelectedTheme.SetRoundedCorners(StartButton);
+            NewGameEasyButton.BackColor = SelectedTheme.MineCellNumberColor2;
+            NewGameEasyButton.ForeColor = SelectedTheme.TextColor;
+            SelectedTheme.SetRoundedCorners(NewGameEasyButton);
 
             NewGameButton.BackColor = SelectedTheme.MineCellNumberColor2;
             NewGameButton.ForeColor = SelectedTheme.TextColor;
             SelectedTheme.SetRoundedCorners(NewGameButton);
+
+            GameTypeComboBox.BackColor = SelectedTheme.MineCellBackColor;
+            GameTypeComboBox.ForeColor = SelectedTheme.TextColor;
+
+            foreach(DoubleClickButton button in MineCellButtonDictionary.Values)
+            {
+                button.BackColor = SelectedTheme.MineCellBackColor;
+            }
 
             ShowBoardButton.BackColor = SelectedTheme.MineCellBackColor;
             ShowBoardButton.ForeColor = SelectedTheme.TextColor;
@@ -201,7 +197,7 @@
 
             MinimizeButton.Image = SelectedTheme.MinimizeImage;
 
-            if (this.WindowState == FormWindowState.Maximized)
+            if (WindowState == FormWindowState.Maximized)
             {
                 MaximizeButton.Image = SelectedTheme.MaximizeOnImage;
             }
@@ -211,65 +207,79 @@
             }
 
             CloseButton.Image = SelectedTheme.CloseImage;
+
+            PerformLayout();
         }
 
-        public void NewGame()
+        public void NewGame(int width, int height, int mineCount, int hintCount)
         {
+            StopTimer();
+
             SoundPlayer = new Sound(Settings.Default.EnableSound);
-            MineSweeperPro = new Game(CurrentPlayer, Settings.Default.MineFieldWidth, Settings.Default.MineFieldHeight, Settings.Default.MineCount, Settings.Default.HintCount);
-            LeaderBoard = new LeaderBoard(MineSweeperPro);
+            MineSweeperPro = new Game(CurrentPlayer, width, height, mineCount, hintCount);
+            LeaderBoard.Game = MineSweeperPro;
 
             if (WindowState != FormWindowState.Maximized)
             {
-                ClientSize = new Size(Math.Max(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
-                MinimumSize = new Size(Math.Max(Settings.Default.MineFieldWidth * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(Settings.Default.MineFieldHeight * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
+                ClientSize = new Size(Math.Max(width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH, 1274), Math.Max(height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT, 1024));
+                MinimumSize = new Size(Math.Max(width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
+
+                PerformLayout();
             }
 
-            HideButtons();
-            StopTimer();
             ClearMineButtons();
             GenerateMineButtons();
-            ShowButtons();
             ResizeGameBoard();
+
+
 
             if (MineSweeperPro != null && MineSweeperPro.MineField != null)
             {
                 TimerLabel.Text = "00:00:00";
                 RemainingMinesLabel.Text = "0";
                 MineFieldPanel.Enabled = false;
-                RemainingMinesLabel.Text = Settings.Default.MineCount.ToString();
+                RemainingMinesLabel.Text = mineCount.ToString();
                 BBBVValueLabel.Text = MineSweeperPro.BBBV.ToString();
                 BoardSizeValueLabel.Text = MineSweeperPro.MineField.Width.ToString() + " x " + MineSweeperPro.MineField.Height.ToString();
                 MineCountValueLabel.Text = MineSweeperPro.MineField.MineCount.ToString();
 
+                GameTypeEnum[] gameTypeEnumValues = (GameTypeEnum[])Enum.GetValues(typeof(GameTypeEnum));
+                GameTypeComboBox.DataSource = gameTypeEnumValues;
+                GameTypeComboBox.SelectedItem = gameTypeEnumValues[Settings.Default.GameType];
+
                 EndGamePanel.Visible = false;
-                StartPanel.Visible = true;
-                StartPanel.BringToFront();
+                MineSweeperPro.IsGameStarted = true;
             }
+
+
+            StartPanel.Visible = false;
+            MineFieldPanel.Enabled = true;
+
+            StartTimer();
+
+            RevealLargestCluster();
+
+            
         }
 
         private void ResizeGameBoard()
         {
-            PerformLayout();
+            SuspendLayout();
 
             GameBoardPanel.Size = new Size(ClientSize.Width - (WINDOW_RESIZE_THICKNESS * 2), ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2));
             GameBoardPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS);
-            GameBoardPanel.PerformLayout();
 
             MineFieldPanel.Size = new Size(ClientSize.Width - STATUS_PANEL_WIDTH - (WINDOW_RESIZE_THICKNESS * 2), ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2));
             MineFieldPanel.Location = new Point(0, 0);
-            MineFieldPanel.PerformLayout();
 
             int gameControlCenterX = (STATUS_PANEL_WIDTH - GameControlPanel.ClientSize.Width) / 2;
             GameControlPanel.Location = new Point(gameControlCenterX, ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2) - 70);
 
             StatusPanel.Size = new Size(STATUS_PANEL_WIDTH, ClientSize.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2));
             StatusPanel.Location = new Point(ClientSize.Width - STATUS_PANEL_WIDTH - (WINDOW_RESIZE_THICKNESS * 2), 0);
-            StatusPanel.PerformLayout();
 
             ToolbarPanel.Size = new Size(GameBoardPanel.ClientSize.Width, CAPTION_HEIGHT);
             ToolbarPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, WINDOW_RESIZE_THICKNESS);
-            ToolbarPanel.PerformLayout();
 
             CenterPanels(MineFieldPanel, ButtonPanel, true, true);
             CenterPanels(MineFieldPanel, EndGamePanel, true, true);
@@ -280,22 +290,12 @@
             CenterPanels(EndGamePanel, LeaderBoardPanel, true, false);
             CenterPanels(EndGamePanel, GameStatsPanel, true, false);
             CenterPanels(EndGamePanel, FinalTimeLabel, true, false);
+            CenterPanels(EndGamePanel, GameTypeComboBox, true, false);
+            CenterPanels(EndGamePanel, NewGameButton, true, false);
 
+            ResumeLayout();
         }
 
-        private void StartGame()
-        {
-            if (!MineSweeperPro.IsGameStarted)
-            {
-                MineSweeperPro.IsGameStarted = true;
-                StartPanel.Visible = false;
-                MineFieldPanel.Enabled = true;
-
-                StartTimer();
-
-                RevealLargestCluster();
-            }
-        }
 
         private void ValidateWin(MineCell mineCell)
         {
@@ -313,7 +313,6 @@
             StopTimer();
 
             LeaderBoard.AddGameEntry(ElapsedTime);
-            LeaderBoard.LoadData();
 
             if (MineSweeperPro != null)
             {
@@ -342,7 +341,7 @@
 
                     SoundPlayer.Play(Sound.GameOverSound);
 
-                    DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())] as DoubleClickButton;
+                    DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())];
                     if (mineCellButton != null)
                     {
                         mineCellButton.BackColor = SelectedTheme.MineCellNumberColor5;
@@ -469,26 +468,28 @@
         {
             ButtonPanel = new Panel();
             ButtonPanel.AutoSize = true;
-
-            for (int i = 0; i < Settings.Default.MineFieldWidth; i++)
+            if (MineSweeperPro != null && MineSweeperPro.MineField != null)
             {
-                for (int j = 0; j < Settings.Default.MineFieldHeight; j++)
+                for (int i = 0; i < MineSweeperPro.MineField.Width; i++)
                 {
-                    DoubleClickButton mineCellButton = new();
-                    mineCellButton.BackColor = SelectedTheme.MineCellBackColor;
-                    mineCellButton.FlatStyle = FlatStyle.Flat;
-                    mineCellButton.Size = new Size(DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING, DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING);
-                    mineCellButton.FlatAppearance.BorderSize = 0;
-                    mineCellButton.Name = i + "," + j;
-                    mineCellButton.Location = new Point((DEFAULT_CELL_SIZE * i), (DEFAULT_CELL_SIZE * j));
-                    mineCellButton.MouseUp += new MouseEventHandler(Btn_MouseUp);
-                    mineCellButton.MouseDown += new MouseEventHandler(Btn_MouseDown);
-                    mineCellButton.Dock = DockStyle.None;
+                    for (int j = 0; j < MineSweeperPro.MineField.Height; j++)
+                    {
+                        DoubleClickButton mineCellButton = new();
+                        mineCellButton.BackColor = SelectedTheme.MineCellBackColor;
+                        mineCellButton.FlatStyle = FlatStyle.Flat;
+                        mineCellButton.Size = new Size(DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING, DEFAULT_CELL_SIZE - DEFAULT_CELL_PADDING);
+                        mineCellButton.FlatAppearance.BorderSize = 0;
+                        mineCellButton.Name = i + "," + j;
+                        mineCellButton.Location = new Point((DEFAULT_CELL_SIZE * i), (DEFAULT_CELL_SIZE * j));
+                        mineCellButton.MouseUp += new MouseEventHandler(Btn_MouseUp);
+                        mineCellButton.MouseDown += new MouseEventHandler(Btn_MouseDown);
+                        mineCellButton.Dock = DockStyle.None;
 
-                    SelectedTheme.SetRoundedCorners(mineCellButton);
+                        SelectedTheme.SetRoundedCorners(mineCellButton);
 
-                    ButtonPanel.Controls.Add(mineCellButton);
-                    MineCellButtonDictionary[mineCellButton.Name] = mineCellButton;
+                        ButtonPanel.Controls.Add(mineCellButton);
+                        MineCellButtonDictionary[mineCellButton.Name] = mineCellButton;
+                    }
                 }
             }
             MineFieldPanel.Controls.Add(ButtonPanel);
@@ -516,30 +517,11 @@
             throw new NotImplementedException();
         }
 
-        private void ShowButtons()
-        {
-            MineFieldPanel.Visible = true;
-        }
-
-        private void HideButtons()
-        {
-            MineFieldPanel.Visible = false;
-        }
-
         private void ClearMineButtons()
         {
-
-            while (MineFieldPanel.Controls.Count > 0)
-            {
-                Control control = MineFieldPanel.Controls[0];
-
-                MineFieldPanel.Controls.Remove(control);
-                control.Dispose();
-
-            }
+            ButtonPanel?.Dispose();
 
             MineCellButtonDictionary.Clear();
-
         }
 
         private void RevealAllMines(MineCell explodedMineCell)
@@ -550,7 +532,7 @@
                 {
                     if (mineCell.Type == MineCellTypeEnum.Mine)
                     {
-                        DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())] as DoubleClickButton;
+                        DoubleClickButton mineCellButton = MineCellButtonDictionary[string.Concat(mineCell.X.ToString(), ",", mineCell.Y.ToString())];
                         if (mineCellButton != null)
                         {
                             if (mineCell.Status == MineCellStatusEnum.Flagged)
@@ -818,7 +800,7 @@
                         mineCell.Status = MineCellStatusEnum.Flagged;
 
                         MineSweeperPro.MineField.MineCellsFlaggedCounter++;
-                        RemainingMinesLabel.Text = (Settings.Default.MineCount - MineSweeperPro.MineField.MineCellsFlaggedCounter).ToString();
+                        RemainingMinesLabel.Text = (MineSweeperPro.MineField.MineCount - MineSweeperPro.MineField.MineCellsFlaggedCounter).ToString();
 
                         Mark(UserActionEnum.RightClick, EventEnum.CellFlag, mineCell);
                     }
@@ -832,7 +814,7 @@
                         mineCell.Status = MineCellStatusEnum.Default;
 
                         MineSweeperPro.MineField.MineCellsFlaggedCounter--;
-                        RemainingMinesLabel.Text = (Settings.Default.MineCount - MineSweeperPro.MineField.MineCellsFlaggedCounter).ToString();
+                        RemainingMinesLabel.Text = (MineSweeperPro.MineField.MineCount - MineSweeperPro.MineField.MineCellsFlaggedCounter).ToString();
 
                         Mark(UserActionEnum.RightClick, EventEnum.CellUnflag, mineCell);
                     }
@@ -976,12 +958,6 @@
             }
         }
 
-        private void CreateNewGameHandler()
-        {
-            ApplyTheme();
-            NewGame();
-        }
-
         private void LoadProfileHandler()
         {
             LoadPlayerProfile();
@@ -1027,11 +1003,6 @@
             }
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            StartGame();
-        }
-
         public void SaveScreenshot(Bitmap screenshot)
         {
             string assemblyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -1061,6 +1032,8 @@
 
         private void InitializeCustomWindow()
         {
+            MinimumSize = new Size(1274, 1024);
+
             ToolbarPanel = new Panel();
             ToolbarPanel.MouseDown += ToolbarOnMouseDown;
 
@@ -1072,6 +1045,7 @@
                 Size = new Size(250, 30)
             };
 
+            TitleLabel.MouseDown += ToolbarOnMouseDown;
             MinimizeButton = CreateCaptionButton("");
             MaximizeButton = CreateCaptionButton("");
             CloseButton = CreateCaptionButton("");
@@ -1091,6 +1065,7 @@
         private void ToolbarOnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
+
             {
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCHITTEST, 0, 0);
@@ -1110,9 +1085,10 @@
             if (m.Msg == 0x84)
             {
                 Point pos = new Point(m.LParam.ToInt32());
-                pos = this.PointToClient(pos);
+                pos = PointToClient(pos);
 
                 if (pos.X <= WINDOW_RESIZE_THICKNESS)
+
                 {
                     if (pos.Y <= WINDOW_RESIZE_THICKNESS)
                         m.Result = (IntPtr)HTTOPLEFT;
@@ -1172,31 +1148,40 @@
 
         private void Main_Resize(object sender, EventArgs e)
         {
+            SuspendLayout();
             ResizeGameBoard();
         }
 
         private void Main_ResizeEnd(object sender, EventArgs e)
         {
+            ResumeLayout();
         }
 
         private void ConfigPictureBox_Click(object sender, EventArgs e)
         {
-            using (SettingsDialog settingsForm = new SettingsDialog())
-            {
+            SettingsDialog settingsForm = new SettingsDialog();
+            settingsForm.Owner = this;
+            settingsForm.StartPosition = FormStartPosition.CenterParent;
+            settingsForm.FormClosed += SettingsClosedEvent;
+            settingsForm.ShowDialog();
 
-                settingsForm.Owner = this;
-                settingsForm.StartPosition = FormStartPosition.CenterParent;
-                settingsForm.CreateNewGameEvent += CreateNewGameHandler;
-                settingsForm.ShowDialog();
-            }
+        }
+
+
+        private void SettingsClosedEvent(object sender, EventArgs e)
+        {
+            ApplyTheme();
+            //NewGame();
         }
 
         private void NewGamePictureBox_Click(object sender, EventArgs e)
         {
+            StopTimer();
+            MineSweeperPro.IsGameOver = true;
 
-            NewGame();
-            ApplyTheme();
-            ResizeGameBoard();
+            StartPanel.Visible = true;
+            StartPanel.BringToFront();
+
             EndGamePanel.Visible = false;
         }
 
@@ -1240,18 +1225,51 @@
             screenshot.Dispose();
         }
 
+        private void StartNewGame(GameTypeEnum gameTypeEnum)
+        {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
+
+            NewGame(gameType.Width, gameType.Height, gameType.MineCount, gameType.HintCount);
+        }
+
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            ApplyTheme();
-            NewGame();
-
-            Enabled = true;
             EndGamePanel.Visible = false;
+            StartNewGame((GameTypeEnum)GameTypeComboBox.SelectedValue);
+
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            StartPanel.Visible = false;
+            Settings.Default.GameType = (int)GameTypeEnum.Easy;
+            StartNewGame(GameTypeEnum.Easy);
         }
 
         private void ShowBoardButton_Click(object sender, EventArgs e)
         {
             EndGamePanel.Visible = false;
+        }
+
+        private void NewGameMediumButton_Click(object sender, EventArgs e)
+        {
+            StartPanel.Visible = false;
+            Settings.Default.GameType = (int)GameTypeEnum.Medium;
+            StartNewGame(GameTypeEnum.Medium);
+        }
+
+        private void NewGameHardButton_Click(object sender, EventArgs e)
+        {
+            StartPanel.Visible = false;
+            Settings.Default.GameType = (int)GameTypeEnum.Hard;
+            StartNewGame(GameTypeEnum.Hard);
+        }
+
+        private void NewGameExpertButton_Click(object sender, EventArgs e)
+        {
+            StartPanel.Visible = false;
+            Settings.Default.GameType = (int)GameTypeEnum.Extreme;
+            StartNewGame(GameTypeEnum.Extreme);
         }
     }
 }

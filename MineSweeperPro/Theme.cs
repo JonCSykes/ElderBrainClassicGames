@@ -1,18 +1,6 @@
-﻿using MineSweeperPro.Properties;
-using Newtonsoft.Json;
-using Svg;
-using Svg.FilterEffects;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Diagnostics;
+﻿using Svg;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MineSweeperPro
 {
@@ -24,7 +12,7 @@ namespace MineSweeperPro
         public Color FlagInvalidColor { get; set; }
         public Color FlagValidColor { get; set; }
         public Color MineFieldBackColor { get; set; }
-        
+
         public Color StatusPanelBackColor { get; set; }
         public Color StatusPanelTextColor { get; set; }
 
@@ -82,8 +70,8 @@ namespace MineSweeperPro
             MineCellNumberColor5 = ColorTranslator.FromHtml(themeConfig.MineCellNumberColor5);
             MineCellNumberColor6 = ColorTranslator.FromHtml(themeConfig.MineCellNumberColor6);
             MineCellNumberColor7 = ColorTranslator.FromHtml(themeConfig.MineCellNumberColor7);
-            MineCellNumberColor8 = ColorTranslator.FromHtml(themeConfig.MineCellNumberColor8);      
-            
+            MineCellNumberColor8 = ColorTranslator.FromHtml(themeConfig.MineCellNumberColor8);
+
             RoundedCornerRadius = themeConfig.RoundedCornerRadius;
 
             if (!string.IsNullOrEmpty(themeConfig.MineImage))
@@ -286,14 +274,14 @@ namespace MineSweeperPro
                         writer.Write(modifiedContent);
                         writer.Flush();
 
-                        using (MemoryStream outputStream = new MemoryStream(Encoding.UTF8.GetBytes(modifiedContent))) 
-                        { 
+                        using (MemoryStream outputStream = new MemoryStream(Encoding.UTF8.GetBytes(modifiedContent)))
+                        {
                             var svgDoc = SvgDocument.Open<SvgDocument>(outputStream);
                             svgDoc.Height = height;
                             svgDoc.Width = width;
 
                             return svgDoc.Draw();
-                            }
+                        }
                     }
                 }
             }

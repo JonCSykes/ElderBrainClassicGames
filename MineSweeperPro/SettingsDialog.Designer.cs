@@ -141,6 +141,7 @@
             // 
             // ThemeComboBox
             // 
+            ThemeComboBox.FlatStyle = FlatStyle.Flat;
             ThemeComboBox.FormattingEnabled = true;
             ThemeComboBox.Location = new Point(322, 67);
             ThemeComboBox.Name = "ThemeComboBox";
@@ -181,6 +182,7 @@
             // 
             // DefaultChordControlComboBox
             // 
+            DefaultChordControlComboBox.FlatStyle = FlatStyle.Flat;
             DefaultChordControlComboBox.FormattingEnabled = true;
             DefaultChordControlComboBox.Location = new Point(322, 159);
             DefaultChordControlComboBox.Name = "DefaultChordControlComboBox";

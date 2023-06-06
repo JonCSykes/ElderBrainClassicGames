@@ -1,12 +1,6 @@
 ﻿using MineSweeperPro.Properties;
-using System;
-using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MineSweeperPro
 {
@@ -111,8 +105,8 @@ namespace MineSweeperPro
             ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
-            this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-            this.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
+            ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
+            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
             int cornerRadius = 10;
 
             var buttons = FindButtonControls(control);
@@ -130,7 +124,7 @@ namespace MineSweeperPro
                 button.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineCellBackColor);
                 button.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
                 button.FlatStyle = FlatStyle.Flat;
-                button.FlatAppearance.BorderSize = 0; 
+                button.FlatAppearance.BorderSize = 0;
             }
 
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, control.Width, control.Height, 15, 15));

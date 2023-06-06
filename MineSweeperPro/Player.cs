@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace MineSweeperPro
 {
@@ -23,7 +17,7 @@ namespace MineSweeperPro
         [JsonIgnore]
         [XmlIgnore]
         public Bitmap Portrait { get; set; }
-        
+
         [JsonIgnore]
         [XmlElement("PortraitData")]
         public byte[] PortraitData
@@ -56,8 +50,9 @@ namespace MineSweeperPro
             }
         }
 
-        public Player(string username, string portraitName, Bitmap portrait) { 
-            
+        public Player(string username, string portraitName, Bitmap portrait)
+        {
+
             Username = username;
             PortraitName = portraitName;
             Portrait = portrait;
@@ -65,11 +60,13 @@ namespace MineSweeperPro
             UpdateSettings();
         }
 
-        public Player() {
+        public Player()
+        {
 
         }
 
-        public bool ProfileExists() {
+        public bool ProfileExists()
+        {
 
             string assemblyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
@@ -107,7 +104,7 @@ namespace MineSweeperPro
                 {
                     Directory.CreateDirectory(HOME_FOLDER);
                 }
-                
+
                 SerializeObject(settingsFilePath);
             }
         }
@@ -115,7 +112,7 @@ namespace MineSweeperPro
         public void GetSettings()
         {
             string assemblyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            
+
             if (!string.IsNullOrEmpty(assemblyPath))
             {
                 HOME_FOLDER = Path.Combine(assemblyPath, "MineSweeperPro");
@@ -128,11 +125,11 @@ namespace MineSweeperPro
                 if (Directory.Exists(HOME_FOLDER))
                 {
                     var loadedSettings = DeserializeObject(settingsFilePath);
-          
-                    this.Username = loadedSettings.Username;
-                    this.Portrait = loadedSettings.Portrait;
-                    this.PortraitName = loadedSettings.PortraitName;
-                    
+
+                    Username = loadedSettings.Username;
+                    Portrait = loadedSettings.Portrait;
+                    PortraitName = loadedSettings.PortraitName;
+
                 }
             }
         }
@@ -164,6 +161,6 @@ namespace MineSweeperPro
                 return player;
             }
         }
-        
+
     }
 }
