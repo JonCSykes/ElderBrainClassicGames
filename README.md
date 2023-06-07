@@ -8,6 +8,8 @@ In the process of upgrading to Windows 11 Microsoft made their core casual games
 
 Instead of paying $5/month, I decided to write an open source version of my favorite casual game Mine Sweeper, and in the process enhanced it with game stats and player stat tracking over time. 
 
+I will eventually upgrade this to a front end framework more modern like .NET MAUI.
+
 ## MineSweepers
 This is an idea I had to write a cross-platform multiplayer version of MineSweeper that reverses the concept to how many mines can each player find in real time. There is also a turn based option.
 
