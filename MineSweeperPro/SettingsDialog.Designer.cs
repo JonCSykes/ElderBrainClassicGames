@@ -30,19 +30,12 @@
         {
             SaveButton = new Button();
             CancelButton = new Button();
-            DefaultWidthTextbox = new TextBox();
-            DefaultWidthLabel = new Label();
-            DefaultHeightLabel = new Label();
-            DefaultHeightTextbox = new TextBox();
-            DefaultMineCountLabel = new Label();
-            DefaultMineCountTextbox = new TextBox();
-            DefaultHintCountLabel = new Label();
-            DefaultHintCountTextbox = new TextBox();
             ThemeComboBox = new ComboBox();
             label1 = new Label();
             EnableSoundCheckBox = new CheckBox();
             ChordControlLabel = new Label();
             DefaultChordControlComboBox = new ComboBox();
+            ShowGameOptionsCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // SaveButton
@@ -50,7 +43,7 @@
             SaveButton.BackColor = Color.White;
             SaveButton.FlatAppearance.BorderSize = 0;
             SaveButton.FlatStyle = FlatStyle.Flat;
-            SaveButton.Location = new Point(358, 288);
+            SaveButton.Location = new Point(219, 222);
             SaveButton.Name = "SaveButton";
             SaveButton.Size = new Size(112, 34);
             SaveButton.TabIndex = 0;
@@ -63,7 +56,7 @@
             CancelButton.BackColor = Color.White;
             CancelButton.FlatAppearance.BorderSize = 0;
             CancelButton.FlatStyle = FlatStyle.Flat;
-            CancelButton.Location = new Point(476, 288);
+            CancelButton.Location = new Point(347, 222);
             CancelButton.Name = "CancelButton";
             CancelButton.Size = new Size(112, 34);
             CancelButton.TabIndex = 1;
@@ -71,79 +64,11 @@
             CancelButton.UseVisualStyleBackColor = false;
             CancelButton.Click += CancelButton_Click;
             // 
-            // DefaultWidthTextbox
-            // 
-            DefaultWidthTextbox.Location = new Point(188, 39);
-            DefaultWidthTextbox.Name = "DefaultWidthTextbox";
-            DefaultWidthTextbox.Size = new Size(59, 31);
-            DefaultWidthTextbox.TabIndex = 10;
-            DefaultWidthTextbox.KeyPress += DefaultWidthTextbox_KeyPress;
-            // 
-            // DefaultWidthLabel
-            // 
-            DefaultWidthLabel.AutoSize = true;
-            DefaultWidthLabel.Location = new Point(12, 39);
-            DefaultWidthLabel.Name = "DefaultWidthLabel";
-            DefaultWidthLabel.Size = new Size(126, 25);
-            DefaultWidthLabel.TabIndex = 11;
-            DefaultWidthLabel.Text = "Default Width:";
-            // 
-            // DefaultHeightLabel
-            // 
-            DefaultHeightLabel.AutoSize = true;
-            DefaultHeightLabel.Location = new Point(12, 83);
-            DefaultHeightLabel.Name = "DefaultHeightLabel";
-            DefaultHeightLabel.Size = new Size(131, 25);
-            DefaultHeightLabel.TabIndex = 13;
-            DefaultHeightLabel.Text = "Default Height:";
-            // 
-            // DefaultHeightTextbox
-            // 
-            DefaultHeightTextbox.Location = new Point(188, 83);
-            DefaultHeightTextbox.Name = "DefaultHeightTextbox";
-            DefaultHeightTextbox.Size = new Size(59, 31);
-            DefaultHeightTextbox.TabIndex = 12;
-            DefaultHeightTextbox.KeyPress += DefaultHeightTextbox_KeyPress;
-            // 
-            // DefaultMineCountLabel
-            // 
-            DefaultMineCountLabel.AutoSize = true;
-            DefaultMineCountLabel.Location = new Point(12, 129);
-            DefaultMineCountLabel.Name = "DefaultMineCountLabel";
-            DefaultMineCountLabel.Size = new Size(170, 25);
-            DefaultMineCountLabel.TabIndex = 15;
-            DefaultMineCountLabel.Text = "Default Mine Count:";
-            // 
-            // DefaultMineCountTextbox
-            // 
-            DefaultMineCountTextbox.Location = new Point(188, 129);
-            DefaultMineCountTextbox.Name = "DefaultMineCountTextbox";
-            DefaultMineCountTextbox.Size = new Size(59, 31);
-            DefaultMineCountTextbox.TabIndex = 14;
-            DefaultMineCountTextbox.KeyPress += DefaultMineCountTextbox_KeyPress;
-            // 
-            // DefaultHintCountLabel
-            // 
-            DefaultHintCountLabel.AutoSize = true;
-            DefaultHintCountLabel.Location = new Point(12, 178);
-            DefaultHintCountLabel.Name = "DefaultHintCountLabel";
-            DefaultHintCountLabel.Size = new Size(164, 25);
-            DefaultHintCountLabel.TabIndex = 17;
-            DefaultHintCountLabel.Text = "Default Hint Count:";
-            // 
-            // DefaultHintCountTextbox
-            // 
-            DefaultHintCountTextbox.Location = new Point(188, 175);
-            DefaultHintCountTextbox.Name = "DefaultHintCountTextbox";
-            DefaultHintCountTextbox.Size = new Size(59, 31);
-            DefaultHintCountTextbox.TabIndex = 16;
-            DefaultHintCountTextbox.KeyPress += DefaultHintCountTextbox_KeyPress;
-            // 
             // ThemeComboBox
             // 
             ThemeComboBox.FlatStyle = FlatStyle.Flat;
             ThemeComboBox.FormattingEnabled = true;
-            ThemeComboBox.Location = new Point(322, 67);
+            ThemeComboBox.Location = new Point(30, 61);
             ThemeComboBox.Name = "ThemeComboBox";
             ThemeComboBox.Size = new Size(182, 33);
             ThemeComboBox.TabIndex = 19;
@@ -151,7 +76,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(322, 39);
+            label1.Location = new Point(30, 33);
             label1.Name = "label1";
             label1.Size = new Size(69, 25);
             label1.TabIndex = 20;
@@ -163,7 +88,7 @@
             EnableSoundCheckBox.Checked = true;
             EnableSoundCheckBox.CheckState = CheckState.Checked;
             EnableSoundCheckBox.Font = new Font("Segoe UI", 8F, FontStyle.Italic, GraphicsUnit.Point);
-            EnableSoundCheckBox.Location = new Point(12, 288);
+            EnableSoundCheckBox.Location = new Point(263, 150);
             EnableSoundCheckBox.Name = "EnableSoundCheckBox";
             EnableSoundCheckBox.Size = new Size(131, 25);
             EnableSoundCheckBox.TabIndex = 21;
@@ -172,22 +97,35 @@
             // 
             // ChordControlLabel
             // 
-            ChordControlLabel.Location = new Point(322, 127);
+            ChordControlLabel.Location = new Point(30, 113);
             ChordControlLabel.Margin = new Padding(0);
             ChordControlLabel.Name = "ChordControlLabel";
             ChordControlLabel.Size = new Size(207, 29);
             ChordControlLabel.TabIndex = 23;
             ChordControlLabel.Text = "Default Chord Control:";
             ChordControlLabel.TextAlign = ContentAlignment.MiddleLeft;
+            ChordControlLabel.Click += ChordControlLabel_Click;
             // 
             // DefaultChordControlComboBox
             // 
             DefaultChordControlComboBox.FlatStyle = FlatStyle.Flat;
             DefaultChordControlComboBox.FormattingEnabled = true;
-            DefaultChordControlComboBox.Location = new Point(322, 159);
+            DefaultChordControlComboBox.Location = new Point(30, 145);
             DefaultChordControlComboBox.Name = "DefaultChordControlComboBox";
             DefaultChordControlComboBox.Size = new Size(182, 33);
             DefaultChordControlComboBox.TabIndex = 22;
+            // 
+            // ShowGameOptionsCheckBox
+            // 
+            ShowGameOptionsCheckBox.AutoSize = true;
+            ShowGameOptionsCheckBox.Enabled = false;
+            ShowGameOptionsCheckBox.Font = new Font("Segoe UI", 8F, FontStyle.Italic, GraphicsUnit.Point);
+            ShowGameOptionsCheckBox.Location = new Point(263, 69);
+            ShowGameOptionsCheckBox.Name = "ShowGameOptionsCheckBox";
+            ShowGameOptionsCheckBox.Size = new Size(178, 25);
+            ShowGameOptionsCheckBox.TabIndex = 24;
+            ShowGameOptionsCheckBox.Text = "Show Game Options";
+            ShowGameOptionsCheckBox.UseVisualStyleBackColor = true;
             // 
             // SettingsDialog
             // 
@@ -195,20 +133,13 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CausesValidation = false;
-            ClientSize = new Size(600, 334);
+            ClientSize = new Size(481, 277);
+            Controls.Add(ShowGameOptionsCheckBox);
             Controls.Add(ChordControlLabel);
             Controls.Add(DefaultChordControlComboBox);
             Controls.Add(EnableSoundCheckBox);
             Controls.Add(label1);
             Controls.Add(ThemeComboBox);
-            Controls.Add(DefaultHintCountLabel);
-            Controls.Add(DefaultHintCountTextbox);
-            Controls.Add(DefaultMineCountLabel);
-            Controls.Add(DefaultMineCountTextbox);
-            Controls.Add(DefaultHeightLabel);
-            Controls.Add(DefaultHeightTextbox);
-            Controls.Add(DefaultWidthLabel);
-            Controls.Add(DefaultWidthTextbox);
             Controls.Add(CancelButton);
             Controls.Add(SaveButton);
             FormBorderStyle = FormBorderStyle.None;
@@ -228,18 +159,11 @@
 
         private Button SaveButton;
         private Button CancelButton;
-        private TextBox DefaultWidthTextbox;
-        private Label DefaultWidthLabel;
-        private Label DefaultHeightLabel;
-        private TextBox DefaultHeightTextbox;
-        private Label DefaultMineCountLabel;
-        private TextBox DefaultMineCountTextbox;
-        private Label DefaultHintCountLabel;
-        private TextBox DefaultHintCountTextbox;
         private ComboBox ThemeComboBox;
         private Label label1;
         private CheckBox EnableSoundCheckBox;
         private Label ChordControlLabel;
         private ComboBox DefaultChordControlComboBox;
+        private CheckBox ShowGameOptionsCheckBox;
     }
 }

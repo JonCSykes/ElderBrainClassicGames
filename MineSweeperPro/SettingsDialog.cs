@@ -74,10 +74,6 @@ namespace MineSweeperPro
         {
             InitializeComponent();
 
-            DefaultWidthTextbox.Text = Settings.Default.MineFieldWidth.ToString();
-            DefaultHeightTextbox.Text = Settings.Default.MineFieldHeight.ToString();
-            DefaultMineCountTextbox.Text = Settings.Default.MineCount.ToString();
-            DefaultHintCountTextbox.Text = Settings.Default.HintCount.ToString();
             ChordControlEnum[] chordControlEnumValues = (ChordControlEnum[])Enum.GetValues(typeof(ChordControlEnum));
 
             DefaultChordControlComboBox.DataSource = chordControlEnumValues;
@@ -98,7 +94,7 @@ namespace MineSweeperPro
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
             ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
+            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.StatusPanelBackColor);
 
             int cornerRadius = 10;
 
@@ -127,50 +123,6 @@ namespace MineSweeperPro
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            int defaultWidth = 0;
-            int defaultHeight = 0;
-            int defaultMineCount = 0;
-            int defaultHintCount = 0;
-
-            if (!int.TryParse(DefaultWidthTextbox.Text, out defaultWidth) || !int.TryParse(DefaultHeightTextbox.Text, out defaultHeight) || !int.TryParse(DefaultMineCountTextbox.Text, out defaultMineCount) || !int.TryParse(DefaultHintCountTextbox.Text, out defaultHintCount))
-            {
-                MessageBox.Show("Invalid input. Please enter a valid integers in provided fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            if (defaultWidth > 7 && defaultHeight > 7)
-            {
-                if (defaultWidth * defaultHeight >= 64 && defaultWidth * defaultHeight <= 1500)
-                {
-                    Settings.Default.MineFieldWidth = defaultWidth;
-                    Settings.Default.MineFieldHeight = defaultHeight;
-                }
-                else
-                {
-                    MessageBox.Show("Your width and height must calculate to at least 64 blocks total and no greater that 1500 blocks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Your width and height must be 8 cells.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            if (defaultMineCount > 0)
-            {
-                if (defaultMineCount < defaultWidth * defaultHeight)
-                {
-                    Settings.Default.MineCount = defaultMineCount;
-                }
-                else
-                {
-                    MessageBox.Show("You must have less lines the total number of blocks in your mine field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Your mine count must be greater than 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            Settings.Default.HintCount = defaultHintCount;
             Settings.Default.Theme = ThemeComboBox.SelectedValue?.ToString();
             Settings.Default.EnableSound = EnableSoundCheckBox.Checked;
             Settings.Default.ChordControl = (int)DefaultChordControlComboBox.SelectedValue;
@@ -218,6 +170,11 @@ namespace MineSweeperPro
                 // Cancel the key press event
                 e.Handled = true;
             }
+        }
+
+        private void ChordControlLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
