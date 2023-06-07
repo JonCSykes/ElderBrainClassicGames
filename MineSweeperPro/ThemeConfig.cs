@@ -1,13 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MineSweeperPro
 {
@@ -118,7 +110,7 @@ namespace MineSweeperPro
                     }
                 }
             }
-            
+
             return false;
         }
 
@@ -129,7 +121,8 @@ namespace MineSweeperPro
                 try
                 {
                     string assemblyPath = Assembly.GetExecutingAssembly().Location;
-                    if (!string.IsNullOrEmpty(assemblyPath)) {
+                    if (!string.IsNullOrEmpty(assemblyPath))
+                    {
                         string? execPath = Path.GetDirectoryName(assemblyPath);
                         if (execPath != null)
                         {
@@ -189,7 +182,7 @@ namespace MineSweeperPro
             if (Directory.Exists(imagePath))
             {
                 if (File.Exists(Path.Combine(imagePath, themeConfig.MineImage)))
-                { 
+                {
                     var mineImagePath = Path.Combine(imagePath, themeConfig.MineImage);
                     MineImage = mineImagePath;
                 }

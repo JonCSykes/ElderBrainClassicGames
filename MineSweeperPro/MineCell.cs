@@ -1,7 +1,7 @@
 ﻿namespace MineSweeperPro
 {
     // Import libraries
-    
+
     public class MineCell
     {
         public int X { get; set; }

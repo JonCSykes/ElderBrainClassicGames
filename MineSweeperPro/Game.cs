@@ -1,45 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
-namespace MineSweeperPro       
+﻿namespace MineSweeperPro
 {
     public class Game
     {
-        private int bbbv = 0;
-
         public MineField? MineField { get; set; }
         public int HintCount { get; set; }
         public int HintCounter { get; set; }
         public bool IsGameStarted { get; set; }
         public bool IsGameOver { get; set; }
-        public bool IsWin 
-        { 
-            get 
-            {
-                return ValidateWin();
-            } 
-        }
-
-        public int BBBV
+        public DateTime GameTimestamp { get; set; }
+        public bool IsWin
         {
             get
             {
-                return Get3BV();
+                return ValidateWin();
             }
         }
+
+        public int BBBV { get; set;}
         public double BBBVS
         {
             get
-            { 
+            {
                 return Get3BVS();
             }
         }
         public int BBBVTotal
-        { 
+        {
             get
             {
                 return Get3BVTotal();
@@ -56,6 +42,8 @@ namespace MineSweeperPro
             HintCount = hintCount;
             HintCounter = 0;
             IsGameStarted = false;
+            GameTimestamp = DateTime.Now;
+            BBBV = Get3BV();
         }
 
         private bool ValidateWin()
@@ -79,41 +67,41 @@ namespace MineSweeperPro
 
         private int Get3BV()
         {
-            if (bbbv == 0)
-            {
-                HashSet<MineCell> visitedCells = new HashSet<MineCell>();
+            int bbbv = 0;
+            
+            HashSet<MineCell> visitedCells = new HashSet<MineCell>();
 
-                if (MineField != null && MineField.SortedClusterCollection != null)
+            if (MineField != null && MineField.SortedClusterCollection != null)
+            {
+                foreach (var mineCell in MineField.SortedClusterCollection)
                 {
-                    foreach (var mineCell in MineField.SortedClusterCollection)
+                    if (mineCell.Type == MineCellTypeEnum.Land && mineCell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(mineCell))
                     {
-                        if (mineCell.Type == MineCellTypeEnum.Land && mineCell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(mineCell))
+                        if (mineCell.ClusterSize > 1)
                         {
-                            if (mineCell.ClusterSize > 1)
+                            bbbv++;
+                            visitedCells.UnionWith(MineField.GetClusterCells(mineCell));
+                        }
+                    }
+                }
+
+                for (int x = 0; x < MineField.Width; x++)
+                {
+                    for (int y = 0; y < MineField.Height; y++)
+                    {
+                        if (MineField.MineCellCollection != null)
+                        {
+                            MineCell cell = MineField.MineCellCollection[x, y];
+                            if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
                             {
                                 bbbv++;
-                                visitedCells.UnionWith(MineField.GetClusterCells(mineCell));
                             }
                         }
                     }
-
-                    for (int x = 0; x < MineField.Width; x++)
-                    {
-                        for (int y = 0; y < MineField.Height; y++)
-                        {
-                            if (MineField.MineCellCollection != null)
-                            {
-                                MineCell cell = MineField.MineCellCollection[x, y];
-                                if (cell.Type == MineCellTypeEnum.Land && cell.Status != MineCellStatusEnum.Revealed && !visitedCells.Contains(cell))
-                                {
-                                    bbbv++;
-                                }
-                            }
-                        }
-                    }
-
                 }
+
             }
+            
 
             return bbbv;
         }

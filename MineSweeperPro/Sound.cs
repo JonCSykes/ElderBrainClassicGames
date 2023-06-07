@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Net.NetworkInformation;
+﻿using System.Media;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MineSweeperPro
 {
- 
+
     public class Sound
     {
         public static readonly string FlagOnSound = "switch_006.wav";
@@ -18,7 +12,7 @@ namespace MineSweeperPro
         public static readonly string CellRevealSound = "bong_001.wav";
         public static readonly string ClusterRevealSound = "confirmation_004.wav";
         public static readonly string WinSound = "jingles_SAX10.wav";
-        public static readonly string GameOverSound = "boom_gameover.wav"; 
+        public static readonly string GameOverSound = "boom_gameover.wav";
 
         private Queue<string> soundQueue = new Queue<string>();
         private SoundPlayer soundPlayer = new SoundPlayer();
@@ -34,8 +28,8 @@ namespace MineSweeperPro
 
         public void AddToQueue(string soundName)
         {
-            if (EnableSound) 
-            { 
+            if (EnableSound)
+            {
                 string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string filePath = Path.Combine(exePath, "Assets", soundName);
 
@@ -49,7 +43,7 @@ namespace MineSweeperPro
             }
         }
 
-        public void AddToQueue(string soundName, int delay) 
+        public void AddToQueue(string soundName, int delay)
         {
             if (EnableSound)
             {
@@ -65,8 +59,8 @@ namespace MineSweeperPro
                 }
             }
         }
-        
-        public void Play(string soundName) 
+
+        public void Play(string soundName)
         {
             if (EnableSound)
             {

@@ -1,17 +1,7 @@
 ﻿using MineSweeperPro.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace MineSweeperPro
 {
@@ -45,7 +35,7 @@ namespace MineSweeperPro
         public event LoadProfileDelegate LoadProfileEvent;
 
         ThemeConfig ConfiguredTheme;
-        
+
 
         protected override CreateParams CreateParams
         {
@@ -106,7 +96,7 @@ namespace MineSweeperPro
 
             ApplyTheme();
 
-            
+
             CurrentPlayer = currentPlayer;
 
             if (CurrentPlayer.ProfileExists())
@@ -117,7 +107,7 @@ namespace MineSweeperPro
 
                 SelectCurrentPortrait(CurrentPlayer.PortraitName);
             }
-            
+
         }
 
         private System.Drawing.Image ResizeProfileImage(System.Drawing.Image profileImage, int width, int height)
@@ -134,8 +124,8 @@ namespace MineSweeperPro
             ConfiguredTheme = new ThemeConfig();
             ConfiguredTheme.LoadTheme(Settings.Default.Theme);
 
-            this.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-            this.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
+            ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
+            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
 
             int cornerRadius = 10;
 
@@ -167,23 +157,23 @@ namespace MineSweeperPro
             if (portraitName == GetImageName(Properties.Resources.profile_boy))
             {
                 TogglePictureBox(ProfilePictureBox1);
-            } 
+            }
             else if (portraitName == GetImageName(Properties.Resources.profile_girl))
             {
                 TogglePictureBox(ProfilePictureBox2);
-            } 
+            }
             else if (portraitName == GetImageName(Properties.Resources.profile_monkey))
             {
                 TogglePictureBox(ProfilePictureBox3);
-            } 
+            }
             else if (portraitName == GetImageName(Properties.Resources.profile_dragon))
             {
                 TogglePictureBox(ProfilePictureBox4);
-            } 
+            }
             else if (portraitName == GetImageName(Properties.Resources.profile_blue_dragon))
             {
                 TogglePictureBox(ProfilePictureBox5);
-            } 
+            }
             else if (portraitName == GetImageName(Properties.Resources.profile_dog))
             {
                 TogglePictureBox(ProfilePictureBox6);
@@ -213,12 +203,12 @@ namespace MineSweeperPro
 
             foreach (PropertyInfo property in properties)
             {
-                if (property.GetValue(null) is Bitmap bitmap && AreBitmapsEqual(bitmap,image))
+                if (property.GetValue(null) is Bitmap bitmap && AreBitmapsEqual(bitmap, image))
                 {
-                    return property.Name; 
+                    return property.Name;
                 }
             }
-            return null; 
+            return null;
         }
 
         private static bool AreBitmapsEqual(Bitmap bitmap1, Bitmap bitmap2)
