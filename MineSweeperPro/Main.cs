@@ -34,7 +34,7 @@
         private Button MaximizeButton;
         private Button CloseButton;
         private Label TitleLabel;
-        private LeaderBoard LeaderBoard;
+        private GameEntryCollection GameEntryCollection;
         private Sound SoundPlayer;
         private Timer AnimationTimer;
         private Timer BBBVSTimer;
@@ -75,7 +75,7 @@
             BBBVSTimer.Interval = 1;
             BBBVSTimer.Tick += new EventHandler(BBBVSTimer_Tick);
 
-            LeaderBoard = new LeaderBoard();
+            GameEntryCollection = new GameEntryCollection();
 
             ApplyTheme();
 
@@ -90,7 +90,6 @@
 
         private void GlobalTimer_Tick(object sender, EventArgs e)
         {
-
             if (IsTimerRunning)
             {
                 ElapsedTime = DateTime.Now - StartTime;
@@ -98,7 +97,6 @@
 
                 TimerLabel.Text = time;
             }
-
         }
 
         public void StartTimer()
@@ -249,23 +247,22 @@
             PerformLayout();
         }
 
-        public void NewGame(int width, int height, int mineCount, int hintCount)
+        public void NewGame(GameTypeEnum gameTypeEnum)
         {
             StopTimer();
 
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
             SoundPlayer = new Sound(Settings.Default.EnableSound);
-            MineSweeperPro = new Game(CurrentPlayer, width, height, mineCount, hintCount);
+            MineSweeperPro = new Game(CurrentPlayer, gameType);
 
             ClearMineButtons();
             GenerateMineButtons();
             ResizeGameBoard();
 
-
-
             if (WindowState != FormWindowState.Maximized)
             {
-                ClientSize = new Size(Math.Max(width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH, 1274), Math.Max(height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT, 1024));
-                MinimumSize = new Size(Math.Max(width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
+                ClientSize = new Size(Math.Max(gameType.Width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH, 1274), Math.Max(gameType.Height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT, 1024));
+                MinimumSize = new Size(Math.Max(gameType.Width * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + STATUS_PANEL_WIDTH + WINDOW_RESIZE_THICKNESS, 1274), Math.Max(gameType.Height * (DEFAULT_CELL_SIZE + DEFAULT_CELL_PADDING) + CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS, 1024));
 
                 PerformLayout();
             }
@@ -274,7 +271,7 @@
             {
                 TimerLabel.Text = "00:00:00";
                 RemainingMinesLabel.Text = "0";
-                RemainingMinesLabel.Text = mineCount.ToString();
+                RemainingMinesLabel.Text = gameType.MineCount.ToString();
                 BBBVValueLabel.Text = MineSweeperPro.BBBV.ToString();
                 BoardSizeValueLabel.Text = MineSweeperPro.MineField.Width.ToString() + " x " + MineSweeperPro.MineField.Height.ToString();
                 MineCountValueLabel.Text = MineSweeperPro.MineField.MineCount.ToString();
@@ -286,8 +283,6 @@
 
                 EndGamePanel.Visible = false;
                 MineSweeperPro.IsGameStarted = true;
-
-                LeaderBoard.Game = MineSweeperPro;
             }
 
             StartPanel.Visible = false;
@@ -344,7 +339,7 @@
 
             StopTimer();
 
-            LeaderBoard.AddGameEntry(ElapsedTime);
+            GameEntryCollection.AddGameEntry(MineSweeperPro, ElapsedTime);
 
             UpdateGameStats();
 
@@ -392,7 +387,7 @@
         {
             LeaderBoardPanel.Controls.Clear();
 
-            var gameEntries = LeaderBoard.GetLeaderBoard();
+            var gameEntries = GameEntryCollection.GetEntries(MineSweeperPro.GameType.GameTypeEnum);
             int displayCount = 9; //TODO: make this globally configurable.
             int count = 0;
 
@@ -1010,7 +1005,11 @@
 
         private void TimerLabel_Click(object sender, EventArgs e)
         {
-
+            PlayerStats playerStats = new PlayerStats();
+            playerStats.Size = new Size(1000, 500);
+            playerStats.ClientSize = new Size(1000, 500);
+            playerStats.StartPosition = FormStartPosition.CenterParent;
+            playerStats.ShowDialog();
         }
 
         private void ProfilePictureBox_Click(object sender, EventArgs e)
@@ -1204,7 +1203,6 @@
         private void SettingsClosedEvent(object sender, EventArgs e)
         {
             ApplyTheme();
-            //NewGame();
         }
 
         private void NewGamePictureBox_Click(object sender, EventArgs e)
@@ -1258,25 +1256,17 @@
             screenshot.Dispose();
         }
 
-        private void StartNewGame(GameTypeEnum gameTypeEnum)
-        {
-            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
-
-            NewGame(gameType.Width, gameType.Height, gameType.MineCount, gameType.HintCount);
-        }
-
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             EndGamePanel.Visible = false;
-            StartNewGame((GameTypeEnum)GameTypeComboBox.SelectedValue);
-
+            NewGame((GameTypeEnum)GameTypeComboBox.SelectedValue);
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             StartPanel.Visible = false;
             Settings.Default.GameType = (int)GameTypeEnum.Easy;
-            StartNewGame(GameTypeEnum.Easy);
+            NewGame(GameTypeEnum.Easy);
         }
 
         private void ShowBoardButton_Click(object sender, EventArgs e)
@@ -1288,21 +1278,21 @@
         {
             StartPanel.Visible = false;
             Settings.Default.GameType = (int)GameTypeEnum.Medium;
-            StartNewGame(GameTypeEnum.Medium);
+            NewGame(GameTypeEnum.Medium);
         }
 
         private void NewGameHardButton_Click(object sender, EventArgs e)
         {
             StartPanel.Visible = false;
             Settings.Default.GameType = (int)GameTypeEnum.Hard;
-            StartNewGame(GameTypeEnum.Hard);
+            NewGame(GameTypeEnum.Hard);
         }
 
         private void NewGameExpertButton_Click(object sender, EventArgs e)
         {
             StartPanel.Visible = false;
             Settings.Default.GameType = (int)GameTypeEnum.Extreme;
-            StartNewGame(GameTypeEnum.Extreme);
+            NewGame(GameTypeEnum.Extreme);
         }
     }
 }

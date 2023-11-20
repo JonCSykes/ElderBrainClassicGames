@@ -28,9 +28,12 @@
         public int Height { get; private set; }
         public int MineCount { get; private set; }
         public int HintCount { get; private set; }
+        public GameTypeEnum GameTypeEnum { get; private set; }
 
         public GameType(GameTypeEnum gameType)
         {
+            GameTypeEnum = gameType;
+
             switch (gameType)
             {
                 case GameTypeEnum.Easy:
@@ -38,6 +41,7 @@
                     Height = EASY_HEIGHT;
                     MineCount = EASY_MINE_COUNT;
                     HintCount = EASY_HINT_COUNT;
+                    
                     break;
                 case GameTypeEnum.Medium:
                     Width = MEDIUM_WIDTH;

@@ -6,30 +6,28 @@ using System.Text;
 namespace MineSweeperPro
 {
     [Serializable]
-    public class LeaderBoard
+    public class GameEntryCollection
     {
         private readonly string SCORES_FILE = "App.dat";
         private string? HOME_FOLDER;
         private static readonly byte[] Key = Encoding.UTF8.GetBytes("!9MineCellsLife!");
         private static readonly byte[] IV = Encoding.UTF8.GetBytes("FlaggingIsAVerb!");
+        private List<GameEntry> gameEntries;
 
-        private List<GameEntry> gameEntries = new List<GameEntry>();
-        public Game Game { get; set; }
-
-        public LeaderBoard()
+        public GameEntryCollection()
         {
             gameEntries = new List<GameEntry>();
 
             LoadData();
         }
 
-        public void AddGameEntry(TimeSpan timestamp)
+        public void AddGameEntry(Game game, TimeSpan timestamp)
         {
-            if (Game != null && Game.MineField != null)
+            if (game != null && game.GameType != null)
             {
-                string searchKey = string.Concat(Game.MineField.Width, Game.MineField.Height, Game.MineField.MineCount, Game.HintCount);
+                string searchKey = string.Concat(game.GameType.Width, game.MineField.Height, game.MineField.MineCount, game.HintCount);
 
-                GameEntry entry = new GameEntry(searchKey, Game.Player.Username, timestamp, Game, 0, Game.IsWin);
+                GameEntry entry = new GameEntry(searchKey, game.Player.Username, timestamp, game, 0, game.IsWin);
 
                 gameEntries.Add(entry);
 
@@ -39,17 +37,183 @@ namespace MineSweeperPro
             }
         }
 
-        public List<GameEntry> GetLeaderBoard()
+        public List<GameEntry> GetEntries(GameTypeEnum gameTypeEnum)
         {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
             List<GameEntry> scores = new List<GameEntry>();
 
-            if (Game != null && Game.MineField != null)
+            if (gameType != null)
             {
-                string searchKey = string.Concat(Game.MineField.Width, Game.MineField.Height, Game.MineField.MineCount, Game.HintCount);
+                string searchKey = string.Concat(gameType.Width, gameType.Height, gameType.MineCount, gameType.HintCount);
                 scores = gameEntries.FindAll(e => e.Key == searchKey && e.Win == true);
             }
 
             return scores;
+        }
+        
+        public double GetAverageTime() 
+        { 
+            double average = 0;
+            int winCount = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (entry.Win)
+                {
+                    average += entry.Timestamp.TotalMilliseconds;
+                    winCount++;
+                }
+            }
+
+            average = average / winCount;
+
+            return average;
+        } 
+
+        public double GetAverageTime(GameTypeEnum gameTypeEnum)
+        {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
+            
+            double average = 0;
+            int winCount = 0;
+
+            if (gameType != null)
+            {
+                string searchKey = string.Concat(gameType.Width, gameType.Height, gameType.MineCount, gameType.HintCount);
+
+                foreach (GameEntry entry in gameEntries)
+                {
+                    if (entry.Game == null || entry.Game.GameType == null || !entry.Win || entry.Key != searchKey)
+                        continue;
+
+                    average += entry.Timestamp.TotalMilliseconds;
+                    winCount++;
+                }
+            
+                average = average / winCount;
+            }
+
+            return average;
+        }
+
+        public double GetAverageEfficiency()
+        {
+            double averageEfficiency = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (!entry.Win)
+                    continue;
+
+                int bbbv = entry.Game.BBBV;
+                int bbbvTotal = entry.Game.BBBVTotal;
+                double efficiency = 0;
+
+                if (bbbv > 0 && bbbvTotal > 0)
+                {
+                    efficiency = bbbv / (double)(bbbvTotal) * 100;
+                }
+
+                averageEfficiency += efficiency;
+            }
+
+            averageEfficiency = averageEfficiency / gameEntries.Count;
+
+            return averageEfficiency;
+        }
+
+        public double GetAverageEfficiency(GameTypeEnum gameTypeEnum)
+        {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
+
+            double averageEfficiency = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (entry.Game == null || entry.Game.GameType == null || entry.Game.GameType != gameType || !entry.Win)
+                    continue;
+
+                int bbbv = entry.Game.BBBV;
+                int bbbvTotal = entry.Game.BBBVTotal;
+                double efficiency = 0;
+
+                if (bbbv > 0 && bbbvTotal > 0)
+                {
+                    efficiency = bbbv / (double)(bbbvTotal) * 100;
+                }
+
+                averageEfficiency += efficiency;
+            }
+
+            averageEfficiency = averageEfficiency / gameEntries.Count;
+
+            return averageEfficiency;
+        }
+
+        public int GetTotalWins()
+        {
+            int totalWins = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (!entry.Win)
+                    continue;
+
+                totalWins++;
+            }
+
+            return totalWins;
+        }
+        public int GetTotalWins(GameTypeEnum gameTypeEnum)
+        {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
+            int totalWins = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (entry.Game == null || entry.Game.GameType == null || entry.Game.GameType != gameType || !entry.Win)
+                    continue;
+
+                totalWins++;
+            }
+
+            return totalWins;
+        }
+
+        public int GetTotalLosses()
+        {
+            int totalLosses = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (entry.Win)
+                    continue;
+
+                totalLosses++;
+            }
+
+            return totalLosses;
+        }
+        public int GetTotalLosses(GameTypeEnum gameTypeEnum)
+        {
+            GameType gameType = new GameType(GameType.GetGameType((int)gameTypeEnum));
+            int totalLosses = 0;
+
+            foreach (GameEntry entry in gameEntries)
+            {
+                if (entry.Game == null || entry.Game.GameType == null || entry.Game.GameType != gameType || entry.Win)
+                    continue;
+
+                totalLosses++;
+            }
+
+            return totalLosses;
+        }
+
+
+        public List<GameEntry> GetEntries()
+        {
+            return gameEntries;
         }
 
         private void SortGameEntries(string searchKey)
@@ -194,32 +358,4 @@ namespace MineSweeperPro
             }
         }
     }
-
-    [Serializable]
-    public class GameEntry
-    {
-        public string? Key { get; set; }
-        public string? Username { get; set; }
-        public TimeSpan Timestamp { get; set; }
-        public Game Game { get; set; }
-        public int Rank { get; set; }
-        public bool Win { get; set; }
-
-        public GameEntry(string? key, string? username, TimeSpan timestamp, Game game, int rank, bool win)
-        {
-            Key = key;
-            Username = username;
-            Timestamp = timestamp;
-            Game = game;
-            Rank = rank;
-            Win = win;
-        }
-
-        public override string ToString()
-        {
-            return $"Rank: {Rank}, Username: {Username}, Timestamp: {Timestamp}";
-        }
-    }
-
-
 }

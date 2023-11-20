@@ -1,134 +1,259 @@
 ﻿using MineSweeperPro.Properties;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MineSweeperPro
 {
     public class ThemedForm : Form
     {
-        private const int CS_DROPSHADOW = 0x20000;
-        private const int WM_NCPAINT = 0x0085;
-        private const int WM_NCCALCSIZE = 0x0083;
+        #region P/Invoke
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
-
-        [DllImport("user32.dll")]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetDC(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-        ThemeConfig ConfiguredTheme;
-
-        protected override CreateParams CreateParams
+        private void InitializeComponent()
         {
-            get
+            SuspendLayout();
+            // 
+            // ThemedForm
+            // 
+            ClientSize = new Size(278, 244);
+            Name = "ThemedForm";
+            ResumeLayout(false);
+        }
+
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        #endregion
+
+        private const int WM_NCHITTEST = 0x0084;
+        private const int HTLEFT = 0x0A;
+        private const int HTRIGHT = 0x0B;
+        private const int HTTOP = 0x0C;
+        private const int HTTOPLEFT = 0x0D;
+        private const int HTTOPRIGHT = 0x0E;
+        private const int HTBOTTOM = 0x0F;
+        private const int HTBOTTOMLEFT = 0x10;
+        private const int HTBOTTOMRIGHT = 0x11;
+
+        private const int CAPTION_HEIGHT = 40;
+        private const int WINDOW_RESIZE_THICKNESS = 2;
+        private const int CONTAINER_BORDER_THICKNESS = 10;
+
+        private Panel ContainerPanel;
+        private Panel ToolbarPanel;
+        private Panel ClientPanel;
+        private Panel ButtonPanel;
+        private System.Windows.Forms.Button MinimizeButton;
+        private System.Windows.Forms.Button MaximizeButton;
+        private System.Windows.Forms.Button CloseButton;
+        private Label TitleLabel;
+
+        Theme SelectedTheme;
+
+        public string Title { set { TitleLabel.Text = value; } }
+        public ThemedForm()
+        {
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            InitializeCustomWindow();
+            ApplyTheme();
+        }
+
+
+        private void InitializeCustomWindow()
+        {
+            ContainerPanel = new Panel();
+            ToolbarPanel = new Panel();
+            ClientPanel = new Panel();
+
+            MinimumSize = new Size(1274, 1024);
+            ToolbarPanel.MouseDown += ToolbarOnMouseDown;
+
+            TitleLabel = new Label()
             {
-                CreateParams cp = base.CreateParams;
-                cp.ClassStyle |= CS_DROPSHADOW;
-                return cp;
+                Font = new Font(Font.FontFamily, 12, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Size = new Size(250, 30),
+                Location = new Point(CONTAINER_BORDER_THICKNESS, (CAPTION_HEIGHT - 30) / 2)
+            };
+
+            TitleLabel.MouseDown += ToolbarOnMouseDown;
+
+            MinimizeButton = CreateCaptionButton("");
+            MaximizeButton = CreateCaptionButton("");
+            CloseButton = CreateCaptionButton("");
+
+            MinimizeButton.Click += (sender, e) => WindowState = FormWindowState.Minimized;
+            MaximizeButton.Click += (sender, e) => ToggleMaximize();
+            CloseButton.Click += (sender, e) => Close();
+
+            ToolbarPanel.Controls.Add(TitleLabel);
+            ToolbarPanel.Controls.Add(MinimizeButton);
+            ToolbarPanel.Controls.Add(MaximizeButton);
+            ToolbarPanel.Controls.Add(CloseButton);
+
+            Controls.Add(ToolbarPanel);
+            ContainerPanel.Controls.Add(ClientPanel);
+            Controls.Add(ContainerPanel);
+
+            ResizeForm();
+        }
+
+        private void ToolbarOnMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCHITTEST, 0, 0);
+
+                if (Cursor == Cursors.Default)
+                {
+                    ReleaseCapture();
+                    SendMessage(Handle, 0xA1, 0x2, 0);
+                }
             }
+        }
+
+        public void AddControl(Control control)
+        {
+            ClientPanel.Controls.Add(control);
         }
 
         protected override void WndProc(ref Message m)
         {
-            switch (m.Msg)
+            base.WndProc(ref m);
+
+            if (m.Msg == 0x84)
             {
-                case WM_NCPAINT:
-                    IntPtr hdc = GetDC(m.HWnd);
-                    using (Graphics g = Graphics.FromHdc(hdc))
-                    {
-                        Rectangle bounds = new Rectangle(0, 0, Width, Height);
-                        ControlPaint.DrawBorder(g, bounds, Color.Black, ButtonBorderStyle.Solid);
-                    }
-                    ReleaseDC(m.HWnd, hdc);
-                    break;
+                Point pos = new Point(m.LParam.ToInt32());
+                pos = PointToClient(pos);
 
-                case WM_NCCALCSIZE:
-                    int style = GetWindowLong(Handle, -16);
-                    if ((style & 0x00020000) != 0) // WS_SIZEBOX
-                    {
-                        style &= ~0x00020000; // Remove WS_SIZEBOX
-                        SetWindowLong(Handle, -16, style);
-                    }
-                    base.WndProc(ref m);
-                    break;
+                if (pos.X <= WINDOW_RESIZE_THICKNESS)
 
-                default:
-                    base.WndProc(ref m);
-                    break;
-            }
-        }
-
-        public ThemedForm()
-        {
-
-            FormBorderStyle = FormBorderStyle.None;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            ShowIcon = false;
-            ShowInTaskbar = false;
-            SizeGripStyle = SizeGripStyle.Hide;
-        }
-
-        private List<Button> FindButtonControls(Control control)
-        {
-            List<Button> buttons = new List<Button>();
-
-            foreach (Control childControl in control.Controls)
-            {
-                if (childControl is Button button)
                 {
-                    buttons.Add(button);
+                    if (pos.Y <= WINDOW_RESIZE_THICKNESS)
+                        m.Result = (IntPtr)HTTOPLEFT;
+                    else if (pos.Y >= ClientSize.Height - WINDOW_RESIZE_THICKNESS)
+                        m.Result = (IntPtr)HTBOTTOMLEFT;
+                    else
+                        m.Result = (IntPtr)HTLEFT;
                 }
-                else if (childControl.HasChildren)
+                else if (pos.X >= ClientSize.Width - WINDOW_RESIZE_THICKNESS)
                 {
-                    buttons.AddRange(FindButtonControls(childControl));
+                    if (pos.Y <= WINDOW_RESIZE_THICKNESS)
+                        m.Result = (IntPtr)HTTOPRIGHT;
+                    else if (pos.Y >= ClientSize.Height - WINDOW_RESIZE_THICKNESS)
+                        m.Result = (IntPtr)HTBOTTOMRIGHT;
+                    else
+                        m.Result = (IntPtr)HTRIGHT;
+                }
+                else if (pos.Y <= WINDOW_RESIZE_THICKNESS)
+                {
+                    m.Result = (IntPtr)HTTOP;
+                }
+                else if (pos.Y >= ClientSize.Height - WINDOW_RESIZE_THICKNESS)
+                {
+                    m.Result = (IntPtr)HTBOTTOM;
                 }
             }
 
-            return buttons;
         }
 
-        public void ApplyTheme(Control control)
+        private void ToggleMaximize()
         {
-            ConfiguredTheme = new ThemeConfig();
-            ConfiguredTheme.LoadTheme(Settings.Default.Theme);
-
-            ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-            BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineFieldBackColor);
-            int cornerRadius = 10;
-
-            var buttons = FindButtonControls(control);
-
-            foreach (Button button in buttons)
+            if (WindowState == FormWindowState.Normal)
             {
-                GraphicsPath path = new GraphicsPath();
-                path.AddArc(button.ClientRectangle.Left, button.ClientRectangle.Top, cornerRadius, cornerRadius, 180, 90);
-                path.AddArc(button.ClientRectangle.Right - cornerRadius, button.ClientRectangle.Top, cornerRadius, cornerRadius, 270, 90);
-                path.AddArc(button.ClientRectangle.Right - cornerRadius, button.ClientRectangle.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-                path.AddArc(button.ClientRectangle.Left, button.ClientRectangle.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
-                path.CloseFigure();
+                WindowState = FormWindowState.Maximized;
+                MaximizeButton.Image = SelectedTheme.MaximizeOnImage;
+            }
+            else if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                MaximizeButton.Image = SelectedTheme.MaximizeOffImage;
+            }
+        }
 
-                button.Region = new Region(path);
-                button.BackColor = ColorTranslator.FromHtml(ConfiguredTheme.MineCellBackColor);
-                button.ForeColor = ColorTranslator.FromHtml(ConfiguredTheme.TextColor);
-                button.FlatStyle = FlatStyle.Flat;
-                button.FlatAppearance.BorderSize = 0;
+        private System.Windows.Forms.Button CreateCaptionButton(string text)
+        {
+            return new System.Windows.Forms.Button()
+            {
+                Text = text,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 },
+                Width = CAPTION_HEIGHT,
+                Height = CAPTION_HEIGHT,
+                Dock = DockStyle.Right
+            };
+        }
+
+        public void ApplyTheme()
+        {
+            SelectedTheme = new Theme(Settings.Default.Theme);
+
+            ForeColor = SelectedTheme.TextColor;
+            BackColor = ColorTranslator.FromHtml("#3c3c3c");
+
+            TitleLabel.ForeColor = SelectedTheme.TextColor;
+            ToolbarPanel.BackColor = SelectedTheme.BackColor;
+            ContainerPanel.BackColor = SelectedTheme.BackColor;
+            ClientPanel.BackColor = SelectedTheme.MineFieldBackColor;
+
+            MinimizeButton.Image = SelectedTheme.MinimizeImage;
+
+            if (WindowState == FormWindowState.Maximized)
+            {
+                MaximizeButton.Image = SelectedTheme.MaximizeOnImage;
+            }
+            else
+            {
+                MaximizeButton.Image = SelectedTheme.MaximizeOffImage;
             }
 
-            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, control.Width, control.Height, 15, 15));
+            CloseButton.Image = SelectedTheme.CloseImage;
 
+            PerformLayout();
+        }
+
+        protected virtual void ResizeForm()
+        {
+            SuspendLayout();
+
+            ContainerPanel.Size = new Size(Size.Width - (WINDOW_RESIZE_THICKNESS * 2), Size.Height - CAPTION_HEIGHT - (WINDOW_RESIZE_THICKNESS * 2));
+            ContainerPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, CAPTION_HEIGHT + WINDOW_RESIZE_THICKNESS);
+
+            ClientPanel.Size = new Size(Size.Width - (CONTAINER_BORDER_THICKNESS * 2) - (WINDOW_RESIZE_THICKNESS * 2), Size.Height - CAPTION_HEIGHT - (CONTAINER_BORDER_THICKNESS * 2) - (WINDOW_RESIZE_THICKNESS * 2));
+            ClientPanel.Location = new Point(CONTAINER_BORDER_THICKNESS, CONTAINER_BORDER_THICKNESS);
+
+            ToolbarPanel.Size = new Size(Size.Width - (WINDOW_RESIZE_THICKNESS * 2), CAPTION_HEIGHT);
+            ToolbarPanel.Location = new Point(WINDOW_RESIZE_THICKNESS, WINDOW_RESIZE_THICKNESS);
+
+            CenterPanels(ToolbarPanel, TitleLabel, false, true);
+
+            ResumeLayout();
+        }
+
+        private void CenterPanels(Control parentPanel, Control childPanel, bool includeX, bool includeY)
+        {
+            if (parentPanel == null || childPanel == null) { return; }
+
+            int centeredX = childPanel.Location.X;
+
+            if (includeX)
+                centeredX = (parentPanel.ClientSize.Width - childPanel.ClientSize.Width) / 2;
+
+            int centeredY = childPanel.Location.Y;
+
+            if (includeY)
+                centeredY = (parentPanel.ClientSize.Height - childPanel.ClientSize.Height) / 2;
+
+            childPanel.Location = new Point(centeredX, centeredY);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            ResizeForm();
         }
     }
 }

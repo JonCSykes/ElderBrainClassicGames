@@ -8,6 +8,7 @@
         public bool IsGameStarted { get; set; }
         public bool IsGameOver { get; set; }
         public DateTime GameTimestamp { get; set; }
+        public GameType GameType { get; set; }
         public bool IsWin
         {
             get
@@ -16,7 +17,7 @@
             }
         }
 
-        public int BBBV { get; set;}
+        public int BBBV { get; set; }
         public double BBBVS
         {
             get
@@ -34,15 +35,16 @@
         public Player Player { get; set; }
         public List<Telemetry> Telemetry { get; set; }
 
-        public Game(Player player, int width, int height, int mineCount, int hintCount)
+        public Game(Player player, GameType gameType)
         {
             Telemetry = new List<Telemetry>();
-            MineField = new MineField(width, height, mineCount);
+            MineField = new MineField(gameType.Width, gameType.Height, gameType.MineCount);
             Player = player;
-            HintCount = hintCount;
+            HintCount = gameType.HintCount;
             HintCounter = 0;
             IsGameStarted = false;
             GameTimestamp = DateTime.Now;
+            GameType = gameType;
             BBBV = Get3BV();
         }
 
@@ -68,7 +70,7 @@
         private int Get3BV()
         {
             int bbbv = 0;
-            
+
             HashSet<MineCell> visitedCells = new HashSet<MineCell>();
 
             if (MineField != null && MineField.SortedClusterCollection != null)
@@ -101,7 +103,7 @@
                 }
 
             }
-            
+
 
             return bbbv;
         }
